@@ -8,7 +8,7 @@ all: $(EXEC)
 abalone: main.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-%.o: %.c main.h
+%.o: %.c
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
 
 #Dépendances
