@@ -37,20 +37,20 @@ Coords translate_coords(char* input) {
     //Traduit les coordonnes entrees (comme F6:E5) en index comme {x1=6, y1=6, x2=5, y2=5}
     //Retourne {-1,-1,-1,-1} en cas d'erreur
     Coords coords = {-1, -1, -1, -1};
-    
+
     //Si la longueur de l'entree n'est pas 5, il y a erreur
     if (strlen(input) != 5) return coords;
-    
+
     //Si le 3eme caractere n'est pas ':', il y a erreur
     if (input[2] != ':') return coords;
-    
+
     int numbers[] = {
         coords_ltr_dictionary(input[0]),
         coords_nbs_dictionary(input[1]),
         coords_ltr_dictionary(input[3]),
         coords_nbs_dictionary(input[4])
     };
-    
+
     for (int i = 0; i < 4; i++) {
         if (numbers[i] == -1) return coords;
     }
@@ -70,20 +70,35 @@ int main(int argc, char *argv[]) {
 	while(game!=0) {
 		if(turn(i)==2) {
 		printf("C'est au tour des noirs de jouer\n");
-		
-		
+
+
 		}
 		else {
 		printf("C'est au tour des blancs de jouer \n");
-		
-		
+
+
 		}
 		i++;
 	}
-	
+
 }
 
 int turn(int current_turn){
 	if (current_turn%2+1==2) return 2;
 	else return 1;
+}
+
+
+int IsItWin(){
+    int victory = 0;
+        for (int i=0; i<=8; i++){
+            if (Plateau[0][i]!=0) {victory = 1;}
+            if (Plateau[i][9]!=0) {victory = 1;}
+            if (Plateau[9][(9-i)]!=0) {victory = 1;}
+            if (Plateau[(9-i)][0]!=0) {victory = 1;}
+        }
+    if (victory==1){
+        printf("The game is won !\n\n");
+    }
+    return 0;
 }
