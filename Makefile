@@ -5,14 +5,15 @@ LDFLAGS=
 EXEC=abalone
 all: $(EXEC)
 
-abalone: main.o
+abalone: main.o deplacement.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
 
 #Dépendances
-main.o: main.c main.h
+main.o: main.c main.h deplacement.h
+deplacement.o: deplacement.c deplacement.h
 
 .PHONY: clean cleanall
 
