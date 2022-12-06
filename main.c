@@ -89,16 +89,16 @@ int turn(int current_turn){
 }
 
 
-int IsItWin(){
+int isItWin(){
     int victory = 0;
         for (int i=0; i<=8; i++){
-            if (Plateau[0][i]!=0) {victory = 1;}
-            if (Plateau[i][9]!=0) {victory = 1;}
-            if (Plateau[9][(9-i)]!=0) {victory = 1;}
-            if (Plateau[(9-i)][0]!=0) {victory = 1;}
+            if (pion[0][i]!=0) {victory = 1;}
+            if (pion[i][9]!=0) {victory = 1;}
+            if (pion[9][(9-i)]!=0) {victory = 1;}
+            if (pion[(9-i)][0]!=0) {victory = 1;}
         }
     if (victory==1){
         printf("The game is won !\n\n");
     }
-    return 0;
+    return victory;
 }

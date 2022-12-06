@@ -7,4 +7,4 @@ typedef struct {int x1; int y1; int x2; int y2;} Coords;
 Coords translate_coords(char* input);
 void print_coords(Coords coords);
 
-int IsItWin();
+int isItWin();
