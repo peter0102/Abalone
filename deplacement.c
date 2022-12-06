@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "deplacement.h"
 
@@ -10,6 +11,15 @@ int move_chr_convert (char chr, char type) {
         default: printf("%s", "Erreur de conversion : type de caractère inconnu."); return -1;
     }
     return (index > 0 && index < 9) ? index : -1;
+}
+
+char move_chr_convert_reverse (int index, char type) {
+    if (index < 1 || index > 8) return 'x';
+    switch (type) {
+        case 'l': return (char)(index + 64); //64 = @
+        case 'n': return (char)(index + 48); //48 = 0
+        default: printf("%s", "Erreur de conversion : type de caractère inconnu."); return 'x';
+    }
 }
 
 void move_change_all(Move* move, int new_coords[4]) {
@@ -40,6 +50,17 @@ Move translate_move(char* input) {
     }
     move_change_all(&move, numbers);
     return move;
+}
+
+char* translate_move_reverse(Move move) {
+    char* str = malloc(5);
+
+    str[0] = move_chr_convert_reverse(move.x1, 'l');
+    str[1] = move_chr_convert_reverse(move.y1, 'n');
+    str[2] = ':';
+    str[3] = move_chr_convert_reverse(move.x2, 'l');
+    str[4] = move_chr_convert_reverse(move.y2, 'n');
+    return str;
 }
 
 void print_move(Move move) {

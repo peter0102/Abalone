@@ -22,7 +22,7 @@ typedef struct {
 
 /**
  * \fn move_chr_convert(char chr, char type)
- * \brief Convertit un caractère de coordonnée (entre A et H ou entre 1 et 8)
+ * \brief Convertit un caractère de coordonnée (entre A et H ou entre 1 et 8) en index
  * \param chr Caractère à convertir
  * \param type Type de caractère (l = lettre ; n = nombre)
  * \return Index numérique correspondant au caractère d'entrée (-1 en cas de caractère incorrect)
@@ -30,8 +30,17 @@ typedef struct {
 int move_chr_convert(char chr, char type);
 
 /**
+ * \fn move_chr_convert_reverse (int index, char type)
+ * \brief Convertit un index de déplacement en caractère de coordonnée (entre A et H ou entre 1 et 8)
+ * \param index Index à convertir
+ * \param type Type de caractère (l = lettre ; n = nombre)
+ * \return Caractère (lettre ou chiffre) correspondant à l'index d'entrée ('x' en cas d'index incorrect)
+*/
+char move_chr_convert_reverse (int index, char type);
+
+/**
  * \fn move_change_all(Coords* coords, int new_coords[4])
- * \brief Réaffecte de valeur pour toutes les coordonnées d'un déplacement
+ * \brief Réaffecte la valeur pour toutes les coordonnées d'un déplacement
  * \param move Déplacement dont on souhaite modifier les valeurs
  * \param new_coords Nouvelles coordonnées à affecter
 */
@@ -44,6 +53,14 @@ void move_change_all(Move* move, int new_coords[4]);
  * \return Coordonnées numériques des points de départ et d'arrivée ({-1, -1, -1, -1} en cas d'erreur)
 */
 Move translate_move(char* input);
+
+/**
+ * \fn translate_move_reverse(char* input)
+ * \brief Traduit le déplacement entré (comme {x1=6, y1=6, x2=5, y2=5}) en chaîne de caractères comme 'F6:E5'
+ * \param move Déplacement à traduire
+ * \return Chaîne de caractères correspondant au mouvement entré
+*/
+char* translate_move_reverse(Move move);
 
 /**
  * \fn print_coords(Coords coords)
