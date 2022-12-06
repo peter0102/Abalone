@@ -7,7 +7,7 @@
 
 int turn(int current_turn);
 
-typedef int Tableau[MAX_I][MAX_J];
+typedef char Plateau[MAX_I][MAX_J];
 void display ();
 
 /**
