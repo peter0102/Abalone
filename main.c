@@ -1,47 +1,35 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "main.h"
 
-
 #define MAX_I 10
 #define MAX_J 10
-typedef int Tableau[MAX_I][MAX_J];
 
-       Tableau Pion = {
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-        {0, 0, 1, 1, 1, 1, 1, 1, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 2, 2, 2, 2, 2, 2, 0, 0},
-        {0, 2, 2, 2, 2, 2, 2, 2, 2, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+Tableau Pion = {
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+{0, 0, 1, 1, 1, 1, 1, 1, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{0, 0, 2, 2, 2, 2, 2, 2, 0, 0},
+{0, 2, 2, 2, 2, 2, 2, 2, 2, 0},
+{0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
 
-
-
-void display(){
+void display() {
     printf("\n");
-    for (int i=0; i<MAX_I; i++){
-        for (int j=0; j<MAX_J; j++){
-            if (Pion[i][j]==1){
-                printf("W | ");
-            }
-            if (Pion[i][j]==2){
-                printf("B | ");
-            }
-            if (Pion[i][j]==0){
-                printf(". | ");
-            }
+    for (int i=0; i < MAX_I; i++) {
+        for (int j=0; j < MAX_J; j++) {
+            if (Pion[i][j] == 2)
+                printf (" B | ");
+            else if (Pion[i][j] == 1)
+                printf (" W | " );
+            else if (Pion[i][j] == 0)
+                printf (" . | " );
         }
-        printf("\n\n");
+        printf("\n");
     }
-}
-int  main(){
-    display();
-    return 0;
 }
 
 int coords_nbs_dictionary (char chr) {
@@ -106,29 +94,10 @@ void print_coords(Coords coords) {
     printf("%i, %i\n%i, %i\n\n", coords.x1, coords.y1, coords.x2, coords.y2);
 }
 
-int main(int argc, char *argv[]) {
-	int i=1;
-	while(game!=0) {
-		if(turn(i)==2) {
-		printf("C'est au tour des noirs de jouer\n");
-
-
-		}
-		else {
-		printf("C'est au tour des blancs de jouer \n");
-
-
-		}
-		i++;
-	}
-
-}
-
 int turn(int current_turn){
 	if (current_turn%2+1==2) return 2;
 	else return 1;
 }
-
 
 int isItWin(){
     int victory = 0;
@@ -142,4 +111,18 @@ int isItWin(){
         printf("The game is won !\n\n");
     }
     return victory;
+}
+
+int main(int argc, char *argv[]) {
+	int i=1;
+    display()
+	while(game!=0) {
+		if(turn(i)==2) {
+		    printf("C'est au tour des noirs de jouer\n");
+		}
+		else {
+		    printf("C'est au tour des blancs de jouer \n");
+		}
+		i++;
+	}
 }
