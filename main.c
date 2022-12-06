@@ -5,28 +5,38 @@
 #define MAX_I 10
 #define MAX_J 10
 
-Tableau Pion = {
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-{0, 0, 1, 1, 1, 1, 1, 1, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 2, 2, 2, 2, 2, 2, 0, 0},
-{0, 2, 2, 2, 2, 2, 2, 2, 2, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+#define CASE_VIDE "0"
+#define CASE_NOIRE "N"
+#define CASE_BLANCHE "B"
 
-void display() {
-    printf("\n");
-    for (int i=0; i < MAX_I; i++) {
-        for (int j=0; j < MAX_J; j++) {
-            if (Pion[i][j] == 2)
-                printf (" B | ");
-            else if (Pion[i][j] == 1)
-                printf (" W | " );
-            else if (Pion[i][j] == 0)
-                printf (" . | " );
+Typedef char Plateau[MAX_I][MAX_J];
+
+  Plateau plateau = {
+        {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+        {CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE},
+        {CASE_VIDE, CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE, CASE_VIDE},
+        {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+        {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+        {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+        {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+        {CASE_VIDE, CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE, CASE_VIDE},
+        {CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE},
+        {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE} };
+
+
+
+void display(Plateau p){
+    for (int i=0; i<MAX_I; i++){
+        for (int j=0; j<MAX_J; j++){
+            if (p[i][j]==CASE_BLANCHE){
+                printf("W | ");
+            }
+            if (p[i][j]==CASE_NOIRE){
+                printf("B | ");
+            }
+            if (p[i][j]==CASE_VIDE){
+                printf(". | ");
+            }
         }
         printf("\n");
     }
