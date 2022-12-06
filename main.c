@@ -3,6 +3,47 @@
 #include <string.h>
 #include "main.h"
 
+
+#define MAX_I 10
+#define MAX_J 10
+typedef int Tableau[MAX_I][MAX_J];
+
+       Tableau Pion = {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+        {0, 0, 1, 1, 1, 1, 1, 1, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 2, 2, 2, 2, 2, 2, 0, 0},
+        {0, 2, 2, 2, 2, 2, 2, 2, 2, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
+
+
+void display(){
+    printf("\n");
+    for (int i=0; i<MAX_I; i++){
+        for (int j=0; j<MAX_J; j++){
+            if (Pion[i][j]==1){
+                printf("W | ");
+            }
+            if (Pion[i][j]==2){
+                printf("B | ");
+            }
+            if (Pion[i][j]==0){
+                printf(". | ");
+            }
+        }
+        printf("\n\n");
+    }
+}
+int  main(){
+    display();
+    return 0;
+}
+
 int coords_nbs_dictionary (char chr) {
     //Dictionnaire des coordonees numeriques (retourne -1 si le caractere est incorrect)
     switch (chr) {
