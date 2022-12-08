@@ -8,19 +8,6 @@
 #define CASE_BLANCHE 'B'
 
 typedef char Plateau[MAX_I][MAX_J];
-    Plateau score={ //tableau du score en fonction de la position
-        {0,0,0,0,0,0,0,0,0,0},
-        {0,-25,-25,-25,-25,-25,-25,-25,-25,0},
-        {0,-25,2,2,2,2,2,2,-25,0},
-        {0,-25,2,3,3,3,3,2,-25,0},
-        {0,-25,2,3,4,4,3,2,-25,0},
-        {0,-25,2,3,4,4,3,2,-25,0},
-        {0,-25,2,3,3,3,3,2,-25,0},
-        {0,-25,2,2,2,2,2,2,-25,0},
-        {0,-25,-25,-25,-25,-25,-25,-25,-25,0},
-        {0,0,0,0,0,0,0,0,0,0}
-			};
-
 
 int victory(Plateau p){
 	int i=0,v=0;
@@ -128,22 +115,121 @@ int density(Plateau p,char currentPlayer,int alpha){
 }
 
 int distanceToCenter(Plateau p) {
-    int best_score=-1; // retourne -1 si aucune case adjacente n'est vide
-    for(int x=1;x<MAX_I-1;x++) {
+    int totalScore=0;
+    Plateau score={ //tableau du score en fonction de la position
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,-25,-25,-25,-25,-25,-25,-25,-25,0},
+        {0,-25,2,2,2,2,2,2,-25,0},
+        {0,-25,2,3,3,3,3,2,-25,0},
+        {0,-25,2,3,4,4,3,2,-25,0},
+        {0,-25,2,3,4,4,3,2,-25,0},
+        {0,-25,2,3,3,3,3,2,-25,0},
+        {0,-25,2,2,2,2,2,2,-25,0},
+        {0,-25,-25,-25,-25,-25,-25,-25,-25,0},
+        {0,0,0,0,0,0,0,0,0,0}
+			};
+    for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
-            if (p[x][j]=CASE_BLANCHE||CASE_NOIRE) {
-                if(p[x+1][j] == CASE_VIDE || p[x-1][j] == CASE_VIDE  || p[x][j+1] == CASE_VIDE || p[x][j-1] == CASE_VIDE) {
-                    if (score[x+1][j]>best_score) best_score=score[x+1][j];
-                    if (score[x-1][j]>best_score) best_score=score[x-1][j];
-                    if (score[x][j+1]>best_score) best_score=score[x][j+1];
-                    if (score[x][j-1]>best_score) best_score=score[x][j-1]; // retourne le meilleur score
-                 }
+            if (p[i][j]==CASE_BLANCHE) {
+                totalScore+=score[i][j];
+            }
+            else if(p[i][j]==CASE_NOIRE) {
+                totalScore-=score[i][j];
             }
         }
 
     }
-    printf("%i",best_score);
-    return best_score;
+    return totalScore;
+
+}
+
+int areOpponentsNear(Plateau p){ // compte le nombre d'ennemis proches et retourne un score
+    int score;
+    for(int i=1;i<MAX_I-1;i++) {
+        for (int j=1;j<MAX_J-1;j++) {
+            if (p[i][j]==CASE_BLANCHE) {
+                if (p[i+1][j]==CASE_NOIRE) score+=-5;
+                if (p[i][j+1]==CASE_NOIRE) score+=-5;
+                if (p[i+2][j]==CASE_NOIRE) score+=-3;
+                if (p[i][j+2]==CASE_NOIRE) score+=-3;
+                if (p[i+3][j]==CASE_NOIRE) score+=-1;
+                if (p[i][j+3]==CASE_NOIRE) score+=-1;
+                if (p[i-1][j]==CASE_NOIRE) score+=-5;
+                if (p[i][j-1]==CASE_NOIRE) score+=-5;
+                if (p[i-2][j]==CASE_NOIRE) score+=-3;
+                if (p[i][j-2]==CASE_NOIRE) score+=-3;
+                if (p[i-3][j]==CASE_NOIRE) score+=-1;
+                if (p[i][j-3]==CASE_NOIRE) score+=-1;
+            }
+        }
+    }
+    return score;
+}
+
+int countNeighborsXBlack(Plateau p,int i, int j){
+    int neighbors=0;
+    if (p[i][j]==CASE_NOIRE) {
+        for (int x=-2;x<0;x++) {
+         if (p[i+x][j]==CASE_NOIRE) neighbors++;
+        }
+        for (int x=1;x<3;x++) {
+            if (p[i+x][j]==CASE_NOIRE) neighbors++;
+        }
+    }
+    return neighbors;
+}
+int countNeighborsYWhite(Plateau p,int i, int j) {
+    int neighbors=0;
+    if (p[i][j]==CASE_BLANCHE) {
+        for (int y=-2;y<0;y++) {
+            if (p[i][j+y]==CASE_BLANCHE) neighbors++;
+        }
+        for (int y=1;y<3;y++) {
+            if (p[i][j+y]==CASE_BLANCHE) neighbors++;
+        }
+    }
+    return neighbors;
+}
+int countNeighborsYBlack(Plateau p,int i, int j) {
+    int neighbors=0;
+    if (p[i][j]==CASE_NOIRE) {
+        for (int y=-2;y<0;y++) {
+            if (p[i][j+y]==CASE_NOIRE) neighbors++;
+        }
+        for (int y=1;y<3;y++) {
+            if (p[i][j+y]==CASE_NOIRE) neighbors++;
+        }
+    }
+    return neighbors;
+}
+
+int canAttack(Plateau p){ //retourne un score positif ou négatif si l'allié peut attaquer ou si l'ennemi peut attaquer
+    int score;
+     for(int i=1;i<MAX_I-1;i++) {
+        for (int j=1;j<MAX_J-1;j++) {
+            if (p[i][j]==CASE_BLANCHE) {
+                if (p[i+1][j]==CASE_NOIRE) { // si bille adverse devant la bille alliée
+                    int allyNeighborsX=countNeighborsXWhite(p,i,j);
+                    int ennemyNeighborsX=countNeighborsXBlack(p,i+1,j);
+                    if (allyNeighborsX<ennemyNeighborsX) score-=10; // si l'adversaire peut attaquer
+                    else if(allyNeighborsX>ennemyNeighborsX) score+=10;
+                }
+                if (p[i][j+1]==CASE_NOIRE) { // si bille adverse à gauche ou droite de la bille alliée
+                    int allyNeighborsLine=countNeighborsYWhite(p,i,j);
+                    int ennemyNeighborsLine=countNeighborsYBlack(p,i,j+1);
+                    if (allyNeighborsLine<ennemyNeighborsLine) score-=10;
+                    else if (allyNeighborsLine>ennemyNeighborsLine) score+=10;
+                }
+                if (p[i][j-1]==CASE_NOIRE) {
+                    int allyNeighborsLine=countNeighborsYWhite(p,i,j);
+                    int ennemyNeighborsLine=countNeighborsYBlack(p,i,j-1);
+                    if (allyNeighborsLine<ennemyNeighborsLine) score-=10;
+                    else if (allyNeighborsLine>ennemyNeighborsLine) score+=10;
+                }
+            }
+        }
+    }
+    return score;
 }
 
 
@@ -162,6 +248,8 @@ int evaluate(Plateau p,char currentPlayer){
 		utility -= density(p, currentPlayer, ALPHA);
 	}
 	utility+=distanceToCenter(p);
+	utility+=areOpponentsNear(p);
+	utility+=canAttack(p);
 	return utility;
 }
 
