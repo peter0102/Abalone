@@ -6,65 +6,53 @@
 */
 
 /**
- * \struct Move move.h move.c
- * \brief Binôme point de départ / point d'arrivée d'un déplacement (16 octets)
-*/
-typedef struct {
-    /*! Ligne du point de départ (lettre) */
-    int x1;
-    /*! Colonne du point de départ (chiffre) */
-    int y1;
-    /*! Ligne du point d'arrivée (lettre) */
-    int x2;
-    /*! Colonne du point d'arrivée (chiffre) */
-    int y2;
-} Move;
-
-/**
- * \fn move_chr_convert(char chr, char type)
+ * \fn moveChrConvert(char chr, char type)
  * \brief Convertit un caractère de coordonnée (entre A et H ou entre 1 et 8) en index
  * \param chr Caractère à convertir
  * \param type Type de caractère (l = lettre ; n = nombre)
  * \return Index numérique correspondant au caractère d'entrée (-1 en cas de caractère incorrect)
 */
-int move_chr_convert(char chr, char type);
+int moveChrConvert(char chr, char type);
 
 /**
- * \fn move_chr_convert_reverse (int index, char type)
+ * \fn moveChrConvertReverse (int index, char type)
  * \brief Convertit un index de déplacement en caractère de coordonnée (entre A et H ou entre 1 et 8)
  * \param index Index à convertir
  * \param type Type de caractère (l = lettre ; n = nombre)
  * \return Caractère (lettre ou chiffre) correspondant à l'index d'entrée ('x' en cas d'index incorrect)
 */
-char move_chr_convert_reverse (int index, char type);
+char moveChrConvertReverse (int index, char type);
 
 /**
- * \fn move_change_all(Coords* coords, int new_coords[4])
- * \brief Réaffecte la valeur pour toutes les coordonnées d'un déplacement
- * \param move Déplacement dont on souhaite modifier les valeurs
- * \param new_coords Nouvelles coordonnées à affecter
-*/
-void move_change_all(Move* move, int new_coords[4]);
-
-/**
- * \fn translate_move(char* input)
- * \brief Traduit les coordonnées entrées (comme F6:E5) en index comme {x1=6, y1=6, x2=5, y2=5}
+ * \fn translateMove(char* input)
+ * \brief Traduit les coordonnées entrées (comme F6:E5) en index comme {{6, 6}, {5, 5}}
  * \param input Chaîne de caractères des coordonnées (ex: A1:B2)
- * \return Coordonnées numériques des points de départ et d'arrivée ({-1, -1, -1, -1} en cas d'erreur)
+ * \return Coordonnées numériques des points de départ et d'arrivée ({{-1, -1}, {-1, -1}} en cas d'erreur)
 */
-Move translate_move(char* input);
+int** translateMove(char* input);
 
 /**
- * \fn translate_move_reverse(char* input)
- * \brief Traduit le déplacement entré (comme {x1=6, y1=6, x2=5, y2=5}) en chaîne de caractères comme 'F6:E5'
+ * \fn translateMoveReverse(char* input)
+ * \brief Traduit le déplacement entré (comme {{6, 6}, {5, 5}}) en chaîne de caractères comme 'F6:E5'
  * \param move Déplacement à traduire
  * \return Chaîne de caractères correspondant au mouvement entré
 */
-char* translate_move_reverse(Move move);
+char* translateMoveReverse(int** move);
 
 /**
- * \fn print_coords(Coords coords)
+ * \fn createMove(int x1, int y1, int x2, int y2)
+ * \brief Crée un mouvement de type int** à partir des 4 coordonées x1, y1, x2 et y2
+ * \param x1 Ligne de la première case
+ * \param y1 Colonne de la première case
+ * \param x2 Ligne de la deuxième case
+ * \param y2 Colonne de la deuxième case
+ * \return Mouvement en format int**
+*/
+int** createMove(int x1, int y1, int x2, int y2);
+
+/**
+ * \fn printMove(Coords coords)
  * \brief Affiche un déplacement
  * \param move Déplacement à afficher
 */
-void print_move(Move move);
+void printMove(int** move);
