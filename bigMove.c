@@ -253,9 +253,9 @@ char move(Plateau plat,Move m){
             }
            //déplacement effectif
             plat[m.x1][m.y1] = no_player;
-            plat[m.x2][m.y1] = no_player;
+            plat[m.x1][m.y2] = no_player;
+            plat[m.x2][m.y1] = current_player;
             plat[m.x2][m.y2] = current_player;
-            plat[m.x1][m.y2] = current_player;
         }
 //****** 1.2 déplacement latéral vertical
         else if(plat[m.x2][m.y1]==current_player){
@@ -268,8 +268,8 @@ char move(Plateau plat,Move m){
             }
             //déplacement effectif
             plat[m.x1][m.y1] = no_player;
-            plat[m.x1][m.y2] = no_player;
-            plat[m.x2][m.y1] = current_player;
+            plat[m.x2][m.y1] = no_player;
+            plat[m.x1][m.y2] = current_player;
             plat[m.x2][m.y2] = current_player;
         }
 //****** 1.3 Pas de pion allié sur les cases adjacentes
