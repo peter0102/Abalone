@@ -27,8 +27,8 @@ Plateau plateau = {
 };
 
 void display(Plateau p){
-    for (int i=0; i<MAX_I; i++){
-        for (int j=0; j<MAX_J; j++){
+    for (int i=1; i<MAX_I-1; i++){
+        for (int j=1; j<MAX_J-1; j++){
             if (p[i][j]==CASE_BLANCHE){
                 printf("W | ");
             }
