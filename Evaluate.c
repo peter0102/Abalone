@@ -8,6 +8,18 @@
 #define CASE_BLANCHE 'B'
 
 typedef char Plateau[MAX_I][MAX_J];
+    Plateau score={ //tableau du score en fonction de la position
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,-25,-25,-25,-25,-25,-25,-25,-25,0},
+        {0,-25,2,2,2,2,2,2,-25,0},
+        {0,-25,2,3,3,3,3,2,-25,0},
+        {0,-25,2,3,4,4,3,2,-25,0},
+        {0,-25,2,3,4,4,3,2,-25,0},
+        {0,-25,2,3,3,3,3,2,-25,0},
+        {0,-25,2,2,2,2,2,2,-25,0},
+        {0,-25,-25,-25,-25,-25,-25,-25,-25,0},
+        {0,0,0,0,0,0,0,0,0,0}
+			};
 
 
 int victory(Plateau p){
@@ -115,6 +127,26 @@ int density(Plateau p,char currentPlayer,int alpha){
 	return most_frequent*alpha;
 }
 
+int distanceToCenter(Plateau p) {
+    int best_score=-1; // retourne -1 si aucune case adjacente n'est vide
+    for(int x=1;x<MAX_I-1;x++) {
+        for (int j=1;j<MAX_J-1;j++) {
+            if (p[x][j]=CASE_BLANCHE||CASE_NOIRE) {
+                if(p[x+1][j] == CASE_VIDE || p[x-1][j] == CASE_VIDE  || p[x][j+1] == CASE_VIDE || p[x][j-1] == CASE_VIDE) {
+                    if (score[x+1][j]>best_score) best_score=score[x+1][j];
+                    if (score[x-1][j]>best_score) best_score=score[x-1][j];
+                    if (score[x][j+1]>best_score) best_score=score[x][j+1];
+                    if (score[x][j-1]>best_score) best_score=score[x][j-1]; // retourne le meilleur score
+                 }
+            }
+        }
+
+    }
+    printf("%i",best_score);
+    return best_score;
+}
+
+
 int evaluate(Plateau p,char currentPlayer){
 	int utility=0;
 	if(victory(p)==1){
@@ -129,6 +161,7 @@ int evaluate(Plateau p,char currentPlayer){
 	if(currentPlayer==CASE_BLANCHE){
 		utility -= density(p, currentPlayer, ALPHA);
 	}
+	utility+=distanceToCenter(p);
 	return utility;
 }
 
