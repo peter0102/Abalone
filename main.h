@@ -14,3 +14,8 @@ typedef char Plateau[MAX_I][MAX_J];
 void display ();
 
 int isItWin(Plateau p);
+
+void resetBoard(Plateau p);
+int minimax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer);
+char aiMove(Plateau p);
+char playerMove(Plateau p);
