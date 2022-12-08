@@ -303,7 +303,7 @@ char move(Plateau plat,Move m){
             plat[m.x2][m.y2] = current_player; //x1-2 = x2
         }
         //x1 haut & x2 bas
-        if(m.x1>m.x2){
+        if(m.x1<m.x2){
             //test de la sélection
             if(plat[m.x1+1][m.y1]!=current_player || plat[m.x2][m.y1]!=current_player){
                 return(error);
