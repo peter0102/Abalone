@@ -9,6 +9,8 @@
 
 typedef char Plateau[MAX_I][MAX_J];
 
+//La fonction victory prends un plateau en paramètre et vérifie l'existence d'un pion adverse dans la bordure: Fin de partie
+//Le score de cette fonction d'évaluation est attribué lors de la fonction evaluate
 int victory(Plateau p){
 	int i=0,v=0;
 	for(i=0;i<=8;i++){
@@ -20,6 +22,8 @@ int victory(Plateau p){
 	return v;
 }
 
+//La fonction victory prends un plateau en paramètre et vérifie l'existence d'un pion allié dans la bordure: Fin de partie
+//Le score de cette fonction d'évaluation est attribué également lors de la fonction evaluate
 int loss(Plateau p){
 	int i=0,l=0;
 	for(i=0;i<=8;i++){
@@ -31,6 +35,7 @@ int loss(Plateau p){
 	return l;
 }
 
+//La fonction density renvoie la moyenne de pions par bloc de 3x3 multipliée par un coefficient pour donner le score
 int density(Plateau p,char currentPlayer,int alpha){
 	int i=0,j=0;
 	int t[]={0,0,0,0,0,0,0,0,0};
@@ -232,7 +237,7 @@ int canAttack(Plateau p){ //retourne un score positif ou négatif si l'allié pe
     return score;
 }
 
-
+//evaluate renvoie le poids total du plateau 
 int evaluate(Plateau p,char currentPlayer){
 	int utility=0;
 	if(victory(p)==1){
@@ -253,22 +258,6 @@ int evaluate(Plateau p,char currentPlayer){
 	return utility;
 }
 
-void main(){
-	Plateau plateau = {
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE, CASE_BLANCHE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE, CASE_BLANCHE, CASE_VIDE, CASE_VIDE},
-    {CASE_NOIRE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_BLANCHE, CASE_VIDE, CASE_BLANCHE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_BLANCHE, CASE_VIDE, CASE_VIDE, CASE_BLANCHE},
-    {CASE_VIDE, CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE}
-};
-	printf("%i",evaluate(plateau,CASE_BLANCHE));
 
-
-}
 
 
