@@ -66,31 +66,31 @@ int minimax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
 	return 1;
 }
 
-char aiMove(Plateau p) {
+char aiMove(Plateau p,char current_player, char other_player) {
     Move m;
 	int score=-INFINITY;
 	for (int i=1;i<MAX_I-1;i++) {
 		for (int j=1;j<MAX_J-1;j++) {
 			if (p[i][j]==CASE_NOIRE) {
                 //possibleMove(p); // liste des mouvements possible
-                m.x1=i;
-                m.y1=j;
-                m.x2=i-1;
-                m.y2=j;
-                allMove(p,m);
+                m[0][0]=i;
+                m[1][0]=j;
+                m[0][1]=i-1;
+                m[1][1]=j;
+                allMove(p,m,current_player,other_player);
 				int scoreMove=minimax(p,0,1,1,false);
 				resetBoard(p);
 				if (scoreMove>score) { // choisit le meilleur move en fonction du score
 					score=scoreMove;
-                    m.x1=i;
-                    m.y1=j;
-                    m.x2=i+1;
-                    m.y2=j+1;
+                    m[0][0]=i;
+                    m[1][0]=j;
+                    m[0][1]=i+1;
+                    m[1][1]=j+1;
 				}
 			}
 		}
 	}
-    char a=allMove(p,m);
+    char a=allMove(p,m,current_player,other_player);
     printf("\n\nRetour de la fonction allMove : %d\n",a);
 }
 
@@ -99,17 +99,21 @@ char playerMove(Plateau p){
     printf("Quel mouvement ? de type xx:xx\n");
     scanf("%s",charac);
     Move m=translate_move(charac);
-    char a=allMove(p,m);
+    char a=allMove(p,m,current_player,other_player);
     printf("\n\nRetour de la fonction allMove : %d",a);
 }
 
 int main(int argc, char *argv[]) {
+    char current_player;
+    char other_player;
     int end=0;
     int turn_count=1;
     printf("Début du jeu\n");
     display(plateau);
     while (end!=1) {
 		if(turn_count%2==1) { //turn_count = 1 --> current_player = 'B'
+            current_player = 'B';
+            other_player = 'W';
             printf("Tour %i\n",turn_count);
 		    printf("C'est au tour des noirs(ia) de jouer\n");
 		    aiMove(plateau);
@@ -117,6 +121,8 @@ int main(int argc, char *argv[]) {
             printf("\n*************************************\n");
 		}
 		else { //turn_count = 2 --> current_player = 'W'
+            current_player = 'W';
+            other_player = 'B';
             printf("Tour %i\n",turn_count);
 	    	printf("C'est à votre tour de jouer\n");
 		    playerMove(plateau);

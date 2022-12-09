@@ -45,7 +45,7 @@ int minimax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer);
  * \brief L'IA effectue un mouvement
  * \param p Etat du plateau de jeu
 */
-char aiMove(Plateau p);
+aiMove(Plateau p,char current_player, char other_player);
 /**
  * \fn playerMove(Plateau p)
  * \brief Demande à l'utilisateur d'entrer des coordonnées et effectue le mouvement qui correspond

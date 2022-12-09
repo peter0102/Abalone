@@ -5,6 +5,10 @@
  * \version 0.1
 */
 
+typedef int Pion[2];
+typedef Pion DeuxPions[2];
+typedef Pion TroisPions[3];
+
 /**
  * \fn FindAllPions(int joueur, Pion ListePions[14])
  * \brief Description
@@ -12,14 +16,6 @@
  * \return Retour
 */
 void FindAllPions(int joueur, Pion ListePions[14]);
-
-/**
- * \fn Fonction
- * \brief Description
- * \param Paramètres
- * \return Retour
-*/
-void FindAllPions(int joueur);
 
 /**
  * \fn Fonction
@@ -51,7 +47,7 @@ void AfficherListePions();
  * \param Paramètres
  * \return Retour
 */
-void AfficherCoup(Coup CoupAAfficher);
+void AfficherCoup(Move CoupAAfficher);
 
 /**
  * \fn Fonction
@@ -69,7 +65,7 @@ void AfficherListeCoups();
 */
 void AfficherListeDeuxPions();
 
-// Les fonctions de coup :
+// Les fonctions de Move :
 
 /**
  * \fn Fonction
@@ -77,7 +73,7 @@ void AfficherListeDeuxPions();
  * \param Paramètres
  * \return Retour
 */
-int TestCoupPossible2(Coup CoupATester);
+int TestCoupPossible2(Move CoupATester);
 
 /**
  * \fn Fonction
@@ -85,7 +81,7 @@ int TestCoupPossible2(Coup CoupATester);
  * \param Paramètres
  * \return Retour
 */
-int TestCoupPossible(Coup CoupATester);
+int TestCoupPossible(Move CoupATester);
 
 /**
  * \fn Fonction
@@ -110,7 +106,7 @@ int UneBilleQuatreCoups(Pion PionATester, int compteurCoups);
  * \param Paramètres
  * \return Retour
 */
-int UneBilleUnCoup(Coup CoupATester, int compteurCoups);
+int UneBilleUnCoup(Move CoupATester, int compteurCoups);
 
 
 // Deux billes :
@@ -137,7 +133,7 @@ int DeuxBillesQuatreCoupsVertical(DeuxPions GroupeATester, int compteurCoups);
  * \param Paramètres
  * \return Retour
 */
-int DeuxBillesUnCoupHorizontal(Coup CoupATester, int compteurCoups);
+int DeuxBillesUnCoupHorizontal(Move CoupATester, int compteurCoups);
 
 /**
  * \fn Fonction
@@ -145,7 +141,7 @@ int DeuxBillesUnCoupHorizontal(Coup CoupATester, int compteurCoups);
  * \param Paramètres
  * \return Retour
 */
-int DeuxBillesUnCoupVertical(Coup CoupATester, int compteurCoups);
+int DeuxBillesUnCoupVertical(Move CoupATester, int compteurCoups);
 
 // Trois billes
 
@@ -171,7 +167,7 @@ int TroisBillesQuatreCoupsHorizontal(TroisPions GroupeATester, int compteurCoups
  * \param Paramètres
  * \return Retour
 */
-int TroisBillesUnCoupHorizontal(Coup CoupATester, int compteurCoups);
+int TroisBillesUnCoupHorizontal(Move CoupATester, int compteurCoups);
 
 /**
  * \fn Fonction
@@ -179,4 +175,4 @@ int TroisBillesUnCoupHorizontal(Coup CoupATester, int compteurCoups);
  * \param Paramètres
  * \return Retour
 */
-int TroisBillesUnCoupVertical(Coup CoupATester, int compteurCoups);
+int TroisBillesUnCoupVertical(Move CoupATester, int compteurCoups);
