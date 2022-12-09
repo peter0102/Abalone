@@ -23,29 +23,13 @@ void display(Plateau p);
  * \return 1 si il y a un gagnant
 */
 int isItWin(Plateau p);
-/**
- * \fn resetBoard(Plateau p)
- * \brief Réinitialise le plateau, utilse pour simuler des mouvements et vider le plateau
- * \param p Plateau de jeu
-*/
-void resetBoard(Plateau p);
-/**
- * \fn minimax(Plateau p, int depth, int alpha, int beta, bool isMaximizingPlayer)
- * \brief Algorithme MiniMax, qui retourne le score du meilleur mouvement, l'IA maximise son utilité, le joueur minimise l'utilité de l'IA
- * \param p Etat du plateau de jeu
- * \param depth Profondeur voulue de l'arbre
- * \param alpha plus grande valeur pour MAX parmi les successeurs
- * \param beta plus petite valeur pour MIN parmi les successeurs
- * \param isMaximizingPlayer booléen true si on cherche à maximiser l'utilité, false sinon
- * \return Meilleur score correspondant au mouvement optimal
-*/
-int minimax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer);
+
 /**
  * \fn aiMove(Plateau p)
  * \brief L'IA effectue un mouvement
  * \param p Etat du plateau de jeu
 */
-aiMove(Plateau p,char current_player, char other_player);
+char aiMove(Plateau p);
 /**
  * \fn playerMove(Plateau p)
  * \brief Demande à l'utilisateur d'entrer des coordonnées et effectue le mouvement qui correspond

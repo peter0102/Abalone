@@ -1,13 +1,64 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include "allMove.h"
 #define ALPHA 3
 #define MAX_I 10
 #define MAX_J 10
 #define CASE_VIDE '0'
 #define CASE_NOIRE 'N'
 #define CASE_BLANCHE 'B'
+#define INFINITY 147483648
 
 typedef char Plateau[MAX_I][MAX_J];
+
+int minimax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
+	int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
+    alpha=-INFINITY;
+    beta=INFINITY;
+    Move m;
+    Move mback;
+	if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
+		return evaluate(p,CASE_NOIRE);
+	}
+	    
+	if(isMaximizingPlayer){ 
+        int score=-INFINITY;
+        for (int i=0;i<lengthOfMoves;i++) {
+            char* charac=moves[i];
+            m=translate_move(charac);
+            allMove(p,m,CASE_NOIRE,CASE_BLANCHE); // effectue un louvement
+			int newScore=minimax(p,depth-1,alpha,beta,false); // simule le tour de l'adversaire
+        	mback[0][0]=m[0][1];
+        	mback[1][0]=m[1][1];
+        	mback[0][1]=m[0][0];
+        	mback[1][1]=m[1][0];
+            allMove(p,mback,CASE_NOIRE,CASE_BLANCHE); // on annule le mouvement joué
+			if (newScore>score) score=newScore; // on prend le meilleur score
+			if (alpha>newScore) alpha=newScore;
+            if (alpha>=beta) break; // elagage
+        }
+		return score;
+	}
+	else {
+        int score=INFINITY;
+        for (int i=0;i<lengthOfMoves;i++) {
+            char* charac=moves[i];
+            m=translate_move(charac);
+            allMove(p,m,CASE_BLANCHE,CASE_NOIRE);
+			int newScore=minimax(p,depth-1,alpha,beta,true); // simule le tour de l'adversaire
+        	mback[0][0]=m[0][1];
+        	mback[1][0]=m[1][1];
+        	mback[0][1]=m[0][0];
+        	mback[1][1]=m[1][0];
+            allMove(p,mback,CASE_BLANCHE, CASE_NOIRE);
+			if (newScore<score) score=newScore; // on prend le moins bon score
+			if (beta<newScore) alpha=newScore;
+            if (beta<=alpha) break; // elagage
+        }
+		return score;
+	}
+}
 
 //La fonction victory prends un plateau en paramètre et vérifie l'existence d'un pion adverse dans la bordure: Fin de partie
 //Le score de cette fonction d'évaluation est attribué lors de la fonction evaluate
@@ -119,7 +170,7 @@ int density(Plateau p,char currentPlayer,int alpha){
 	return most_frequent*alpha;
 }
 
-int distanceToCenter(Plateau p) {
+int distanceToCenter(Plateau p) { // évalue une configuration du plateau en fonction des positions des billes
     int totalScore=0;
     Plateau score={ //tableau du score en fonction de la position
         {0,0,0,0,0,0,0,0,0,0},
@@ -148,12 +199,12 @@ int distanceToCenter(Plateau p) {
 
 }
 
-int areOpponentsNear(Plateau p){ // compte le nombre d'ennemis proches et retourne un score
+int areOpponentsNear(Plateau p){ // compte le nombre d'ennemis proches (à 1,2 et 3 cases) et retourne un score
     int score;
     for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
             if (p[i][j]==CASE_BLANCHE) {
-                if (p[i+1][j]==CASE_NOIRE) score+=-5;
+                if (p[i+1][j]==CASE_NOIRE) score+=-5; // -5 si adversaire au contact, -3 si à une case distante, -1 si à 2 cases distantes
                 if (p[i][j+1]==CASE_NOIRE) score+=-5;
                 if (p[i+2][j]==CASE_NOIRE) score+=-3;
                 if (p[i][j+2]==CASE_NOIRE) score+=-3;
@@ -170,8 +221,20 @@ int areOpponentsNear(Plateau p){ // compte le nombre d'ennemis proches et retour
     }
     return score;
 }
+int countNeighborsXWhite(Plateau p,int i, int j){ // compte les voisins blancs sur l'axe X vertical
+    int neighbors=0;
+    if (p[i][j]==CASE_BLANCHE) {
+        for (int x=-2;x<0;x++) {
+         if (p[i+x][j]==CASE_BLANCHE) neighbors++;
+        }
+        for (int x=1;x<3;x++) {
+            if (p[i+x][j]==CASE_BLANCHE) neighbors++;
+        }
+    }
+    return neighbors;
+}
 
-int countNeighborsXBlack(Plateau p,int i, int j){
+int countNeighborsXBlack(Plateau p,int i, int j){ // compte les voisins noirs sur l'axe X vertical
     int neighbors=0;
     if (p[i][j]==CASE_NOIRE) {
         for (int x=-2;x<0;x++) {
@@ -183,7 +246,7 @@ int countNeighborsXBlack(Plateau p,int i, int j){
     }
     return neighbors;
 }
-int countNeighborsYWhite(Plateau p,int i, int j) {
+int countNeighborsYWhite(Plateau p,int i, int j) { // compte les voisins blancs sur l'axe Y horizontal
     int neighbors=0;
     if (p[i][j]==CASE_BLANCHE) {
         for (int y=-2;y<0;y++) {
@@ -195,7 +258,7 @@ int countNeighborsYWhite(Plateau p,int i, int j) {
     }
     return neighbors;
 }
-int countNeighborsYBlack(Plateau p,int i, int j) {
+int countNeighborsYBlack(Plateau p,int i, int j) { // compte les voisins noirs sur l'axe Y horizontal
     int neighbors=0;
     if (p[i][j]==CASE_NOIRE) {
         for (int y=-2;y<0;y++) {
@@ -237,8 +300,7 @@ int canAttack(Plateau p){ //retourne un score positif ou négatif si l'allié pe
     return score;
 }
 
-//evaluate renvoie le poids total du plateau 
-int evaluate(Plateau p,char currentPlayer){
+int evaluate(Plateau p,char currentPlayer){ // somme le score d'un plateau en fonction des différents paramètres pris en compte
 	int utility=0;
 	if(victory(p)==1){
 		utility+=100;
@@ -252,12 +314,10 @@ int evaluate(Plateau p,char currentPlayer){
 	if(currentPlayer==CASE_BLANCHE){
 		utility -= density(p, currentPlayer, ALPHA);
 	}
-	utility+=distanceToCenter(p);
 	utility+=areOpponentsNear(p);
 	utility+=canAttack(p);
+	utility+=distanceToCenter(p);
 	return utility;
 }
-
-
 
 
