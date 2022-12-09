@@ -4,6 +4,12 @@ Répartition jour 5
 -Faire des tests (fonctions de test)
 -Continuer le travail précédent (notamment l'IA)
 
+Bilan jour 5:
+-Tester les fonctions de chacun
+-Faire la documentation
+-Gros potentiel mais mise en commun va être rude
+-Réseau à terminer
+
 ************************************************************************************************************************
 
 Répartition jour 4
