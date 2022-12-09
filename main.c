@@ -5,6 +5,7 @@
 #include "deplacement.h"
 #include "allMove.h"
 #include "ListeDeplacement1Bille.h"
+#include "evaluate.h"
 
 #define MAX_I 10
 #define MAX_J 10
@@ -58,64 +59,60 @@ int isItWin(Plateau p){
     return victory;
 }
 
-void resetBoard(Plateau p) {
-    p=plateau;
-}
-
 int minimax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
 	return 1;
 }
 
-char aiMove(Plateau p,char current_player, char other_player) {
+char aiMove(Plateau p){
+    int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
     Move m;
-	int score=-INFINITY;
-	for (int i=1;i<MAX_I-1;i++) {
-		for (int j=1;j<MAX_J-1;j++) {
-			if (p[i][j]==CASE_NOIRE) {
-                //possibleMove(p); // liste des mouvements possible
-                m[0][0]=i;
-                m[1][0]=j;
-                m[0][1]=i-1;
-                m[1][1]=j;
-                allMove(p,m,current_player,other_player);
-				int scoreMove=minimax(p,0,1,1,false);
-				resetBoard(p);
-				if (scoreMove>score) { // choisit le meilleur move en fonction du score
-					score=scoreMove;
-                    m[0][0]=i;
-                    m[1][0]=j;
-                    m[0][1]=i+1;
-                    m[1][1]=j+1;
-				}
-			}
-		}
-	}
-    char a=allMove(p,m,current_player,other_player);
-    printf("\n\nRetour de la fonction allMove : %d\n",a);
+    Move mback; // pour "annuler" un mouvement
+    Move bestMove; // prend le meilleur mouvement
+    int score=-INFINITY;
+    for(int i=0;i<lengthOfMoves;i++){
+        char* charac=moves[i];
+        m=translate_move(charac);
+        allMove(p,m,CASE_NOIRE,CASE_BLANCHE);
+        int newScore=minimax(p,0,-INFINITY,INFINITY,false);
+        mback[0][0]=m[0][1];
+        mback[1][0]=m[1][1];
+        mback[0][1]=m[0][0];
+        mback[1][1]=m[1][0];
+        allMove(p,mback,CASE_NOIRE,CASE_BLANCHE);
+            if (newScore>score) {
+            score=newScore;
+            bestMove[0][0]=m[0][0];
+            bestMove[0][1]=m[0][1];
+            bestMove[1][0]=m[1][0];
+            bestMove[1][1]=m[1][1];
+            }
+        }
+    allMove(p,bestMove,CASE_NOIRE,CASE_BLANCHE);
 }
+
 
 char playerMove(Plateau p){
     char charac[1000]="";
     printf("Quel mouvement ? de type xx:xx\n");
     scanf("%s",charac);
     Move m=translate_move(charac);
-    char a=allMove(p,m,current_player,other_player);
+    char a=allMove(p,m,CASE_BLANCHE,CASE_NOIRE);
     printf("\n\nRetour de la fonction allMove : %d",a);
 }
 
 int main(int argc, char *argv[]) {
     char current_player;
     char other_player;
-    int end=0;
+    int win_condition=isItWin(plateau);
     int turn_count=1;
     printf("Début du jeu\n");
     display(plateau);
-    while (end!=1) {
+    while (win_condition !=1) {
 		if(turn_count%2==1) { //turn_count = 1 --> current_player = 'B'
             current_player = 'B';
             other_player = 'W';
             printf("Tour %i\n",turn_count);
-		    printf("C'est au tour des noirs(ia) de jouer\n");
+		    printf("C'est au tour des noirs (IA) de jouer\n");
 		    aiMove(plateau);
             display(plateau);
             printf("\n*************************************\n");
