@@ -1,4 +1,4 @@
-#define PIECE_NB 14
+#define PAWN_NB 14
 
 typedef struct {int x; int y;} Pion;
 
@@ -9,7 +9,6 @@ void clear(cairo_t *cr);
 void draw(cairo_t *cr);
 
 gboolean startDraw(GtkWidget *widget, cairo_t *cr, gpointer data);
-void drawPiece (cairo_t *cr, char color, Pion position);
 
 void onActivateEntry(GtkEntry* entry, gpointer data);
 
@@ -19,3 +18,7 @@ void setTurnNumber(int turn);
 void setLastMove(int** move);
 
 int button_clicked;
+
+void drawPawn (char color, int index, int* position);
+void drawBoard(Plateau board);
+void clearBoard();
