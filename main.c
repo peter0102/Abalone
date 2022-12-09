@@ -59,9 +59,62 @@ int isItWin(Plateau p){
     return victory;
 }
 
-int minimax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
-	return 1;
+int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
+	int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
+    alpha=-INFINITY;
+    beta=INFINITY;
+    Move m;
+    Move mback;
+	if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
+		return evaluate(p,CASE_NOIRE);
+	}
+	    
+	if(isMaximizingPlayer){ 
+        int score=-INFINITY;
+        for (int i=0;i<lengthOfMoves;i++) {
+            char* charac=moves[i];
+            translateMove(charac);
+			m[0][0]=charac[0]-'@';
+        	m[1][0]=charac[1]-'0';
+        	m[0][1]=charac[3]-'@';
+        	m[1][1]=charac[4]-'0';
+            allMove(p,m,CASE_NOIRE,CASE_BLANCHE); // effectue un louvement
+			int newScore=miniMax(p,depth-1,alpha,beta,false); // simule le tour de l'adversaire
+        	mback[0][0]=m[0][1];
+        	mback[1][0]=m[1][1];
+        	mback[0][1]=m[0][0];
+        	mback[1][1]=m[1][0];
+            allMove(p,mback,CASE_NOIRE,CASE_BLANCHE); // on annule le mouvement joué
+			if (newScore>score) score=newScore; // on prend le meilleur score
+			if (alpha>newScore) alpha=newScore;
+            if (alpha>=beta) break; // elagage
+        }
+		return score;
+	}
+	else {
+        int score=INFINITY;
+        for (int i=0;i<lengthOfMoves;i++) {
+            char* charac=moves[i];
+            translateMove(charac);
+			m[0][0]=charac[0]-'@';
+        	m[1][0]=charac[1]-'0';
+        	m[0][1]=charac[3]-'@';
+        	m[1][1]=charac[4]-'0';
+            allMove(p,m,CASE_BLANCHE,CASE_NOIRE);
+			int newScore=miniMax(p,depth-1,alpha,beta,true); // simule le tour de l'adversaire
+        	mback[0][0]=m[0][1];
+        	mback[1][0]=m[1][1];
+        	mback[0][1]=m[0][0];
+        	mback[1][1]=m[1][0];
+            allMove(p,mback,CASE_BLANCHE, CASE_NOIRE);
+			if (newScore<score) score=newScore; // on prend le moins bon score
+			if (beta<newScore) alpha=newScore;
+            if (beta<=alpha) break; // elagage
+        }
+		return score;
+	}
 }
+
 
 char aiMove(Plateau p){
     int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
@@ -71,9 +124,13 @@ char aiMove(Plateau p){
     int score=-INFINITY;
     for(int i=0;i<lengthOfMoves;i++){
         char* charac=moves[i];
-        m=translate_move(charac);
+        translateMove(charac);
+        m[0][0]=charac[0]-'@';
+        m[1][0]=charac[1]-'0';
+        m[0][1]=charac[3]-'@';
+        m[1][1]=charac[4]-'0';
         allMove(p,m,CASE_NOIRE,CASE_BLANCHE);
-        int newScore=minimax(p,0,-INFINITY,INFINITY,false);
+        int newScore=miniMax(p,0,-INFINITY,INFINITY,false);
         mback[0][0]=m[0][1];
         mback[1][0]=m[1][1];
         mback[0][1]=m[0][0];
@@ -92,10 +149,15 @@ char aiMove(Plateau p){
 
 
 char playerMove(Plateau p){
+    Move m;
     char charac[1000]="";
     printf("Quel mouvement ? de type xx:xx\n");
     scanf("%s",charac);
-    Move m=translate_move(charac);
+    translatMove(charac);
+    m[0][0]=charac[0]-'@';
+    m[1][0]=charac[1]-'0';
+    m[0][1]=charac[3]-'@';
+    m[1][1]=charac[4]-'0';
     char a=allMove(p,m,CASE_BLANCHE,CASE_NOIRE);
     printf("\n\nRetour de la fonction allMove : %d",a);
 }

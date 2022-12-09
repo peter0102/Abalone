@@ -12,54 +12,6 @@
 
 typedef char Plateau[MAX_I][MAX_J];
 
-int minimax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
-	int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
-    alpha=-INFINITY;
-    beta=INFINITY;
-    Move m;
-    Move mback;
-	if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
-		return evaluate(p,CASE_NOIRE);
-	}
-	    
-	if(isMaximizingPlayer){ 
-        int score=-INFINITY;
-        for (int i=0;i<lengthOfMoves;i++) {
-            char* charac=moves[i];
-            m=translate_move(charac);
-            allMove(p,m,CASE_NOIRE,CASE_BLANCHE); // effectue un louvement
-			int newScore=minimax(p,depth-1,alpha,beta,false); // simule le tour de l'adversaire
-        	mback[0][0]=m[0][1];
-        	mback[1][0]=m[1][1];
-        	mback[0][1]=m[0][0];
-        	mback[1][1]=m[1][0];
-            allMove(p,mback,CASE_NOIRE,CASE_BLANCHE); // on annule le mouvement joué
-			if (newScore>score) score=newScore; // on prend le meilleur score
-			if (alpha>newScore) alpha=newScore;
-            if (alpha>=beta) break; // elagage
-        }
-		return score;
-	}
-	else {
-        int score=INFINITY;
-        for (int i=0;i<lengthOfMoves;i++) {
-            char* charac=moves[i];
-            m=translate_move(charac);
-            allMove(p,m,CASE_BLANCHE,CASE_NOIRE);
-			int newScore=minimax(p,depth-1,alpha,beta,true); // simule le tour de l'adversaire
-        	mback[0][0]=m[0][1];
-        	mback[1][0]=m[1][1];
-        	mback[0][1]=m[0][0];
-        	mback[1][1]=m[1][0];
-            allMove(p,mback,CASE_BLANCHE, CASE_NOIRE);
-			if (newScore<score) score=newScore; // on prend le moins bon score
-			if (beta<newScore) alpha=newScore;
-            if (beta<=alpha) break; // elagage
-        }
-		return score;
-	}
-}
-
 //La fonction victory prends un plateau en paramètre et vérifie l'existence d'un pion adverse dans la bordure: Fin de partie
 //Le score de cette fonction d'évaluation est attribué lors de la fonction evaluate
 int victory(Plateau p){
