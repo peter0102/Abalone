@@ -22,7 +22,7 @@ typedef char Move[2][2];
 typedef char Triple[2][3]; //x ou y puis x0 1 ou 2
 //fonctions
 
-char abs_c(char v){
+char absChar(char v){
     if(v<0){
         return(-v);
     }
@@ -55,7 +55,7 @@ char whatMove(Plateau plat,Move m) {
         }
     }
         //déplacement latéral de taille 2
-    else if ((abs_c(m[0][0] - m[0][1]) + abs_c(m[1][0] - m[1][1])) == 2) {
+    else if ((absChar(m[0][0] - m[0][1]) + absChar(m[1][0] - m[1][1])) == 2) {
         //déplacement latéral horizontal
         if (plat[m[0][0]][m[1][1]] == current_player) {
             return (lateral_two_horizontal);
@@ -66,7 +66,7 @@ char whatMove(Plateau plat,Move m) {
         }
     }
         //déplacement latéral vertical de taille 3
-    else if (abs_c(m[0][0] - m[0][1]) == 2 && abs_c(m[1][0] - m[1][1]) == 1) {
+    else if (absChar(m[0][0] - m[0][1]) == 2 && absChar(m[1][0] - m[1][1]) == 1) {
         //x0 bas & x1 haut
         if (m[0][0] > m[0][1]) {
             return (lateral_three_vertical_x0_down);
@@ -77,7 +77,7 @@ char whatMove(Plateau plat,Move m) {
         }
     }
         //déplacement latéral horizontal de taille 3
-    else if (abs_c(m[0][0] - m[0][1]) == 1 && abs_c(m[1][0] - m[1][1]) == 2) {
+    else if (absChar(m[0][0] - m[0][1]) == 1 && absChar(m[1][0] - m[1][1]) == 2) {
         //y0 droite & y1 gauche
         if (m[1][0] < m[1][1]) {
             return (lateral_three_horizontal_y0_right);
@@ -92,10 +92,10 @@ char whatMove(Plateau plat,Move m) {
 
 char allies(char type_of_move,Move m){
     if(type_of_move==line_horizontal_right || type_of_move==line_horizontal_left){
-        return(abs_c(m[1][0] - m[1][1]));
+        return(absChar(m[1][0] - m[1][1]));
     }
     else if(type_of_move==line_vertical_up || type_of_move==line_vertical_down) {
-        return(abs_c(m[0][0] - m[0][1]));
+        return(absChar(m[0][0] - m[0][1]));
     }
     else if(type_of_move==lateral_two_horizontal || type_of_move==lateral_two_vertical) {
         return(2);
