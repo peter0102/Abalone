@@ -1,6 +1,6 @@
 //joueurs
-#define current_player 'W'
-#define other_player 'B'
+//#define current_player 'W'
+//#define other_player 'B'
 #define no_player '0'
 //types de mouvement
 #define line_horizontal_right 'a'
@@ -14,7 +14,7 @@
 #define lateral_three_horizontal_y0_right 'i'
 #define lateral_three_horizontal_y0_left 'j'
 //gestion d'erreurs
-#define error 'k'
+#define error 'x'
 #define success 'l'
 //définition des types
 typedef char Plateau[10][10];
@@ -31,7 +31,7 @@ char absChar(char v){
     }
 }
 
-char whatMove(Plateau plat,Move m) {
+char whatMove(Plateau plat,Move m, char current_player) {
     //déplacement en ligne horizontal
     if (m[0][0] == m[0][1]) {
         //déplacement vers la droite
@@ -215,8 +215,8 @@ char checkColor(Triple coords,char color, char nb_allies, Plateau plat){
     return(success);
 }
 
-char checkMove(Plateau plat, Move m) {
-    char type_of_move = whatMove(plat,m);
+char checkMove(Plateau plat, Move m,char current_player) {
+    char type_of_move = whatMove(plat,m,current_player);
     char nb_allies = allies(type_of_move,m);
     //Initialisation des actifs (alliés + ennemis)
     Triple coords_allies;
@@ -233,8 +233,8 @@ char checkMove(Plateau plat, Move m) {
     return(success);
 }
 
-char pierre(Plateau plat, Move m){
-    if(checkMove(plat,m)==error){
+char pierre(Plateau plat, Move m, char current_player){
+    if(checkMove(plat,m,current_player)==error){
         if(plat[m[1][0]][m[1][1]]==current_player){
             return(current_player);
         }
@@ -245,7 +245,7 @@ char pierre(Plateau plat, Move m){
     return(success);
 }
 
-void moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies){
+void moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char current_player,char other_player){
     //déplacement des alliés
     plat[m[0][0]][m[1][0]] = no_player;
     plat[coords_ennemies[0][0]][coords_ennemies[1][0]] = current_player;
@@ -262,11 +262,12 @@ void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char 
     }
 }
 
-void move(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char type_of_move,Triple coords_allies, char nb_allies){
+void move(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char type_of_move,Triple coords_allies,\
+char nb_allies,char current_player, char other_player){
     //déplacement en ligne
     if(type_of_move == line_vertical_down || type_of_move == line_vertical_up ||\
     type_of_move== line_horizontal_left || type_of_move == line_horizontal_right) {
-        moveLine(plat,m,coords_ennemies,nb_ennemies);
+        moveLine(plat,m,coords_ennemies,nb_ennemies,current_player,other_player);
     }
         //déplacement latéral
     else{
@@ -274,7 +275,7 @@ void move(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char type_
     }
 }
 
-char allMove(Plateau plat,Move m){
+char allMove(Plateau plat,Move m,char current_player,char other_player){
     char type_of_move = whatMove(plat,m);
     char nb_allies = allies(type_of_move,m);
     if(nb_allies == error){ //si le type de mouvement est error nb_allies renvoie error
@@ -288,6 +289,6 @@ char allMove(Plateau plat,Move m){
     if(nb_ennemies == error || good_color == error){
         return(error);
     }
-    move(plat,m,coords_ennemies,nb_ennemies,type_of_move,coords_allies,nb_allies);
+    move(plat,m,coords_ennemies,nb_ennemies,type_of_move,coords_allies,nb_allies,current_player,other_player);
     return(success);
 }
