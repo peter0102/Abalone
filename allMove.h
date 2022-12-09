@@ -5,6 +5,10 @@
  * \version 0.1
 */
 
+typedef char Plateau[10][10];
+typedef char Move[2][2];
+typedef char Triple[2][3]; //x ou y puis x0 1 ou 2
+
 /**
  * \fn absChar(char v)
  * \brief Valeur absolue d'un char
