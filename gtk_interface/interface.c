@@ -2,11 +2,13 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include <stdio.h>
-#include "interface.h"
+#include <stdbool.h>
 #include "../deplacement.h"
+#include "../main.h"
+#include "interface.h"
 
-Pion blancs[PIECE_NB];
-Pion noirs[PIECE_NB];
+Pion blancs[PAWN_NB];
+Pion noirs[PAWN_NB];
 
 // Déclaration de la fenêtre et de ses éléments
 GtkWidget* window;
@@ -19,7 +21,6 @@ GtkWidget* main_v_box;
 GtkWidget* turn_v_box;
 GtkWidget* move_v_box;
 GtkWidget* buttons_v_box;
-GtkWidget* drawing_area;
 
 GtkWidget* text_title;
 GtkWidget* text_player_id;
@@ -30,11 +31,11 @@ GtkWidget* text_last_move;
 GtkWidget* drawButton;
 GtkWidget* quitButton;
 
-GtkWidget* piecesBlack[PIECE_NB];
-GtkWidget* piecesWhite[PIECE_NB];
+GtkWidget* pawnsBlack[PAWN_NB];
+GtkWidget* pawnsWhite[PAWN_NB];
 
 int main(int argc, char **argv)
-{
+{	
 	button_clicked = FALSE;
 	
 	gtk_init(&argc, &argv); // Initialisation de GTK+
@@ -63,11 +64,19 @@ int main(int argc, char **argv)
 		
     bgImage = gtk_image_new_from_file("background.png");				// Affectation de l'image d'arrière-plan
     gtk_container_add(GTK_CONTAINER(overlay), bgImage);					// Insertion de l'arrière-plan dans la boîte
-
-	drawing_area = gtk_drawing_area_new();								// Création de la zone de dessin
-	gtk_widget_set_size_request(drawing_area, 600, 600);				// Taille minimale de la zone de dessin
-	gtk_overlay_add_overlay (GTK_OVERLAY(overlay), drawing_area);		// Insertion de la zone de dessin dans l'overlay
 	
+	for (int i = 0; i < PAWN_NB; i++) {
+		pawnsBlack[i] = gtk_image_new_from_file("pawn_black.png");
+		pawnsWhite[i] = gtk_image_new_from_file("pawn_white.png");
+		gtk_overlay_add_overlay (GTK_OVERLAY(overlay), pawnsBlack[i]);
+		gtk_overlay_add_overlay (GTK_OVERLAY(overlay), pawnsWhite[i]);
+		
+		gtk_widget_set_halign(pawnsBlack[i], GTK_ALIGN_START);
+		gtk_widget_set_valign(pawnsBlack[i], GTK_ALIGN_START);
+		gtk_widget_set_halign(pawnsWhite[i], GTK_ALIGN_START);
+		gtk_widget_set_valign(pawnsWhite[i], GTK_ALIGN_START);
+	}
+	clearBoard(pawnsBlack, pawnsWhite);
 	menu_overlay = gtk_overlay_new();										// Création de l'overlay du menu
 	gtk_box_pack_start(GTK_BOX(main_h_box), menu_overlay, FALSE, FALSE, 0);	// Insertion de l'overlay dans la boîte hor.
 	
@@ -118,13 +127,12 @@ int main(int argc, char **argv)
 	gtk_box_pack_start(GTK_BOX(main_v_box), move_v_box, FALSE, FALSE, 0);	// Insertion de move_v_box dans main_v_box
 	
 	drawButton = gtk_button_new_with_label("Dessiner");									// Création du bouton "Dessiner"
-	g_signal_connect(G_OBJECT(drawButton), "clicked", G_CALLBACK(onDraw), drawing_area);// Connexion du signal "clicked"
-	gtk_box_pack_start(GTK_BOX(buttons_v_box), drawButton, FALSE, FALSE, 0);				// Insertion du bouton "Dessiner" dans la boîte ver.
-	g_signal_connect(drawing_area, "draw", G_CALLBACK(startDraw), NULL);				// Connexion du signal "draw"
+	g_signal_connect(G_OBJECT(drawButton), "clicked", G_CALLBACK(onDraw), NULL);// Connexion du signal "clicked"
+	gtk_box_pack_start(GTK_BOX(buttons_v_box), drawButton, FALSE, FALSE, 0);			// Insertion du bouton "Dessiner" dans la boîte ver.
 	
 	quitButton = gtk_button_new_with_label("Quitter");										// Création du bouton "Quitter"
 	g_signal_connect(G_OBJECT(quitButton), "clicked", G_CALLBACK(gtk_main_quit), NULL);		// Connexion du signal "clicked"
-	gtk_box_pack_start(GTK_BOX(buttons_v_box), quitButton, FALSE, FALSE, 0);					// Insertion du bouton "Quitter" dans la boîte ver.
+	gtk_box_pack_start(GTK_BOX(buttons_v_box), quitButton, FALSE, FALSE, 0);				// Insertion du bouton "Quitter" dans la boîte ver.
 	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(onDestroy), NULL);				// Connexion du signal "destroy"
 	
 	gtk_box_pack_end(GTK_BOX(main_v_box), buttons_v_box, FALSE, FALSE, 0);	// Insertion de buttons_v_box dans main_v_box
@@ -145,54 +153,21 @@ void onDestroy(GtkWidget *widget, gpointer data) {
     gtk_main_quit();
 }
 
-void onDraw(GtkWidget *widget, gpointer data)
-{
-	GtkWidget* drawing_area = data;
-	button_clicked = TRUE;
-	/* Now invalidate the affected region of the drawing area. */
-	gtk_widget_queue_draw(drawing_area);
-}
-
-void clear(cairo_t *cr)
-{
-	/* Save current context */
-	cairo_save(cr);
-	cairo_set_source_rgba(cr, 0, 0, 0, 0);
-	cairo_paint(cr);
-
-	/* Restore context */
-	cairo_restore(cr);
-}
-
-void draw(cairo_t *cr)
-{
-	cairo_save(cr);		// Sauvegarde du contexte
-	Pion test1 = {1, 1};
-	Pion test2 = {2, 2};
-	drawPiece(cr, 'b', test1);
-	drawPiece(cr, 'w', test2);
-	/* Restore context */
-	cairo_restore(cr);
-}
-
-gboolean startDraw(GtkWidget *widget, cairo_t *cr, gpointer data)
-{
-	clear(cr);
-	if (button_clicked) {
-		draw(cr);
-	}
-	return FALSE;
-}
-
-void drawPiece (cairo_t *cr, char color, Pion position) {
-	switch(color) {
-		case 'b': cairo_set_source_rgb(cr, 0, 0, 0); break;
-		case 'w': cairo_set_source_rgb(cr, 1, 1, 1); break;
-		default: printf("Error: Incorrect color"); return;
-	}
-	// -15 = 20 (bordure) - 35 (moitié d'une case)
-	cairo_arc(cr, (-15 + (position.x * 70)), (-15 + (position.y * 70)), 25, 0, 2 * M_PI);
-	cairo_fill (cr);
+void onDraw(GtkWidget *widget, gpointer data) {
+	clearBoard();
+	Plateau board = {
+    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+    {CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE},
+    {CASE_VIDE, CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE, CASE_VIDE},
+    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
+    {CASE_VIDE, CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE, CASE_VIDE},
+    {CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE},
+    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE}
+	};
+	drawBoard(board);
 }
 
 void setPlayerColor(char color) {
@@ -254,4 +229,59 @@ void setLastMove(int** move) {
 	gchar* str = g_locale_to_utf8((gchar*)final_str, -1, NULL, NULL, NULL);
 	gtk_label_set_markup(GTK_LABEL(text_last_move), str);
 	g_free(str);
+}
+
+void drawPawn (char color, int index, int* position) {
+	if (index >= PAWN_NB) {
+		printf("Error: Pawn n°%i of color %c doesn't exist", index, color);
+		return;
+	}
+	
+	// -40 = 20 (bordure) + 10 (padding) - 70 (taille d'une case)
+	switch(color) {
+		case 'b':
+			gtk_image_set_from_file (GTK_IMAGE(pawnsBlack[index]), "pawn_black.png");
+			gtk_widget_set_margin_start(pawnsBlack[index], -40 + (position[0] * 70));
+			gtk_widget_set_margin_top(pawnsBlack[index], -40 + (position[1] * 70));
+			break;
+		case 'w':
+			gtk_image_set_from_file (GTK_IMAGE(pawnsWhite[index]), "pawn_white.png");
+			gtk_widget_set_margin_start(pawnsWhite[index], -40 + (position[0] * 70));
+			gtk_widget_set_margin_top(pawnsWhite[index], -40 + (position[1] * 70));
+			break;
+		default: printf("Error: Incorrect color"); return;
+	}
+}
+
+void drawBoard(Plateau board) {
+	int counter_blacks = 0, counter_whites = 0;
+	int coords[2];
+	for (int i = 1; i <= MAX_I - 2; i++) {
+		for (int j = 1; j <= MAX_J - 2; j++) {
+			switch(board[i][j]) {
+				case CASE_NOIRE:
+					coords[1] = i; coords[0] = j;
+					drawPawn('b', counter_blacks, coords);
+					counter_blacks ++;
+					break;
+				case CASE_BLANCHE:
+					coords[1] = i; coords[0] = j;
+					drawPawn('w', counter_whites, coords);
+					counter_whites ++;
+					break;
+				default: continue;
+			}
+		}
+	}	
+}
+
+void clearBoard() {
+	for(int i = 0; i < PAWN_NB; i++) {
+		gtk_image_set_from_file (GTK_IMAGE(pawnsBlack[i]), "pawn_empty.png");
+		gtk_image_set_from_file (GTK_IMAGE(pawnsWhite[i]), "pawn_empty.png");
+		gtk_widget_set_margin_start(pawnsBlack[i], 0);
+		gtk_widget_set_margin_top(pawnsBlack[i], 0);
+		gtk_widget_set_margin_start(pawnsWhite[i], 0);
+		gtk_widget_set_margin_top(pawnsWhite[i], 0);
+	}
 }
