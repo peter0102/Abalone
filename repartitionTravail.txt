@@ -1,0 +1,128 @@
+Répartition jour 5
+
+-Faire les .h
+-Faire des tests (fonctions de test)
+-Continuer le travail précédent (notamment l'IA)
+
+************************************************************************************************************************
+
+Répartition jour 4
+
+(Isaac) Gtk
+Bases saines
+Interface de base
+Quand la base sera terminé plus de gens iront sur Gtk
+
+(Autres) voir jour précédent (on continue ce qu’on était en train de faire)
+
+Bilan jour 4 :
+Afficher tableau Gtk
+Changement de profondeur possible
+
+Pour le jour 5 :
+Mise en commun
+Avoir un truc qui marche
+Documentation notamment les .h
+
+Le weekend : améliorer / regarder l’IA / réfléchir
+Semaine prochaine : réseau / optimiser / documenter
+
+************************************************************************************************************************
+
+Répartition jour 3
+
+Alexandre : 	Attention au cas de la sélection de plus de 3 pions
+Déplacement valide : renvoyer le pion de validité (vide ou couleur)
+		Finir les fonctions de déplacement
+
+Isaac et Mame : GTK
+
+Tous les autres : Fonction d’évaluation pour l’IA
+Test du jeu pour voir les stratégies gagnantes
+Pondérer les positions
+On remarque que les positions centrales sont avantageuses
+Problème : comment montrer à l’IA qu’il faut attaquer ?
+
+NB : 	notation des fonctions : premierDeuxièmeTroisième
+	    notation des variables : premier_deuxieme (essayer de se limiter à deux mots)
+	    langue du code : anglais
+	    langue des commentaires : français
+
+************************************************************************************************************************
+
+Répartition jour 2 :
+
+Code (à optimiser pour l’IA):
+Optimisation des déplacements
+Finir et optimiser la fonction déplacement
+Séparer le test “déplacement valide” du déplacement
+Revoir les autres points + Traduction inverse
+Revoir le tableau (optimiser la mémoire avec des char)
+Concaténation/vérification
+Remplacer les int par des char
+
+IA :
+Tous les coups possibles
+Liste des déplacements possibles
+Adversaire aléatoire qui joue parmi tous les coups possibles
+Le rendre intelligent (minmax de profondeur 1)
+Augmenter la profondeur
+Implémenter alpha-bêta
+Fonction d’évaluation
+
+Point jour 2 :
+Pas Isaac entre 12h et 14h
+Pas Pierre l’après-midi
+Se focaliser sur l’IA
+Scinder BigMove en “déplacement valide” et “déplacement effectif”
+Déplacement valide : valide + type de mouvement
+Déplacement effectif : déplacer les pions selon le type de mouvement (et sa validité ?)
+
+************************************************************************************************************************
+
+Répartition jour 1
+
+1 (Mame) :
+-définir la grille : Structure/Tableau + Dictionnaire
+-Initialiser (cases vides 0 | blancs 1 | noirs 2)
+
+2 (Salma) :
+-Gestion d’erreurs au lancement du jeu
+-Commande help : afficher les commandes
+
+3 (Isaac) :
+-Fonction “lecture” : Prendre les arguments sur le terminal “A1:B1”
+-Gestion d’erreur (syntaxe invalide)
+
+4 (Peter) :
+-Nombre de tours + savoir qui doit jouer
+	=> Solution : Nb tours initialisé à 1
+	-Joueur = Nbtours%2 +1 | 2 → Noir | 1→Blanc |
+
+5 (Romaissae) :
+-Affichage du jeu
+
+6 (Pierre) :
+-Gestion des bords / Fin de partie
+
+7 (Mahmoud & Alexandre) Déplacement :
+-7A Traduction
+	-Vérification coups demandés : couleurs + tous les endroits
+	-Déplacement en ligne ou latéral
+	=> Solution :
+		Créer Structure avec :
+			Nombre de pions
+			Type de mouvement (en ligne ou latéral)
+			Position de départ en numérique
+			Position d’arrivée en numérique
+				Nb pions | Ligne / Latéral | C1 | C2
+-7B Déplacement :
+	-Déplacement en ligne :
+		-Vérification du coup (case vide ou avec un adversaire et nombre de pions du joueur supérieur à celui de l’adversaire)
+	-Déplacement latéral :
+		-Vérification du coup (toutes les cases d’arrivées sont vides)
+
+Bilan jour 1 :
+Timer
+Intelligence artificielle
+Communication serveur/réseau
