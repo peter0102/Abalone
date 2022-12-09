@@ -10,8 +10,30 @@
 #define MAX_J 10
 
 typedef char Plateau[MAX_I][MAX_J];
+/**
+ * \fn victory(Plateau p)
+ * \brief Evalue si un pion adverse est dans la bordure
+ * \param p Etat du plateau de jeu
+ * return Retourne 1 si c'est une victoire, rien sinon
+*/
 int victory(Plateau p);
+
+/**
+ * \fn loss(Plateau p)
+ * \brief Evalue si un pion allié est dans la bordure
+ * \param p Etat du plateau de jeu
+ * return Retourne 1 si c'est une défaite, rien sinon
+*/
 int loss(Plateau p);
+
+/**
+ * \fn density(Plateau p,char currentPlayer,int alpha)
+ * \brief Evalue la condensation des pions dans les différents blocs du plateau
+ * \param p Etat du plateau de jeu
+ * \param currentPlayer Le joueur actuel
+ * \param alpha Coefficient de grandeur
+ * return Retourne le score de la densité du joueur actuel 
+*/
 int density(Plateau p,char currentPlayer,int alpha);
 /**
  * \fn distanceToCenter(Plateau p)
@@ -71,3 +93,14 @@ int countNeighborsYBlack(Plateau p,int i, int j);
  * \return retourne le score du plateau selon le nombre d'attaques possibles
 */
 int canOpponentAttack(Plateau p);
+
+/**
+ * \fn evaluate(Plateau p,char currentPlayer)
+ * \brief Utilise toutes les fonctions d'évaluation pour calculer un poids final pour le plateau donné
+ * \param p Etat du plateau de jeu
+ * \param currentPlayer Joueur courant
+ * \return retourne le poids final du plateau actuel
+*/
+int evaluate(Plateau p,char currentPlayer);
+
+
