@@ -7,13 +7,7 @@
 #include "ListeDeplacement1Bille.h"
 #include "evaluate.h"
 
-#define MAX_I 10
-#define MAX_J 10
-#define INFINITY 147483648
-
-#define CASE_VIDE '0'
-#define CASE_NOIRE 'N'
-#define CASE_BLANCHE 'B'
+char* moves[200];
 
 Plateau plateau = {
     {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
@@ -65,9 +59,8 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
     beta=INFINITY;
     Move m;
     Move mback;
-	if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
+	if(depth==0) //S'arrête lorsque la profondeur souhaitée est atteinte
 		return evaluate(p,CASE_NOIRE);
-	}
 	    
 	if(isMaximizingPlayer){ 
         int score=-INFINITY;
@@ -153,7 +146,7 @@ char playerMove(Plateau p){
     char charac[1000]="";
     printf("Quel mouvement ? de type xx:xx\n");
     scanf("%s",charac);
-    translatMove(charac);
+    translateMove(charac);
     m[0][0]=charac[0]-'@';
     m[1][0]=charac[1]-'0';
     m[0][1]=charac[3]-'@';

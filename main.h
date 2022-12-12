@@ -8,6 +8,12 @@
 #define MAX_I 10
 #define MAX_J 10
 
+#define INFINITY 147483648
+
+#define CASE_VIDE '0'
+#define CASE_NOIRE 'N'
+#define CASE_BLANCHE 'B'
+
 
 typedef char Plateau[MAX_I][MAX_J];
 /**
