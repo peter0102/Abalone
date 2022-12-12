@@ -1,8 +1,44 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+
+
+#define MAX_I 10
+#define MAX_J 10
+#define INFTY 147483648
+
+#define EMPTY '0'
+#define BLACK 'B'
+#define WHITE 'W'
+
+#include <stdio.h>
 #include <stdlib.h>
-#include "global.h"
+#include <string.h>
+
+//joueurs
+//#define current_player 'W'
+//#define other_player 'B'
+#define no_player '0'
+//types de mouvement
+#define line_horizontal_right 'a'
+#define line_horizontal_left 'b'
+#define line_vertical_down 'c'
+#define line_vertical_up 'd'
+#define lateral_two_horizontal 'e'
+#define lateral_two_vertical 'f'
+#define lateral_three_vertical_x0_down 'g'
+#define lateral_three_vertical_x0_up 'h'
+#define lateral_three_horizontal_y0_right 'i'
+#define lateral_three_horizontal_y0_left 'j'
+//gestion d'erreurs
+#define error 'x'
+#define success 'l'
+//définition des types
+typedef char Plateau[10][10];
+typedef char Move[2][2];
+typedef char Triple[2][3]; //x ou y puis x0 1 ou 2
+//fonctions
+
 
 char* moves[]={"H1:G1","H2:F2","G2:F2","G3:F3","H3:F3","G4:F4","H4:F4","G5:G5","H5:F5","G6:F6","H6:F6","G7:F7","H7:F7","H8:G8"};
 
@@ -10,7 +46,9 @@ char absChar(char v){
     if(v<0){
         return(-v);
     }
-    return(v);
+    else{
+        return(v);
+    }
 }
 
 char whatMove(Plateau plat,Move m, char current_player) {
@@ -18,75 +56,75 @@ char whatMove(Plateau plat,Move m, char current_player) {
     if (m[0][0] == m[0][1]) {
         //déplacement vers la droite
         if (m[1][0] < m[1][1]) {
-            return (LINE_HOR_RIGHT);
+            return (line_horizontal_right);
         }
         //déplacement vers la gauche
         if (m[1][0] > m[1][1]) {
-            return (LINE_HOR_LEFT);
+            return (line_horizontal_left);
         }
     }
         //déplacement en ligne vertical
     else if (m[1][0] == m[1][1]) {
         //déplacement vers le bas
         if (m[0][0] < m[0][1]) {
-            return (LINE_VER_DOWN);
+            return (line_vertical_down);
         }
         //déplacement vers le haut
         if (m[0][0] > m[0][1]) {
-            return (LINE_VER_UP);
+            return (line_vertical_up);
         }
     }
         //déplacement latéral de taille 2
     else if ((absChar(m[0][0] - m[0][1]) + absChar(m[1][0] - m[1][1])) == 2) {
         //déplacement latéral horizontal
         if (plat[m[0][0]][m[1][1]] == current_player) {
-            return (LAT_2_HOR);
+            return (lateral_two_horizontal);
         }
             //déplacement latéral vertical
         else if (plat[m[0][1]][m[1][0]] == current_player) {
-            return (LAT_2_VER);
+            return (lateral_two_vertical);
         }
     }
         //déplacement latéral vertical de taille 3
     else if (absChar(m[0][0] - m[0][1]) == 2 && absChar(m[1][0] - m[1][1]) == 1) {
         //x0 bas & x1 haut
         if (m[0][0] > m[0][1]) {
-            return (LAT_3_VER_X0_DOWN);
+            return (lateral_three_vertical_x0_down);
         }
         //x0 haut & x1 bas
         if (m[0][0] < m[0][1]) {
-            return (LAT_3_VER_X0_UP);
+            return (lateral_three_vertical_x0_up);
         }
     }
         //déplacement latéral horizontal de taille 3
     else if (absChar(m[0][0] - m[0][1]) == 1 && absChar(m[1][0] - m[1][1]) == 2) {
         //y0 droite & y1 gauche
         if (m[1][0] < m[1][1]) {
-            return (LAT_3_HOR_Y0_RIGHT);
+            return (lateral_three_horizontal_y0_right);
         }
         //y0 gauche & y1 droite
         if (m[1][0] > m[1][1]) {
-            return (LAT_3_HOR_Y0_LEFT);
+            return (lateral_three_horizontal_y0_left);
         }
     }
-    return (ERROR);
+    return (error);
 }
 
 char allies(char type_of_move,Move m){
-    if(type_of_move==LINE_HOR_RIGHT || type_of_move==LINE_HOR_LEFT){
+    if(type_of_move==line_horizontal_right || type_of_move==line_horizontal_left){
         return(absChar(m[1][0] - m[1][1]));
     }
-    else if(type_of_move==LINE_VER_UP || type_of_move==LINE_VER_DOWN) {
+    else if(type_of_move==line_vertical_up || type_of_move==line_vertical_down) {
         return(absChar(m[0][0] - m[0][1]));
     }
-    else if(type_of_move==LAT_2_HOR || type_of_move==LAT_2_VER) {
+    else if(type_of_move==lateral_two_horizontal || type_of_move==lateral_two_vertical) {
         return(2);
     }
-    else if(type_of_move==LAT_3_VER_X0_DOWN || type_of_move==LAT_3_VER_X0_UP ||\
-    type_of_move==LAT_3_HOR_Y0_RIGHT || type_of_move==LAT_3_HOR_Y0_LEFT){
+    else if(type_of_move==lateral_three_vertical_x0_down || type_of_move==lateral_three_vertical_x0_up ||\
+    type_of_move==lateral_three_horizontal_y0_right || type_of_move==lateral_three_horizontal_y0_left){
         return(3);
     }
-    return(ERROR);
+    return(error);
 }
 
 void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple coords_ennemies){
@@ -99,70 +137,70 @@ void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple 
     //disjonctions de cas
     for(char i = 1;i<nb_allies;i++) {
         switch (type_of_move) {
-            case LINE_HOR_RIGHT: {
+            case line_horizontal_right: {
                 coords_allies[0][i] = m[0][0];
                 coords_allies[1][i] = m[1][0] + i;
                 coords_ennemies[0][i] = m[0][1];
                 coords_ennemies[1][i] = m[1][1] + i;
             }
                 break;
-            case LINE_HOR_LEFT: {
+            case line_horizontal_left: {
                 coords_allies[0][i] = m[0][0];
                 coords_allies[1][i] = m[1][0] - i;
                 coords_ennemies[0][i] = m[0][1];
                 coords_ennemies[1][i] = m[1][1] - i;
             }
                 break;
-            case LINE_VER_DOWN: {
+            case line_vertical_down: {
                 coords_allies[0][i] = m[0][0] + i;
                 coords_allies[1][i] = m[1][0];
                 coords_ennemies[0][i] = m[0][1] + i;
                 coords_ennemies[1][i] = m[1][1];
             }
                 break;
-            case LINE_VER_UP: {
+            case line_vertical_up: {
                 coords_allies[0][i] = m[0][0] - i;
                 coords_allies[1][i] = m[1][0] ;
                 coords_ennemies[0][i] = m[0][1] - i;
                 coords_ennemies[1][i] = m[1][1];
             }
                 break;
-            case LAT_2_HOR: {
+            case lateral_two_horizontal: {
                 coords_allies[0][1] = m[0][0];
                 coords_allies[1][1] = m[1][1];
                 coords_ennemies[0][1] = m[0][1];
                 coords_ennemies[1][1] = m[1][0];
             }
                 break;
-            case LAT_2_VER: {
+            case lateral_two_vertical: {
                 coords_allies[0][1] = m[0][1];
                 coords_allies[1][1] = m[1][0];
                 coords_ennemies[0][1] = m[0][0];
                 coords_ennemies[1][1] = m[1][1];
             }
                 break;
-            case LAT_3_VER_X0_DOWN: {
+            case lateral_three_vertical_x0_down: {
                 coords_allies[0][i] = m[0][0] - i;
                 coords_allies[1][i] = m[1][0];
                 coords_ennemies[0][i] = m[0][1] + i;
                 coords_ennemies[1][i] = m[1][1];
             }
                 break;
-            case LAT_3_VER_X0_UP: {
+            case lateral_three_vertical_x0_up: {
                 coords_allies[0][i] = m[0][0] + i;
                 coords_allies[1][i] = m[1][0];
                 coords_ennemies[0][i] = m[0][1] - i;
                 coords_ennemies[1][i] = m[1][1];
             }
                 break;
-            case LAT_3_HOR_Y0_RIGHT:{
+            case lateral_three_horizontal_y0_right:{
                 coords_allies[0][i] = m[0][0];
                 coords_allies[1][i] = m[1][0] + i;
                 coords_ennemies[0][i] = m[0][1];
                 coords_ennemies[1][i] = m[1][1] - i;
             }
                 break;
-            case LAT_3_HOR_Y0_LEFT:{
+            case lateral_three_horizontal_y0_left:{
                 coords_allies[0][i] = m[0][0];
                 coords_allies[1][i] = m[1][0] - i;
                 coords_ennemies[0][i] = m[0][1];
@@ -176,25 +214,25 @@ char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies, char current_p
     char nb_ennemies=0;
     for(char i=0;i<nb_allies;i++) {
         if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]==current_player){
-            return(ERROR);
+            return(error);
         }
-        else if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]==EMPTY){
+        else if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]==no_player){
             return(nb_ennemies);
         }
         else{
             nb_ennemies++;
         }
     }
-    return(ERROR);
+    return(error);
 }
 
 char checkColor(Triple coords,char color, char nb_allies, Plateau plat){
     for(char i=0;i<nb_allies;i++) {
         if(plat[coords[0][i]][coords[1][i]]!=color){
-            return(ERROR);
+            return(error);
         }
     }
-    return(SUCCESS);
+    return(success);
 }
 
 char checkMove(Plateau plat, Move m,char current_player) {
@@ -205,31 +243,31 @@ char checkMove(Plateau plat, Move m,char current_player) {
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
     char nb_ennemies = ennemies(plat, coords_ennemies, nb_allies,current_player);
-    if(nb_ennemies == ERROR){
-        return(ERROR);
+    if(nb_ennemies == error){
+        return(error);
     }
     //vérification des couleurs
-    if(checkColor(coords_allies,current_player,nb_allies,plat)==ERROR){
-        return(ERROR);
+    if(checkColor(coords_allies,current_player,nb_allies,plat)==error){
+        return(error);
     }
-    return(SUCCESS);
+    return(success);
 }
 
 char pierre(Plateau plat, Move m, char current_player){
-    if(checkMove(plat,m,current_player)==ERROR){
+    if(checkMove(plat,m,current_player)==error){
         if(plat[m[1][0]][m[1][1]]==current_player){
             return(current_player);
         }
         else{
-            return(ERROR);
+            return(error);
         }
     }
-    return(SUCCESS);
+    return(success);
 }
 
 void moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char current_player,char other_player){
     //déplacement des alliés
-    plat[m[0][0]][m[1][0]] = EMPTY;
+    plat[m[0][0]][m[1][0]] = no_player;
     plat[coords_ennemies[0][0]][coords_ennemies[1][0]] = current_player;
     //déplacement des ennemis
     if (nb_ennemies > 0) {
@@ -239,7 +277,7 @@ void moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char c
 
 void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char nb_allies,char current_player){
     for(char i=0;i<nb_allies;i++){
-        plat[coords_allies[0][i]][coords_allies[1][i]]=EMPTY;
+        plat[coords_allies[0][i]][coords_allies[1][i]]=no_player;
         plat[coords_ennemies[0][i]][coords_ennemies[1][i]]=current_player;
     }
 }
@@ -247,8 +285,8 @@ void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char 
 void move(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char type_of_move,Triple coords_allies,\
 char nb_allies,char current_player, char other_player){
     //déplacement en ligne
-    if(type_of_move == LINE_VER_DOWN || type_of_move == LINE_VER_UP ||\
-    type_of_move== LINE_HOR_LEFT || type_of_move == LINE_HOR_RIGHT) {
+    if(type_of_move == line_vertical_down || type_of_move == line_vertical_up ||\
+    type_of_move== line_horizontal_left || type_of_move == line_horizontal_right) {
         moveLine(plat,m,coords_ennemies,nb_ennemies,current_player,other_player);
     }
         //déplacement latéral
@@ -260,19 +298,19 @@ char nb_allies,char current_player, char other_player){
 char allMove(Plateau plat,Move m,char current_player,char other_player){
     char type_of_move = whatMove(plat,m,current_player);
     char nb_allies = allies(type_of_move,m);
-    if(nb_allies == ERROR){ //si le type de mouvement est ERROR nb_allies renvoie ERROR
-        return(ERROR);
+    if(nb_allies == error){ //si le type de mouvement est error nb_allies renvoie error
+        return(error);
     }
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
     char nb_ennemies = ennemies(plat,coords_ennemies,nb_allies,current_player);
     char good_color = checkColor(coords_allies,current_player,nb_allies,plat);
-    if(nb_ennemies == ERROR || good_color == ERROR){
-        return(ERROR);
+    if(nb_ennemies == error || good_color == error){
+        return(error);
     }
     move(plat,m,coords_ennemies,nb_ennemies,type_of_move,coords_allies,nb_allies,current_player,other_player);
-    return(SUCCESS);
+    return(success);
 }
 
 int** createMove(int x1, int y1, int x2, int y2) {
@@ -593,22 +631,22 @@ int canAttack(Plateau p){ //retourne un score positif ou négatif si l'allié pe
     int score;
      for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
-            if (p[i][j]==WHITE) {
-                if (p[i+1][j]==BLACK) { // si bille adverse devant la bille alliée
-                    int allyNeighborsX=countNeighborsXWhite(p,i,j);
-                    int ennemyNeighborsX=countNeighborsXBlack(p,i+1,j);
+            if (p[i][j]==BLACK) {
+                if (p[i+1][j]==WHITE) { // si bille adverse devant la bille alliée
+                    int ennemyNeighborsX=countNeighborsXWhite(p,i,j);
+                    int allyNeighborsX=countNeighborsXBlack(p,i+1,j);
                     if (allyNeighborsX<ennemyNeighborsX) score-=10; // si l'adversaire peut attaquer
                     else if(allyNeighborsX>ennemyNeighborsX) score+=10;
                 }
-                if (p[i][j+1]==BLACK) { // si bille adverse à gauche ou droite de la bille alliée
-                    int allyNeighborsLine=countNeighborsYWhite(p,i,j);
-                    int ennemyNeighborsLine=countNeighborsYBlack(p,i,j+1);
+                if (p[i][j+1]==WHITE) { // si bille adverse à gauche ou droite de la bille alliée
+                    int ennemyNeighborsLine=countNeighborsYWhite(p,i,j);
+                    int allyNeighborsLine=countNeighborsYBlack(p,i,j+1);
                     if (allyNeighborsLine<ennemyNeighborsLine) score-=10;
                     else if (allyNeighborsLine>ennemyNeighborsLine) score+=10;
                 }
-                if (p[i][j-1]==BLACK) {
-                    int allyNeighborsLine=countNeighborsYWhite(p,i,j);
-                    int ennemyNeighborsLine=countNeighborsYBlack(p,i,j-1);
+                if (p[i][j-1]==WHITE) {
+                    int ennemyNeighborsLine=countNeighborsYWhite(p,i,j);
+                    int allyNeighborsLine=countNeighborsYBlack(p,i,j-1);
                     if (allyNeighborsLine<ennemyNeighborsLine) score-=10;
                     else if (allyNeighborsLine>ennemyNeighborsLine) score+=10;
                 }
@@ -619,22 +657,23 @@ int canAttack(Plateau p){ //retourne un score positif ou négatif si l'allié pe
 }
 
 int evaluate(Plateau p,char currentPlayer){ // somme le score d'un plateau en fonction des différents paramètres pris en compte
+    int alpha=1;
 	int utility=0;
 	if(victory(p)==1){
 		utility+=100;
 	}
 	if(loss(p)==1){
-		utility+=-100;
+		utility+=-100;  
 	} 
-    utility = utility + areOpponentsNear(p) + canAttack(p)+distanceToCenter(p);
+	if(currentPlayer==BLACK){
+		utility += density(p, currentPlayer, alpha);
+	}
+	if(currentPlayer==WHITE){
+		utility -= density(p, currentPlayer, alpha);
+	}
+utility=utility+canAttack(p)+distanceToCenter(p)+areOpponentsNear(p)+density(p,BLACK,1);
 	return utility;
 }
-
-
-
-
-
-
 int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
 	int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
     alpha=-INFTY;
@@ -711,10 +750,9 @@ char aiMove(Plateau p){
         m[1][0]=charac[1]-'0';
         m[0][1]=charac[3]-'@';
         m[1][1]=charac[4]-'0';
-        if (p[m[0][1]][m[1][1]]!=BLACK) {
         allMove(p,m,BLACK,WHITE);
         int newScore=miniMax(p,2,-INFTY,INFTY,false);
-        printf("Premier score donnée par l'IA dans aiMove %i\n",newScore);
+        printf("Premier score donnée par l'IA dans aiMove %i, au tour : %i \n",newScore,i);
         mback[0][0]=m[0][1];
         mback[1][0]=m[1][1];
         mback[0][1]=m[0][0];
@@ -727,7 +765,6 @@ char aiMove(Plateau p){
             bestMove[1][0]=m[1][0];
             bestMove[1][1]=m[1][1];
             }
-        }
         printf("Score temporaire : %i \n",score);
     }
     printf("Meilleur score : %i\n",score);
