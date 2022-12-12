@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include "global.h"
 
 /// Le fichier .h
 
@@ -1134,4 +1134,20 @@ int main(){
     AfficherListeTroisPions();
 
     return(0);
+}
+
+
+char playerMove(Plateau p){
+    Move m;
+    char charac[1000]="";
+    printf("Quel mouvement ? de type xx:xx\n");
+    scanf("%s",charac);
+    translateMove(charac);
+    m[0][0]=charac[0]-'@';
+    m[1][0]=charac[1]-'0';
+    m[0][1]=charac[3]-'@';
+    m[1][1]=charac[4]-'0';
+    display(p);
+    char a=allMove(p,m,WHITE,BLACK);
+    display(p);
 }
