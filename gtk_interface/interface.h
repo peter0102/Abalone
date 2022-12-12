@@ -37,14 +37,14 @@ void onActivateEntry(GtkEntry* entry, gpointer data);
 /**
  * \fn setPlayerColor(char color)
  * \brief Actualise le texte de l'interface concernant la couleur du joueur client : "Vous êtes les _"
- * \param color Couleur du joueur client ('b' = black ; 'w' = white)
+ * \param color Couleur du joueur client (BLACK ou WHITE)
 */
 void setPlayerColor(char color);
 
 /**
  * \fn setTurnColor(char color)
  * \brief Actualise le texte de l'interface concernant la couleur du joueur dont c'est le tour : "Tour des _"
- * \param color Couleur du joueur dont c'est le tour ('b' = black ; 'w' = white)
+ * \param color Couleur du joueur dont c'est le tour (BLACK ou WHITE)
 */
 void setTurnColor(char color);
 
@@ -65,7 +65,7 @@ void setLastMove(Move move);
 /**
  * \fn drawPawn (char color, int index, int* position)
  * \brief Place un pion sur le plateau de l'interface graphique
- * \param color Couleur du pion à placer ('b' = black ; 'w' = white)
+ * \param color Couleur du pion à placer (BLACK ou WHITE)
  * \param index Index de la liste des pions noirs (ou blancs) concerné par ce déplacement (0 <= index <= PAWN_NB)
  * \param position Position où placer le pion (int[2] sous la forme {ligne, colonne})
 */

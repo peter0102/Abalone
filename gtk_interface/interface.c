@@ -178,8 +178,8 @@ void setPlayerColor(char color) {
 	char* final_str = malloc(104);
 	
 	switch(color) {
-		case 'b': strcpy(color_str, "000"); break;
-		case 'w': strcpy(color_str, "FFF"); break;
+		case BLACK: strcpy(color_str, "000"); break;
+		case WHITE: strcpy(color_str, "FFF"); break;
 		default: return;
 	}
 	strcpy(final_str, "<span foreground=\"#e7b17f\" font=\"13\"><b>Vous êtes les <span foreground=\"#");
@@ -196,8 +196,8 @@ void setTurnColor(char color) {
 	char* final_str = malloc(104);
 	
 	switch(color) {
-		case 'b': strcpy(color_str, "000"); break;
-		case 'w': strcpy(color_str, "FFF"); break;
+		case BLACK: strcpy(color_str, "000"); break;
+		case WHITE: strcpy(color_str, "FFF"); break;
 		default: return;
 	}
 	strcpy(final_str, "<span foreground=\"#e7b17f\" font=\"13\"><b>Tour des <span foreground=\"#");
@@ -242,12 +242,12 @@ void drawPawn (char color, int index, int* position) {
 	
 	// -22 = 36 (bordure) + 8 (padding) - 66 (taille d'une case)
 	switch(color) {
-		case 'b':
+		case BLACK:
 			gtk_image_set_from_file (GTK_IMAGE(pawnsBlack[index]), "pawn_black.png");
 			gtk_widget_set_margin_start(pawnsBlack[index], -22 + (position[0] * 66));
 			gtk_widget_set_margin_top(pawnsBlack[index], -22 + (position[1] * 66));
 			break;
-		case 'w':
+		case WHITE:
 			gtk_image_set_from_file (GTK_IMAGE(pawnsWhite[index]), "pawn_white.png");
 			gtk_widget_set_margin_start(pawnsWhite[index], -22 + (position[0] * 66));
 			gtk_widget_set_margin_top(pawnsWhite[index], -22 + (position[1] * 66));
@@ -264,12 +264,12 @@ void drawBoard(Board board) {
 			switch(board[i][j]) {
 				case BLACK:
 					coords[1] = i; coords[0] = j;
-					drawPawn('b', counter_blacks, coords);
+					drawPawn(BLACK, counter_blacks, coords);
 					counter_blacks ++;
 					break;
 				case WHITE:
 					coords[1] = i; coords[0] = j;
-					drawPawn('w', counter_whites, coords);
+					drawPawn(WHITE, counter_whites, coords);
 					counter_whites ++;
 					break;
 				default: continue;
