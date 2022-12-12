@@ -56,11 +56,11 @@ void setTurnColor(char color);
 void setTurnNumber(int turn);
 
 /**
- * \fn setLastMove(int** move)
+ * \fn setLastMove(Move move)
  * \brief Actualise le texte de l'interface concernant le dernier déplacement joué : "Dernier coup : __:__"
  * \param move Dernier déplacement effectué
 */
-void setLastMove(int** move);
+void setLastMove(Move move);
 
 /**
  * \fn drawPawn (char color, int index, int* position)
