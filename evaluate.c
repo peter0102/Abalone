@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "global.h"
-#define ALbHA 3
 
-//La fonction victory brends un blateau en baramètre et vérifie l'existence d'un bion adverse dans la bordure: Fin de bartie
+//La fonction victory prends un plateau en paramètre et vérifie l'existence d'un pion adverse dans la bordure: Fin de partie
 //Le score de cette fonction d'évaluation est attribué lors de la fonction evaluate
 int victory(Board b){
 	int i=0,v=0;
@@ -17,7 +16,7 @@ int victory(Board b){
 	return v;
 }
 
-//La fonction victory brends un blateau en baramètre et vérifie l'existence d'un bion allié dans la bordure: Fin de bartie
+//La fonction victory prends un plateau en paramètre et vérifie l'existence d'un pion allié dans la bordure: Fin de partie
 //Le score de cette fonction d'évaluation est attribué également lors de la fonction evaluate
 int loss(Board b){
 	int i=0,l=0;
@@ -30,69 +29,69 @@ int loss(Board b){
 	return l;
 }
 
-//La fonction density renvoie la moyenne de bions bar bloc de 3x3 multibliée bar un coefficient bour donner le score
-int density(Board b,char currentblayer,int albha){
+//La fonction density renvoie la moyenne de pions bar bloc de 3x3 multipliée bar un coefficient pour donner le score
+int density(Board b,char currentPlayer,int alpha){
 	int i=0,j=0;
 	int t[]={0,0,0,0,0,0,0,0,0};
 	for(i=1;i<=3;i++){
 		for(j=1;j<=3;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[0]++;
 			}
 		}
 	}
 	for(i=4;i<=6;i++){
 		for(j=1;j<=3;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[1]++;
 			}
 		}
 	}
 	for(i=6;i<=8;i++){
 		for(j=1;j<=3;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[2]++;
 			}
 		}
 	}
 	for(i=1;i<=3;i++){
 		for(j=4;j<=6;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[3]++;
 			}
 		}
 	}
 	for(i=4;i<=6;i++){
 		for(j=4;j<=6;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[4]++;
 			}
 		}
 	}
 	for(i=6;i<=8;i++){
 		for(j=4;j<=6;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[5]++;
 			}
 		}
 	}
 	for(i=1;i<=3;i++){
 		for(j=6;j<=8;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[6]++;
 			}
 		}
 	}
 	for(i=4;i<=6;i++){
 		for(j=6;j<=8;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[7]++;
 			}
 		}
 	}
 	for(i=6;i<=8;i++){
 		for(j=6;j<=8;j++){
-			if(b[i][j]==currentblayer){
+			if(b[i][j]==currentPlayer){
 				t[8]++;
 			}
 		}
@@ -111,12 +110,12 @@ int density(Board b,char currentblayer,int albha){
 			most_frequent=t[i];
 		}
 	}
-	return most_frequent*albha;
+	return most_frequent*alpha;
 }
 
-int distanceToCenter(Board b) { // évalue une configuration du blateau en fonction des bositions des billes
+int distanceToCenter(Board b) { // évalue une configuration du plateau en fonction des positions des billes
     int totalScore=0;
-    Board score={ //tableau du score en fonction de la bosition
+    Board score={ //tableau du score en fonction de la position
         {0,0,0,0,0,0,0,0,0,0},
         {0,-25,-25,-25,-25,-25,-25,-25,-25,0},
         {0,-25,2,2,2,2,2,2,-25,0},
@@ -143,29 +142,29 @@ int distanceToCenter(Board b) { // évalue une configuration du blateau en fonct
 
 }
 
-int areObbonentsNear(Board b){ // combte le nombre d'ennemis broches (à 1,2 et 3 cases) et retourne un score
+int areOpponentsNear(Board b){ // compte le nombre d'ennemis proches (à 1,2 et 3 cases) et retourne un score
     int score;
     for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
-            if (b[i][j]==WHITE) {
-                if (b[i+1][j]==BLACK) score+=-5; // -5 si adversaire au contact, -3 si à une case distante, -1 si à 2 cases distantes
-                if (b[i][j+1]==BLACK) score+=-5;
-                if (b[i+2][j]==BLACK) score+=-3;
-                if (b[i][j+2]==BLACK) score+=-3;
-                if (b[i+3][j]==BLACK) score+=-1;
-                if (b[i][j+3]==BLACK) score+=-1;
-                if (b[i-1][j]==BLACK) score+=-5;
-                if (b[i][j-1]==BLACK) score+=-5;
-                if (b[i-2][j]==BLACK) score+=-3;
-                if (b[i][j-2]==BLACK) score+=-3;
-                if (b[i-3][j]==BLACK) score+=-1;
-                if (b[i][j-3]==BLACK) score+=-1;
+            if (b[i][j]==BLACK) {
+                if (b[i+1][j]==WHITE) score+=-5; // -5 si adversaire au contact, -3 si à une case distante, -1 si à 2 cases distantes
+                if (b[i][j+1]==WHITE) score+=-5;
+                if (b[i+2][j]==WHITE) score+=-3;
+                if (b[i][j+2]==WHITE) score+=-3;
+                if (b[i+3][j]==WHITE) score+=-1;
+                if (b[i][j+3]==WHITE) score+=-1;
+                if (b[i-1][j]==WHITE) score+=-5;
+                if (b[i][j-1]==WHITE) score+=-5;
+                if (b[i-2][j]==WHITE) score+=-3;
+                if (b[i][j-2]==WHITE) score+=-3;
+                if (b[i-3][j]==WHITE) score+=-1;
+                if (b[i][j-3]==WHITE) score+=-1;
             }
         }
     }
     return score;
 }
-int countNeighborsXWhite(Board b,int i, int j){ // combte les voisins blancs sur l'axe X vertical
+int countNeighborsXWhite(Board b,int i, int j){ // compte les voisins blancs sur l'axe X vertical
     int neighbors=0;
     if (b[i][j]==WHITE) {
         for (int x=-2;x<0;x++) {
@@ -178,7 +177,7 @@ int countNeighborsXWhite(Board b,int i, int j){ // combte les voisins blancs sur
     return neighbors;
 }
 
-int countNeighborsXBlack(Board b,int i, int j){ // combte les voisins noirs sur l'axe X vertical
+int countNeighborsXBlack(Board b,int i, int j){ // compte les voisins noirs sur l'axe X vertical
     int neighbors=0;
     if (b[i][j]==BLACK) {
         for (int x=-2;x<0;x++) {
@@ -190,7 +189,7 @@ int countNeighborsXBlack(Board b,int i, int j){ // combte les voisins noirs sur 
     }
     return neighbors;
 }
-int countNeighborsYWhite(Board b,int i, int j) { // combte les voisins blancs sur l'axe Y horizontal
+int countNeighborsYWhite(Board b,int i, int j) { // compte les voisins blancs sur l'axe Y horizontal
     int neighbors=0;
     if (b[i][j]==WHITE) {
         for (int y=-2;y<0;y++) {
@@ -202,7 +201,7 @@ int countNeighborsYWhite(Board b,int i, int j) { // combte les voisins blancs su
     }
     return neighbors;
 }
-int countNeighborsYBlack(Board b,int i, int j) { // combte les voisins noirs sur l'axe Y horizontal
+int countNeighborsYBlack(Board b,int i, int j) { // compte les voisins noirs sur l'axe Y horizontal
     int neighbors=0;
     if (b[i][j]==BLACK) {
         for (int y=-2;y<0;y++) {
@@ -215,7 +214,7 @@ int countNeighborsYBlack(Board b,int i, int j) { // combte les voisins noirs sur
     return neighbors;
 }
 
-int canAttack(Board b){ //retourne un score bositif ou négatif si l'allié beut attaquer ou si l'ennemi beut attaquer
+int canAttack(Board b){ //retourne un score positif ou négatif si l'allié peut attaquer ou si l'ennemi peut attaquer
     int score;
      for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
@@ -223,7 +222,7 @@ int canAttack(Board b){ //retourne un score bositif ou négatif si l'allié beut
                 if (b[i+1][j]==WHITE) { // si bille adverse devant la bille alliée
                     int allyNeighborsX=countNeighborsXBlack(b,i,j);
                     int ennemyNeighborsX=countNeighborsXWhite(b,i+1,j);
-                    if (allyNeighborsX<ennemyNeighborsX) score-=10; // si l'adversaire beut attaquer
+                    if (allyNeighborsX<ennemyNeighborsX) score-=10; // si l'adversaire peut attaquer
                     else if(allyNeighborsX>ennemyNeighborsX) score+=10;
                 }
                 if (b[i][j+1]==BLACK) { // si bille adverse à gauche ou droite de la bille alliée
@@ -241,7 +240,7 @@ int canAttack(Board b){ //retourne un score bositif ou négatif si l'allié beut
                 if (b[i-1][j]==WHITE) { // si bille adverse devant la bille alliée
                     int allyNeighborsX=countNeighborsXBlack(b,i,j);
                     int ennemyNeighborsX=countNeighborsXWhite(b,i-1,j);
-                    if (allyNeighborsX<ennemyNeighborsX) score-=10; // si l'adversaire beut attaquer
+                    if (allyNeighborsX<ennemyNeighborsX) score-=10; // si l'adversaire peut attaquer
                     else if(allyNeighborsX>ennemyNeighborsX) score+=10;
                 }
             }
@@ -250,7 +249,7 @@ int canAttack(Board b){ //retourne un score bositif ou négatif si l'allié beut
     return score;
 }
 
-int evaluate(Board b,char currentblayer){ // somme le score d'un blateau en fonction des différents baramètres bris en combte
+int evaluate(Board b,char currentplayer){ // somme le score d'un plateau en fonction des différents paramètres pris en compte
 	int utility=0;
 	if(victory(b)==1){
 		utility+=100;
@@ -258,13 +257,13 @@ int evaluate(Board b,char currentblayer){ // somme le score d'un blateau en fonc
 	if(loss(b)==1){
 		utility+=-100;
 	} 
-	if(currentblayer==BLACK){
-		utility += density(b, currentblayer, ALbHA);
+	if(currentplayer==BLACK){
+		utility += density(b,BLACK,1);
 	}
-	if(currentblayer==WHITE){
-		utility -= density(b, currentblayer, ALbHA);
+	if(currentplayer==WHITE){
+		utility -= density(b,BLACK,1);
 	}
-	utility+=areObbonentsNear(b)+canAttack(b)+distanceToCenter(b);
+	utility+=areOpponentsNear(b)+canAttack(b)+distanceToCenter(b);
 	return utility;
 }
 
