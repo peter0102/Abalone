@@ -16,11 +16,7 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
         int score=-INFTY;
         for (int i=0;i<lengthOfMoves;i++) {
             char* charac=moves[i];
-            translateMove(charac);
-			m[0][0]=charac[0]-'@';
-        	m[1][0]=charac[1]-'0';
-        	m[0][1]=charac[3]-'@';
-        	m[1][1]=charac[4]-'0';
+            m=translateMove(charac);
             allMove(p,m,BLACK,WHITE); // effectue un mouvement
 			int newScore=miniMax(p,depth-1,alpha,beta,false); // simule le tour de l'adversaire
         	mback[0][0]=m[0][1];
@@ -39,11 +35,7 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
         int score=INFTY;
         for (int i=0;i<lengthOfMoves;i++) {
             char* charac=moves[i];
-            translateMove(charac);
-			m[0][0]=charac[0]-'@';
-        	m[1][0]=charac[1]-'0';
-        	m[0][1]=charac[3]-'@';
-        	m[1][1]=charac[4]-'0';
+            m=translateMove(charac);
             allMove(p,m,WHITE,BLACK);
 			int newScore=miniMax(p,depth-1,alpha,beta,true); // simule le tour de l'adversaire
         	mback[0][0]=m[0][1];
@@ -69,11 +61,7 @@ char aiMove(Plateau p){
     int score=-INFTY;
     for(int i=0;i<lengthOfMoves;i++){
         char* charac=moves[i];
-        translateMove(charac);
-        m[0][0]=charac[0]-'@';
-        m[1][0]=charac[1]-'0';
-        m[0][1]=charac[3]-'@';
-        m[1][1]=charac[4]-'0';
+        m=translateMove(charac);
         if (p[m[0][1]][m[1][1]]!=BLACK) {
         allMove(p,m,BLACK,WHITE);
         int newScore=miniMax(p,2,-INFTY,INFTY,false);
@@ -84,10 +72,7 @@ char aiMove(Plateau p){
         allMove(p,mback,BLACK,WHITE);
             if (newScore>score) {
             score=newScore;
-            bestMove[0][0]=m[0][0];
-            bestMove[0][1]=m[0][1];
-            bestMove[1][0]=m[1][0];
-            bestMove[1][1]=m[1][1];
+            bestMove=m;
             }
         }
     }
@@ -100,12 +85,7 @@ char playerMove(Plateau p){
     char charac[1000]="";
     printf("Quel mouvement ? de type xx:xx\n");
     scanf("%s",charac);
-    translateMove(charac);
-    m[0][0]=charac[0]-'@';
-    m[1][0]=charac[1]-'0';
-    m[0][1]=charac[3]-'@';
-    m[1][1]=charac[4]-'0';
-    display(p);
+    m=translateMove(charac);
     char a=allMove(p,m,WHITE,BLACK);
     display(p);
 }
