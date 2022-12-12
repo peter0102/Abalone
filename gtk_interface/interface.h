@@ -72,11 +72,11 @@ void setLastMove(Move move);
 void drawPawn (char color, int index, int* position);
 
 /**
- * \fn drawBoard(Plateau board)
+ * \fn drawBoard(Board board)
  * \brief Place les pions sur le plateau de l'interface graphique d'après la disposition indiquée
  * \param board Plateau à afficher
 */
-void drawBoard(Plateau board);
+void drawBoard(Board board);
 
 /**
  * \fn clearBoard()
