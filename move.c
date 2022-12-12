@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "move.h"
-#include "global.h"
 
 char moveChrConvert (char chr, char type) {
     char index = ERROR;
@@ -23,13 +22,13 @@ char moveChrConvertReverse (char index, char type) {
     }
 }
 
-void translateMove(Move m, char* input) {
-    m = {{ERROR,ERROR},{ERROR,ERROR}};
+Move translateMove(char* input) {
+    Move move = createMove(ERROR, ERROR, ERROR, ERROR);
 
     //Si la longueur de l'entree n'est pas 5, il y a erreur
-    if (strlen(input) != 5) return;
+    if (strlen(input) != 5) return move;
     //Si le 3eme caractere n'est pas ':', il y a erreur
-    if (input[2] != ':') return;
+    if (input[2] != ':') return move;
 
     char numbers[] = {
         moveChrConvert(input[0], 'l'),
@@ -38,13 +37,13 @@ void translateMove(Move m, char* input) {
         moveChrConvert(input[4], 'n')
     };
     for (int i = 0; i < 4; i++) {
-        if (numbers[i] == ERROR) return;
+        if (numbers[i] == ERROR) return move;
     }
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++)
             move[i][j] = numbers[(2*i)+j];
     }
-    return;
+    return move;
 }
 
 char* translateMoveReverse(Move move) {
@@ -59,7 +58,6 @@ char* translateMoveReverse(Move move) {
     return str;
 }
 
-/*
 Move createMove(int x1, int y1, int x2, int y2) {
     Move move = malloc(2 * sizeof(char*));
     for(int i = 0; i < 2; i++)
@@ -70,7 +68,6 @@ Move createMove(int x1, int y1, int x2, int y2) {
     move[1][1] = (char)y2;
     return move;
 }
-*/
 
 void printMove(Move move) {
     printf("%i, %i\n%i, %i\n\n", move[0][0], move[1][0], move[0][1], move[1][1]);
