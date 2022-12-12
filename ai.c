@@ -1,6 +1,9 @@
-#include "global.h"
 #include <stdbool.h>
-
+#include <stdio.h>
+#include "global.h"
+#include "evaluate.h"
+#include "move.h"
+#include "allMove.h"
 
 int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
 	int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
@@ -76,15 +79,4 @@ char aiMove(Plateau p,char current_player, char other_player){
         }
     }
     allMove(p,bestMove,current_player,other_player);
-}
-
-
-char playerMove(Plateau p){
-    Move m;
-    char charac[1000]="";
-    printf("Quel mouvement ? de type xx:xx\n");
-    scanf("%s",charac);
-    m=translateMove(charac);
-    char a=allMove(p,m,WHITE,BLACK);
-    display(p);
 }

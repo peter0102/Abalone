@@ -16,9 +16,3 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer);
  * \param p Etat du plateau de jeu
 */
 char aiMove(Plateau p);
-/**
- * \fn playerMove(Plateau p)
- * \brief Demande à l'utilisateur d'entrer des coordonnées et effectue le mouvement qui correspond
- * \param p Etat du plateau de jeu
-*/
-char playerMove(Plateau p);
