@@ -31,6 +31,8 @@ GtkWidget* quitButton;
 GtkWidget* pawnsBlack[PAWN_NB];
 GtkWidget* pawnsWhite[PAWN_NB];
 
+int nb_turn;
+
 int main(int argc, char **argv)
 {
 	gtk_init(&argc, &argv); // Initialisation de GTK+
@@ -114,7 +116,7 @@ int main(int argc, char **argv)
 	gtk_box_pack_start(GTK_BOX(move_v_box), field_move, FALSE, FALSE, 0);					// Insertion dans move_v_box	
 	
 	text_last_move = gtk_label_new(NULL);										// Création du 5e label (dernier déplacement)
-	str = g_locale_to_utf8("<span foreground=\"#e7b17f\">Dernier coup : XX:XX</span>", -1, NULL, NULL, NULL);
+	str = g_locale_to_utf8("<span foreground=\"#e7b17f\">Dernier coup :</span>", -1, NULL, NULL, NULL);
 	gtk_label_set_markup(GTK_LABEL(text_last_move), str);
 	g_free(str);
 	gtk_box_pack_start(GTK_BOX(move_v_box), text_last_move, FALSE, FALSE, 0);	// Insertion dans move_h_box
@@ -135,13 +137,19 @@ int main(int argc, char **argv)
 	gtk_overlay_add_overlay (GTK_OVERLAY(menu_overlay), main_v_box);		// Insertion du menu dans l'overlay du menu
 	
 	gtk_widget_show_all(window);										// Affichage de la fenêtre et de ses éléments
+	
+	nb_turn = 1;
 	gtk_main();															// Démarrage de la boucle d'évènements principale
 	return EXIT_SUCCESS;
 }
 
 void onActivateEntry(GtkEntry* entry, gpointer data) {
-	const gchar* text;
-	text = gtk_entry_get_text(GTK_ENTRY(entry));						// Récupération du texte contenu dans le GtkEntry
+	char* text = (char*)gtk_entry_get_text(GTK_ENTRY(entry));						// Récupération du texte contenu dans le GtkEntry
+	Move move = translateMove(text);
+	if (move[0][0] == ERROR) return;
+	setLastMove(move);
+	nb_turn ++;
+	setTurnNumber(nb_turn);
 }
 
 void onDestroy(GtkWidget *widget, gpointer data) {
@@ -151,16 +159,16 @@ void onDestroy(GtkWidget *widget, gpointer data) {
 void onDraw(GtkWidget *widget, gpointer data) {
 	clearBoard();
 	Plateau board = {
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE}
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY},
+    {EMPTY, EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY, EMPTY},
+    {EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
 	};
 	drawBoard(board);
 }
@@ -214,13 +222,13 @@ void setTurnNumber(int turn) {
 	g_free(str);
 }
 
-void setLastMove(int** move) {
-	char* move_str = malloc(5);
-	char* final_str = malloc(54);
-	strcpy(final_str, "<span foreground=\"#e7b17f\">Dernier coup : ");
+void setLastMove(Move move) {
+	char* move_str = malloc(6);
+	char* final_str = malloc(63);
 	strcpy(move_str, translateMoveReverse(move));
+	strcpy(final_str, "<span foreground=\"#e7b17f\">Dernier coup : <b>");
 	strcat(final_str, move_str);
-	strcat(final_str, "</span>");
+	strcat(final_str, "</b></span>");
 	gchar* str = g_locale_to_utf8((gchar*)final_str, -1, NULL, NULL, NULL);
 	gtk_label_set_markup(GTK_LABEL(text_last_move), str);
 	g_free(str);
@@ -254,12 +262,12 @@ void drawBoard(Plateau board) {
 	for (int i = 1; i <= MAX_I - 2; i++) {
 		for (int j = 1; j <= MAX_J - 2; j++) {
 			switch(board[i][j]) {
-				case CASE_NOIRE:
+				case BLACK:
 					coords[1] = i; coords[0] = j;
 					drawPawn('b', counter_blacks, coords);
 					counter_blacks ++;
 					break;
-				case CASE_BLANCHE:
+				case WHITE:
 					coords[1] = i; coords[0] = j;
 					drawPawn('w', counter_whites, coords);
 					counter_whites ++;

@@ -47,13 +47,14 @@ Move translateMove(char* input) {
 }
 
 char* translateMoveReverse(Move move) {
-    char* str = malloc(5);
+    char* str = malloc(6);
 
     str[0] = moveChrConvertReverse(move[0][0], 'l');
     str[1] = moveChrConvertReverse(move[0][1], 'n');
     str[2] = ':';
     str[3] = moveChrConvertReverse(move[1][0], 'l');
     str[4] = moveChrConvertReverse(move[1][1], 'n');
+    str[5] = '\0';
     return str;
 }
 
