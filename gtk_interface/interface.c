@@ -4,11 +4,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "../deplacement.h"
-#include "../main.h"
+//#include "../main.h"
 #include "interface.h"
-
-Pion blancs[PAWN_NB];
-Pion noirs[PAWN_NB];
 
 // Déclaration de la fenêtre et de ses éléments
 GtkWidget* window;
@@ -35,9 +32,7 @@ GtkWidget* pawnsBlack[PAWN_NB];
 GtkWidget* pawnsWhite[PAWN_NB];
 
 int main(int argc, char **argv)
-{	
-	button_clicked = FALSE;
-	
+{
 	gtk_init(&argc, &argv); // Initialisation de GTK+
 	
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);						// Création de la fenêtre
@@ -237,17 +232,17 @@ void drawPawn (char color, int index, int* position) {
 		return;
 	}
 	
-	// -40 = 20 (bordure) + 10 (padding) - 70 (taille d'une case)
+	// -22 = 36 (bordure) + 8 (padding) - 66 (taille d'une case)
 	switch(color) {
 		case 'b':
 			gtk_image_set_from_file (GTK_IMAGE(pawnsBlack[index]), "pawn_black.png");
-			gtk_widget_set_margin_start(pawnsBlack[index], -40 + (position[0] * 70));
-			gtk_widget_set_margin_top(pawnsBlack[index], -40 + (position[1] * 70));
+			gtk_widget_set_margin_start(pawnsBlack[index], -22 + (position[0] * 66));
+			gtk_widget_set_margin_top(pawnsBlack[index], -22 + (position[1] * 66));
 			break;
 		case 'w':
 			gtk_image_set_from_file (GTK_IMAGE(pawnsWhite[index]), "pawn_white.png");
-			gtk_widget_set_margin_start(pawnsWhite[index], -40 + (position[0] * 70));
-			gtk_widget_set_margin_top(pawnsWhite[index], -40 + (position[1] * 70));
+			gtk_widget_set_margin_start(pawnsWhite[index], -22 + (position[0] * 66));
+			gtk_widget_set_margin_top(pawnsWhite[index], -22 + (position[1] * 66));
 			break;
 		default: printf("Error: Incorrect color"); return;
 	}
