@@ -275,8 +275,12 @@ char nb_allies,char current_player, char other_player){
     }
 }
 
+char checkBorders(Move m){
+
+}
+
 char allMove(Plateau plat,Move m,char current_player,char other_player){
-    char type_of_move = whatMove(plat,m);
+    char type_of_move = whatMove(plat,m,current_player);
     char nb_allies = allies(type_of_move,m);
     if(nb_allies == error){ //si le type de mouvement est error nb_allies renvoie error
         return(error);

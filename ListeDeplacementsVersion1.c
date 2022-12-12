@@ -5,7 +5,7 @@
 
 /// Le fichier .h
 
-// Definitions de caractères spéciaux :
+// Definitions de caractï¿½res spï¿½ciaux :
 #define nombrePions 14
 #define tailleListeCoups 80
 //joueurs
@@ -139,8 +139,6 @@ Triple coords_allies;
 Triple coords_ennemies;
 */
 
-
-
 /// fonctions utilitaires
 
 char absChar(char v1, char v2){
@@ -173,40 +171,40 @@ char SommeCharEtInt(char caractere, int Changement){
 /// Fonctions Move
 
 char whatMove(Plateau plat,Move m) {
-    //déplacement en ligne horizontal
+    //dï¿½placement en ligne horizontal
     if (m[0][0] == m[0][1]) {
-        //déplacement vers la droite
+        //dï¿½placement vers la droite
         if (m[1][0] < m[1][1]) {
             return (line_horizontal_right);
         }
-        //déplacement vers la gauche
+        //dï¿½placement vers la gauche
         if (m[1][0] > m[1][1]) {
             return (line_horizontal_left);
         }
     }
-        //déplacement en ligne vertical
+        //dï¿½placement en ligne vertical
     else if (m[1][0] == m[1][1]) {
-        //déplacement vers le bas
+        //dï¿½placement vers le bas
         if (m[0][0] < m[0][1]) {
             return (line_vertical_down);
         }
-        //déplacement vers le haut
+        //dï¿½placement vers le haut
         if (m[0][0] > m[0][1]) {
             return (line_vertical_up);
         }
     }
-        //déplacement latéral de taille 2
+        //dï¿½placement latï¿½ral de taille 2
     else if ((absChar(m[0][0], m[0][1]) + absChar(m[1][0], m[1][1])) == 2) {
-        //déplacement latéral horizontal
+        //dï¿½placement latï¿½ral horizontal
         if (plat[m[0][0]][m[1][1]] == current_player) {
             return (lateral_two_horizontal);
         }
-            //déplacement latéral vertical
+            //dï¿½placement latï¿½ral vertical
         else if (plat[m[0][1]][m[1][0]] == current_player) {
             return (lateral_two_vertical);
         }
     }
-        //déplacement latéral vertical de taille 3
+        //dï¿½placement latï¿½ral vertical de taille 3
     else if (absChar(m[0][0], m[0][1]) == '2' && absChar(m[1][0], m[1][1]) == '1') {
         //x0 bas & x1 haut
         if (m[0][0] > m[0][1]) {
@@ -217,7 +215,7 @@ char whatMove(Plateau plat,Move m) {
             return (lateral_three_vertical_x0_up);
         }
     }
-        //déplacement latéral horizontal de taille 3
+        //dï¿½placement latï¿½ral horizontal de taille 3
     else if (absChar(m[0][0], m[0][1]) == '1' && absChar(m[1][0], m[1][1]) == '2') {
         //y0 droite & y1 gauche
         if (m[1][0] < m[1][1]) {
@@ -250,7 +248,7 @@ char allies(char type_of_move,Move m){
 }
 
 void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple coords_ennemies){
-    //initialisation alliés
+    //initialisation alliï¿½s
     coords_allies[0][0] = m[0][0];
     coords_allies[1][0] = m[1][0];
     //initialisation ennemis
@@ -378,7 +376,7 @@ char checkMove(Plateau plat, Move m) {
 
     char type_of_move = whatMove(plat,m);
     char nb_allies = allies(type_of_move,m);
-    //Initialisation des actifs (alliés + ennemis)
+    //Initialisation des actifs (alliï¿½s + ennemis)
     Triple coords_allies;
     Triple coords_ennemies;
 
@@ -389,7 +387,7 @@ char checkMove(Plateau plat, Move m) {
     if(nb_ennemies == error){
         return(error);
     }
-    //vérification des couleurs
+    //vï¿½rification des couleurs
     if(checkColor(coords_allies,current_player,nb_allies,plat)==error){
         return(error);
     }
@@ -415,10 +413,10 @@ char pierre(Plateau plat, Move m){;
 }
 
 void moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies){
-    //déplacement des alliés
+    //dï¿½placement des alliï¿½s
     plat[m[0][0]][m[1][0]] = no_player;
     plat[coords_ennemies[0][0]][coords_ennemies[1][0]] = current_player;
-    //déplacement des ennemis
+    //dï¿½placement des ennemis
     if (nb_ennemies > 0) {
         plat[coords_ennemies[0][nb_ennemies]][coords_ennemies[1][nb_ennemies]] = other_player;
     }
@@ -432,12 +430,12 @@ void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char 
 }
 
 void move(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char type_of_move,Triple coords_allies, char nb_allies){
-    //déplacement en ligne
+    //dï¿½placement en ligne
     if(type_of_move == line_vertical_down || type_of_move == line_vertical_up ||\
     type_of_move== line_horizontal_left || type_of_move == line_horizontal_right) {
         moveLine(plat,m,coords_ennemies,nb_ennemies);
     }
-        //déplacement latéral
+        //dï¿½placement latï¿½ral
     else{
         moveLateral(plat,coords_allies,coords_ennemies,nb_allies);
     }
@@ -571,7 +569,7 @@ void AfficherListeTroisPions(){
 
 /// Find All Pions
 
-void FindAllPions(char Player){ //Idee pour l'améliorer : comparer avec la liste d'avant, et juste trouver les pions qui manquent
+void FindAllPions(char Player){ //Idee pour l'amï¿½liorer : comparer avec la liste d'avant, et juste trouver les pions qui manquent
 
     int compteurPions=0;
 
@@ -747,7 +745,7 @@ int UneBilleUnCoupHautGauche(Move CoupATester, int compteurCoups){
     char resultat;
     resultat = pierre(plat, CoupATester);
 
-    if (resultat==success){ // Coup autorisé
+    if (resultat==success){ // Coup autorisï¿½
             ListeCoups[compteurCoups][0][0]=CoupATester[0][0];
             ListeCoups[compteurCoups][0][1]=CoupATester[0][1];
             ListeCoups[compteurCoups][1][0]=CoupATester[1][0];
@@ -759,7 +757,7 @@ int UneBilleUnCoupHautGauche(Move CoupATester, int compteurCoups){
 
     return(compteurCoups);
 
-    // Si bille blanche : ajouter +1 au compteur, et le groupe à la liste
+    // Si bille blanche : ajouter +1 au compteur, et le groupe ï¿½ la liste
 }
 
 int UneBilleUnCoupDroiteBas(Move CoupATester, int compteurCoups){
@@ -773,7 +771,7 @@ int UneBilleUnCoupDroiteBas(Move CoupATester, int compteurCoups){
     printf("%c %c\n", CoupATester[0][1], CoupATester[1][1]);
 */
 
-    if (resultat==success){ // Coup autorisé
+    if (resultat==success){ // Coup autorisï¿½
             ListeCoups[compteurCoups][0][0]=CoupATester[0][0];
             ListeCoups[compteurCoups][0][1]=CoupATester[0][1];
             ListeCoups[compteurCoups][1][0]=CoupATester[1][0];
@@ -781,7 +779,7 @@ int UneBilleUnCoupDroiteBas(Move CoupATester, int compteurCoups){
             compteurCoups=compteurCoups+1;
     }
 
-    if (resultat==current_player){ // Bille de même couleur
+    if (resultat==current_player){ // Bille de mï¿½me couleur
         ListeDeuxPions[compteurDeuxPions][0][0]=CoupATester[0][0]; // X1
         ListeDeuxPions[compteurDeuxPions][0][1]=CoupATester[1][0]; // Y1
         ListeDeuxPions[compteurDeuxPions][1][0]=CoupATester[0][1]; // X2
@@ -793,7 +791,7 @@ int UneBilleUnCoupDroiteBas(Move CoupATester, int compteurCoups){
 
     return(compteurCoups);
 
-    // Si bille blanche : ajouter +1 au compteur, et le groupe à la liste
+    // Si bille blanche : ajouter +1 au compteur, et le groupe ï¿½ la liste
 }
 
 
@@ -918,14 +916,14 @@ int DeuxBillesUnCoupEtPeutEtre3Billes(Move CoupATester, int compteurCoups) {
     char resultat;
     resultat = pierre(plat, CoupATester);
 
-    if (resultat==success){ // Coup autorisé
+    if (resultat==success){ // Coup autorisï¿½
             ListeCoups[compteurCoups][0][0]=CoupATester[0][0];
             ListeCoups[compteurCoups][0][1]=CoupATester[0][1];
             ListeCoups[compteurCoups][1][0]=CoupATester[1][0];
             ListeCoups[compteurCoups][1][1]=CoupATester[1][1];
             compteurCoups=compteurCoups+1;
     }
-    if (resultat==current_player){ // Bille de même couleur
+    if (resultat==current_player){ // Bille de mï¿½me couleur
 
         ListeTroisPions[compteurTroisPions][0][0]=CoupATester[0][0];
         ListeTroisPions[compteurTroisPions][0][2]=CoupATester[0][1];
