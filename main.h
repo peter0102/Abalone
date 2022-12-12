@@ -15,10 +15,10 @@ void display(Board b);
 /**
  * \fn isItWin(Plateau p)
  * \brief Vérifie si il y a un gagnant ou non
- * \param p Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * \return 1 si il y a un gagnant
 */
-int isItWin(Board b);
+char isItWin(Board board);
 
 /**
  * \fn playerMove(Plateau p)

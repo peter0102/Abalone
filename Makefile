@@ -5,18 +5,18 @@ LDFLAGS=
 EXEC=abalone
 all: $(EXEC)
 
-abalone: main.o deplacement.o allMove.o ListeDeplacement1Bille.o evaluate.o
+abalone: main.o move.o allMove.o evaluate.o ai.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
 
 #Dépendances
-main.o: main.c main.h deplacement.h allMove.h ListeDeplacement1Bille.h evaluate.h
-deplacement.o: deplacement.c deplacement.h
+main.o: main.c main.h move.h allMove.h ListeDeplacement1Bille.h evaluate.h global.h
+move.o: move.c move.h
 allMove.o: allMove.c allMove.h
-ListeDeplacement1bille.o: ListeDeplacement1Bille.c ListeDeplacement1Bille.h allMove.h
 evaluate.o: evaluate.c evaluate.h
+ai.o : ai.c ai.h
 
 .PHONY: clean cleanall
 

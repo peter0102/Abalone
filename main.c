@@ -30,13 +30,13 @@ typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj
 void display(Board board){
     for (int i=1; i<MAX_I-1; i++){
         for (int j=1; j<MAX_J-1; j++){
-            if (p[i][j]==WHITE){
+            if (board[i][j]==WHITE){
                 printf("W | ");
             }
-            if (p[i][j]==BLACK){
+            if (board[i][j]==BLACK){
                 printf("B | ");
             }
-            if (p[i][j]==EMPTY){
+            if (board[i][j]==EMPTY){
                 printf(". | ");
             }
         }
@@ -46,7 +46,7 @@ void display(Board board){
 
 char isItWin(Board board){
     for(char i=0; i<=8; i++){
-        if(p[0][i]!=0 || p[i][9]!=0 || p[9][(9-i)]!=0 || p[(9-i)][0]!=0){
+        if(board[0][i]!=0 || board[i][9]!=0 || board[9][(9-i)]!=0 || board[(9-i)][0]!=0){
             return(ERROR);
         }
     }
@@ -79,15 +79,15 @@ int main(int argc, char *argv[]) {
     char other_player;
     int turn_count=1;
     printf("Début du jeu\n");
-    display(plateau);
-    while (isItWin(p)!=ERROR){
+    display(b);
+    while (isItWin(b)!=ERROR){
 		if(turn_count%2==1) { //turn_count = 1 --> current_player = 'B'
             current_player = BLACK;
             other_player = WHITE;
             printf("Tour %i\n",turn_count);
 		    printf("C'est au tour des noirs (IA) de jouer\n");
-		    aiMove(plateau,current_player,other_player);
-            display(plateau);
+		    aiMove(b,current_player,other_player);
+            display(b);
             printf("\n*************************************\n");
 		}
 		else { //turn_count = 2 --> current_player = 'W'
@@ -95,8 +95,8 @@ int main(int argc, char *argv[]) {
             other_player = BLACK;
             printf("Tour %i\n",turn_count);
 	    	printf("C'est à votre tour de jouer\n");
-		    playerMove(plateau);
-            display(plateau);
+		    playerMove(b);
+            display(b);
             printf("\n*************************************\n");
 		}
 		turn_count++;
