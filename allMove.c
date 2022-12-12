@@ -197,7 +197,7 @@ void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple 
     }
 }
 
-char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies,char current_player){
+char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player){
     char nb_ennemies=0;
     for(char i=0;i<nb_allies;i++) {
         if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]==current_player){
@@ -232,7 +232,7 @@ char checkMove(Plateau plat, Move m,char current_player) {
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
-    char nb_ennemies = ennemies(plat, coords_ennemies, nb_allies,current_player);
+    char nb_ennemies = ennemies(plat, coords_ennemies, nb_allies, current_player);
     if(nb_ennemies == ERROR){
         return(ERROR);
     }
@@ -265,7 +265,7 @@ void moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char c
     }
 }
 
-void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char nb_allies,char current_player){
+void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char nb_allies, char current_player){
     for(char i=0;i<nb_allies;i++){
         plat[coords_allies[0][i]][coords_allies[1][i]]=EMPTY;
         plat[coords_ennemies[0][i]][coords_ennemies[1][i]]=current_player;
@@ -281,7 +281,7 @@ char nb_allies,char current_player, char other_player){
     }
         //déplacement latéral
     else{
-        moveLateral(plat,coords_allies,coords_ennemies,nb_allies,current_player);
+        moveLateral(plat,coords_allies,coords_ennemies,nb_allies, current_player);
     }
 }
 
@@ -297,7 +297,7 @@ char allMove(Plateau plat,Move m,char current_player,char other_player){
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
-    char nb_ennemies = ennemies(plat,coords_ennemies,nb_allies,current_player);
+    char nb_ennemies = ennemies(plat,coords_ennemies,nb_allies, current_player);
     char good_color = checkColor(coords_allies,current_player,nb_allies,plat);
     if(nb_ennemies == ERROR || good_color == ERROR){
         return(ERROR);
