@@ -32,8 +32,8 @@ Move translateMove(char* input) {
 
     char numbers[] = {
         moveChrConvert(input[0], 'l'),
-        moveChrConvert(input[1], 'n'),
         moveChrConvert(input[3], 'l'),
+        moveChrConvert(input[1], 'n'),
         moveChrConvert(input[4], 'n')
     };
     for (int i = 0; i < 4; i++) {
@@ -50,9 +50,9 @@ char* translateMoveReverse(Move move) {
     char* str = malloc(6);
 
     str[0] = moveChrConvertReverse(move[0][0], 'l');
-    str[1] = moveChrConvertReverse(move[0][1], 'n');
+    str[1] = moveChrConvertReverse(move[1][0], 'n');
     str[2] = ':';
-    str[3] = moveChrConvertReverse(move[1][0], 'l');
+    str[3] = moveChrConvertReverse(move[0][1], 'l');
     str[4] = moveChrConvertReverse(move[1][1], 'n');
     str[5] = '\0';
     return str;
