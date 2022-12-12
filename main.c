@@ -2,14 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
-#define MAX_I 10
-#define MAX_J 10
-#define INFTY 147483648
-
-#define EMPTY '0'
-#define BLACK 'B'
-#define WHITE 'W'
+#include "global.h"
 
 //types de mouvement
 #define LINE_HORIZONTAL_RIGHT 'a'
@@ -39,28 +32,28 @@ typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj
 char* moves[200];
 
 Plateau plateau = {
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_BLANCHE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE, CASE_VIDE},
-    {CASE_VIDE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_NOIRE, CASE_VIDE},
-    {CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE, CASE_VIDE}
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY},
+    {EMPTY, EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY, EMPTY},
+    {EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
 };
 
 void display(Plateau p){
     for (int i=1; i<MAX_I-1; i++){
         for (int j=1; j<MAX_J-1; j++){
-            if (p[i][j]==CASE_BLANCHE){
+            if (p[i][j]==WHITE){
                 printf("W | ");
             }
-            if (p[i][j]==CASE_NOIRE){
+            if (p[i][j]==BLACK){
                 printf("B | ");
             }
-            if (p[i][j]==CASE_VIDE){
+            if (p[i][j]==EMPTY){
                 printf(". | ");
             }
         }
@@ -84,15 +77,15 @@ int isItWin(Plateau p){
 
 int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
 	int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
-    alpha=-INFINITY;
-    beta=INFINITY;
+    alpha=-INFTY;
+    beta=INFTY;
     Move m;
     Move mback;
 	if(depth==0) //S'arrête lorsque la profondeur souhaitée est atteinte
-		return evaluate(p,CASE_NOIRE);
+		return evaluate(p,BLACK);
 	    
 	if(isMaximizingPlayer){ 
-        int score=-INFINITY;
+        int score=-INFTY;
         for (int i=0;i<lengthOfMoves;i++) {
             char* charac=moves[i];
             translateMove(charac);
@@ -100,13 +93,13 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
         	m[1][0]=charac[1]-'0';
         	m[0][1]=charac[3]-'@';
         	m[1][1]=charac[4]-'0';
-            allMove(p,m,CASE_NOIRE,CASE_BLANCHE); // effectue un louvement
+            allMove(p,m,BLACK,WHITE); // effectue un louvement
 			int newScore=miniMax(p,depth-1,alpha,beta,false); // simule le tour de l'adversaire
         	mback[0][0]=m[0][1];
         	mback[1][0]=m[1][1];
         	mback[0][1]=m[0][0];
         	mback[1][1]=m[1][0];
-            allMove(p,mback,CASE_NOIRE,CASE_BLANCHE); // on annule le mouvement joué
+            allMove(p,mback,BLACK,WHITE); // on annule le mouvement joué
 			if (newScore>score) score=newScore; // on prend le meilleur score
 			if (alpha>newScore) alpha=newScore;
             if (alpha>=beta) break; // elagage
@@ -114,7 +107,7 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
 		return score;
 	}
 	else {
-        int score=INFINITY;
+        int score=INFTY;
         for (int i=0;i<lengthOfMoves;i++) {
             char* charac=moves[i];
             translateMove(charac);
@@ -122,13 +115,13 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
         	m[1][0]=charac[1]-'0';
         	m[0][1]=charac[3]-'@';
         	m[1][1]=charac[4]-'0';
-            allMove(p,m,CASE_BLANCHE,CASE_NOIRE);
+            allMove(p,m,WHITE,BLACK);
 			int newScore=miniMax(p,depth-1,alpha,beta,true); // simule le tour de l'adversaire
         	mback[0][0]=m[0][1];
         	mback[1][0]=m[1][1];
         	mback[0][1]=m[0][0];
         	mback[1][1]=m[1][0];
-            allMove(p,mback,CASE_BLANCHE, CASE_NOIRE);
+            allMove(p,mback,WHITE, BLACK);
 			if (newScore<score) score=newScore; // on prend le moins bon score
 			if (beta<newScore) alpha=newScore;
             if (beta<=alpha) break; // elagage
@@ -143,7 +136,7 @@ char aiMove(Plateau p){
     Move m;
     Move mback; // pour "annuler" un mouvement
     Move bestMove; // prend le meilleur mouvement
-    int score=-INFINITY;
+    int score=-INFTY;
     for(int i=0;i<lengthOfMoves;i++){
         char* charac=moves[i];
         translateMove(charac);
@@ -151,13 +144,13 @@ char aiMove(Plateau p){
         m[1][0]=charac[1]-'0';
         m[0][1]=charac[3]-'@';
         m[1][1]=charac[4]-'0';
-        allMove(p,m,CASE_NOIRE,CASE_BLANCHE);
-        int newScore=miniMax(p,0,-INFINITY,INFINITY,false);
+        allMove(p,m,BLACK,WHITE);
+        int newScore=miniMax(p,0,-INFTY,INFTY,false);
         mback[0][0]=m[0][1];
         mback[1][0]=m[1][1];
         mback[0][1]=m[0][0];
         mback[1][1]=m[1][0];
-        allMove(p,mback,CASE_NOIRE,CASE_BLANCHE);
+        allMove(p,mback,BLACK,WHITE);
             if (newScore>score) {
             score=newScore;
             bestMove[0][0]=m[0][0];
@@ -166,7 +159,7 @@ char aiMove(Plateau p){
             bestMove[1][1]=m[1][1];
             }
         }
-    allMove(p,bestMove,CASE_NOIRE,CASE_BLANCHE);
+    allMove(p,bestMove,BLACK,WHITE);
 }
 
 
@@ -180,7 +173,7 @@ char playerMove(Plateau p){
     m[1][0]=charac[1]-'0';
     m[0][1]=charac[3]-'@';
     m[1][1]=charac[4]-'0';
-    char a=allMove(p,m,CASE_BLANCHE,CASE_NOIRE);
+    char a=allMove(p,m,WHITE,BLACK);
     printf("\n\nRetour de la fonction allMove : %d",a);
 }
 
