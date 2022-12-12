@@ -197,7 +197,7 @@ void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple 
     }
 }
 
-char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player){
+char ennemiesLine(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player){
     char nb_ennemies=0;
     for(char i=0;i<nb_allies;i++) {
         if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]==current_player){
@@ -213,6 +213,26 @@ char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies, char current_p
     return(ERROR);
 }
 
+char ennemiesLat(Plateau plat,Triple coords_ennemies,char nb_allies){
+    for(char i=0;i<nb_allies;i++) {
+        if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]!=EMPTY){
+            return(ERROR);
+        }
+    }
+    return(SUCCESS);
+}
+
+char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player, char type_of_move){
+    if(type_of_move == LINE_VER_DOWN || type_of_move == LINE_VER_UP ||\
+    type_of_move== LINE_HOR_LEFT || type_of_move == LINE_HOR_RIGHT) {
+        return(ennemiesLine(plat,coords_ennemies,nb_allies,current_player));
+    }
+        //déplacement latéral
+    else{
+        return(ennemiesLat(plat,coords_ennemies,nb_allies));
+    }
+}
+
 char checkColor(Triple coords,char color, char nb_allies, Plateau plat){
     for(char i=0;i<nb_allies;i++) {
         if(plat[coords[0][i]][coords[1][i]]!=color){
@@ -222,7 +242,7 @@ char checkColor(Triple coords,char color, char nb_allies, Plateau plat){
     return(SUCCESS);
 }
 
-char checkMove(Plateau plat, Move m,char current_player) {
+char checkMove(Plateau plat, Move m,char current_player, char other_player) {
     if(checkSuicide(m)==ERROR){
         return(ERROR);
     }
@@ -232,7 +252,7 @@ char checkMove(Plateau plat, Move m,char current_player) {
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
-    char nb_ennemies = ennemies(plat, coords_ennemies, nb_allies, current_player);
+    char nb_ennemies = ennemies(plat, coords_ennemies, nb_allies, current_player, other_player);
     if(nb_ennemies == ERROR){
         return(ERROR);
     }
@@ -243,8 +263,8 @@ char checkMove(Plateau plat, Move m,char current_player) {
     return(SUCCESS);
 }
 
-char pierre(Plateau plat, Move m, char current_player){
-    if(checkMove(plat,m,current_player)==ERROR){
+char checkForList(Plateau plat, Move m, char current_player,char other_player){
+    if(checkMove(plat,m,current_player,other_player)==ERROR){
         if(plat[m[0][1]][m[1][1]]==current_player){
             return(current_player);
         }
@@ -297,9 +317,9 @@ char allMove(Plateau plat,Move m,char current_player,char other_player){
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
-    char nb_ennemies = ennemies(plat,coords_ennemies,nb_allies, current_player);
+    char nb_ennemies = ennemies(plat,coords_ennemies,nb_allies, current_player, other_player);
     char good_color = checkColor(coords_allies,current_player,nb_allies,plat);
-    if(nb_ennemies == ERROR || good_color == ERROR){
+    if(nb_ennemies == ERROR ||nb_ennemies>=nb_allies||good_color == ERROR){
         return(ERROR);
     }
     move(plat,m,coords_ennemies,nb_ennemies,type_of_move,coords_allies,nb_allies,current_player,other_player);
