@@ -15,4 +15,4 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer);
  * \brief L'IA effectue un mouvement
  * \param p Etat du plateau de jeu
 */
-char aiMove(Plateau p);
+char aiMove(Plateau p,char current_player, char other_player);
