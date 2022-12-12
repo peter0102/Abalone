@@ -245,7 +245,7 @@ char checkMove(Plateau plat, Move m,char current_player) {
 
 char pierre(Plateau plat, Move m, char current_player){
     if(checkMove(plat,m,current_player)==ERROR){
-        if(plat[m[1][0]][m[1][1]]==current_player){
+        if(plat[m[0][1]][m[1][1]]==current_player){
             return(current_player);
         }
         else{
