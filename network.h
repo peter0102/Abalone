@@ -1,6 +1,4 @@
-/*
-Created by Andoni Iparraguirre on Wednesday 7 december 
-*/
+
 
 #ifndef ABALONE_NETWORK
 #define ABALONE_NETWORK
