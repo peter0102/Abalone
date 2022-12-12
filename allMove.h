@@ -6,7 +6,7 @@
 */
 
 typedef char Plateau[10][10];
-typedef char** Move; //Mouvement {{x0,x1},{y0,y1}}
+typedef char Move[2][2]; //Mouvement {{x0,x1},{y0,y1}}
 typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj2}}
 
 /**
@@ -63,7 +63,7 @@ void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple 
  * \param nb_allies nombre de pions alliés
  * \return Nombre d'ennemis ou erreur
 */
-char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies);
+char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies,char current_player);
 
 /**
  * \fn checkColor(Triple coords,char color, char nb_allies, Plateau plat)
@@ -116,7 +116,7 @@ void moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char c
  * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
  * \param nb_allies nombre d'alliés à déplacer
 */
-void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char nb_allies);
+void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char nb_allies,char current_player);
 
 /**
  * \fn move(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char type_of_move,Triple coords_allies,\

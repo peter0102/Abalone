@@ -291,6 +291,7 @@ char allMove(Plateau plat,Move m,char current_player,char other_player){
     }
     char type_of_move = whatMove(plat,m,current_player);
     char nb_allies = allies(type_of_move,m);
+    printf("Nombre d'alliés : %d\n",nb_allies);
     if(nb_allies == ERROR){ //si le type de mouvement est ERROR nb_allies renvoie ERROR
         return(ERROR);
     }

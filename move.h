@@ -30,7 +30,7 @@ char moveChrConvertReverse (char index, char type);
  * \param move Déplacement dont on souhaite actualiser les valeurs
  * \param input Chaîne de caractères des coordonnées (ex: A1:B2)
 */
-Move translateMove(char* input);
+void translateMove(Move move,char* input);
 
 /**
  * \fn translateMoveReverse(char* input)
@@ -43,11 +43,4 @@ char* translateMoveReverse(Move move);
  * \fn createMove(int x1, int y1, int x2, int y2)
  * brief Créer un déplacement
 */
-Move createMove(int x1, int y1, int x2, int y2);
-/**
- * \fn printMove(Coords coords)
- * \brief Affiche un déplacement
- * \param move Déplacement à afficher
-*/
-
 void printMove(Move move);
