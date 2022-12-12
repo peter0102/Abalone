@@ -1115,9 +1115,13 @@ int main(){
 
     FindAllPions(current_player);
 
-//    AfficherListePions();
+    AfficherListePions();
 
     FindAllMoves();
+
+    AfficherListeCoups();
+
+    printf("\n Liste Coups Humaine :\n\n ");
 
     AfficherListeCoupsVersionHumaine();
 
