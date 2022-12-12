@@ -58,7 +58,7 @@ char playerMove(Plateau p){
     char charac[1000]="";
     printf("Quel mouvement ? de type xx:xx\n");
     scanf("%s",charac);
-    m=translateMove(charac);
+    translateMove(m,charac);
     char a=allMove(p,m,WHITE,BLACK);
 }
 
@@ -96,6 +96,7 @@ int main(int argc, char *argv[]) {
             printf("Tour %i\n",turn_count);
 	    	printf("C'est à votre tour de jouer\n");
 		    playerMove(plateau);
+            display(plateau);
             printf("\n*************************************\n");
 		}
 		turn_count++;
