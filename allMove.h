@@ -56,14 +56,37 @@ char allies(char type_of_move,Move m);
 void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple coords_ennemies);
 
 /**
+ * \fn ennemiesLine(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player)
+ * \brief Compte le nombre d'ennemis et vérifie les rapports de force et les cases de destination en ligne
+ * \param plat plateau de jeu
+ * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
+ * \param nb_allies nombre de pions alliés
+ * \param current_player couleur du joueur à ce tour
+ * \return Nombre d'ennemis ou erreur
+*/
+char ennemiesLine(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player);
+
+/**
  * \fn ennemies(Plateau plat,Triple coords_ennemies,char nb_allies)
- * \brief Compte le nombre d'ennemis et vérifie les rapports de force et les cases de destination
+ * \brief Compte le nombre d'ennemis et vérifie les rapports de force et les cases de destination en latéral
  * \param plat plateau de jeu
  * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
  * \param nb_allies nombre de pions alliés
  * \return Nombre d'ennemis ou erreur
 */
-char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies,char current_player);
+char ennemiesLat(Plateau plat,Triple coords_ennemies,char nb_allies);
+
+/**
+ * \fn ennemies(Plateau plat,Triple coords_ennemies,char nb_allies)
+ * \brief Compte le nombre d'ennemis et vérifie les rapports de force et les cases de destination
+ * \param plat plateau de jeu
+ * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
+ * \param nb_allies nombre de pions alliés
+ * \param current_player couleur du joueur à ce tour
+ * \param type_of_move Type de mouvement
+ * \return Nombre d'ennemis ou erreur
+*/
+char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player, char type_of_move);
 
 /**
  * \fn checkColor(Triple coords,char color, char nb_allies, Plateau plat)
@@ -82,19 +105,20 @@ char checkColor(Triple coords,char color, char nb_allies, Plateau plat);
  * \param plat plateau de jeu
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param current_player couleur du joueur à ce tour
+ * \param other_player couleur de l'adversaire à ce tour
  * \return Erreur ou succès
 */
-char checkMove(Plateau plat, Move m,char current_player);
+char checkMove(Plateau plat, Move m,char current_player, char other_player);
 
 /**
- * \fn pierre(Plateau plat, Move m, char current_player)
+ * \fn checkForList(Plateau plat, Move m, char current_player,char other_player)
  * \brief Vérifie que le coup est légal sinon renvoie la couleur du pion de même couleur qui gène sinon erreur
  * \param plat plateau de jeu
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param current_player couleur du joueur à ce tour
  * \return Succès, Couleur du pion qui essaie de bouger ou Erreur
 */
-char pierre(Plateau plat, Move m, char current_player);
+char checkForList(Plateau plat, Move m, char current_player,char other_player);
 
 /**
  * \fn moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char current_player,char other_player)
