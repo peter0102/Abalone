@@ -3,8 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "../global.h"
 #include "../deplacement.h"
-//#include "../main.h"
 #include "interface.h"
 
 // Déclaration de la fenêtre et de ses éléments

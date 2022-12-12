@@ -4,24 +4,25 @@
  * \author Groupe 1
  * \version 0.1
 */
+#include "global.h"
 
 /**
  * \fn moveChrConvert(char chr, char type)
  * \brief Convertit un caractère de coordonnée (entre A et H ou entre 1 et 8) en index
  * \param chr Caractère à convertir
  * \param type Type de caractère (l = lettre ; n = nombre)
- * \return Index numérique correspondant au caractère d'entrée (-1 en cas de caractère incorrect)
+ * \return Index sous forme de caractère utilisé comme un int correspondant au caractère d'entrée (-1 en cas de caractère incorrect)
 */
-int moveChrConvert(char chr, char type);
+char moveChrConvert(char chr, char type);
 
 /**
  * \fn moveChrConvertReverse (int index, char type)
  * \brief Convertit un index de déplacement en caractère de coordonnée (entre A et H ou entre 1 et 8)
- * \param index Index à convertir
+ * \param index Index à convertir (caractère utilisé comme un int)
  * \param type Type de caractère (l = lettre ; n = nombre)
  * \return Caractère (lettre ou chiffre) correspondant à l'index d'entrée ('x' en cas d'index incorrect)
 */
-char moveChrConvertReverse (int index, char type);
+char moveChrConvertReverse (char index, char type);
 
 /**
  * \fn translateMove(char* input)
@@ -29,7 +30,7 @@ char moveChrConvertReverse (int index, char type);
  * \param input Chaîne de caractères des coordonnées (ex: A1:B2)
  * \return Coordonnées numériques des points de départ et d'arrivée ({{-1, -1}, {-1, -1}} en cas d'erreur)
 */
-int** translateMove(char* input);
+Move translateMove(char* input);
 
 /**
  * \fn translateMoveReverse(char* input)
@@ -37,22 +38,22 @@ int** translateMove(char* input);
  * \param move Déplacement à traduire
  * \return Chaîne de caractères correspondant au mouvement entré
 */
-char* translateMoveReverse(int** move);
+char* translateMoveReverse(Move move);
 
 /**
  * \fn createMove(int x1, int y1, int x2, int y2)
- * \brief Crée un mouvement de type int** à partir des 4 coordonées x1, y1, x2 et y2
+ * \brief Crée un mouvement de type Move à partir des 4 coordonées x1, y1, x2 et y2
  * \param x1 Ligne de la première case
  * \param y1 Colonne de la première case
  * \param x2 Ligne de la deuxième case
  * \param y2 Colonne de la deuxième case
- * \return Mouvement en format int**
+ * \return Mouvement en format Move
 */
-int** createMove(int x1, int y1, int x2, int y2);
+Move createMove(int x1, int y1, int x2, int y2);
 
 /**
  * \fn printMove(Coords coords)
  * \brief Affiche un déplacement
  * \param move Déplacement à afficher
 */
-void printMove(int** move);
+void printMove(Move move);
