@@ -52,8 +52,7 @@ int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
 }
 
 
-char aiMove(Plateau p){
-    display(p);
+char aiMove(Plateau p,char current_player, char other_player){
     int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
     Move m;
     Move mback; // pour "annuler" un mouvement
@@ -76,7 +75,7 @@ char aiMove(Plateau p){
             }
         }
     }
-    allMove(p,bestMove,BLACK,WHITE);
+    allMove(p,bestMove,current_player,other_player);
 }
 
 

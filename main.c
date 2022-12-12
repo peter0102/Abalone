@@ -24,14 +24,7 @@ typedef char Move[2][2]; //Mouvement {{x0,x1},{y0,y1}} valeurs numériques
 typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj2}} valeurs numériques
 
 #include "main.h"
-#include "move.h"
-#include "allMove.h"
-#include "ListeDeplacement1Bille.h"
-#include "evaluate.h"
-
-char* moves[200];
-
-
+#include "ai.h"
 
 void display(Board board){
     for (int i=1; i<MAX_I-1; i++){
@@ -74,7 +67,7 @@ int main(int argc, char *argv[]) {
     };
     char current_player;
     char other_player;
-    int turn_count;
+    int turn_count=1;
     printf("Début du jeu\n");
     display(plateau);
     while (isItWin(p)!=ERROR){
@@ -83,7 +76,7 @@ int main(int argc, char *argv[]) {
             other_player = WHITE;
             printf("Tour %i\n",turn_count);
 		    printf("C'est au tour des noirs (IA) de jouer\n");
-		    aiMove(plateau);
+		    aiMove(plateau,current_player,other_player);
             display(plateau);
             printf("\n*************************************\n");
 		}
