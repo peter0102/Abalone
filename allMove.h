@@ -18,6 +18,14 @@ typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj
 char absChar(char v);
 
 /**
+ * \fn checkBorders(Move m)
+ * \brief Vérifie que le mouvement ne soit pas un suicide
+ * \param m Mouvement {{x0,x1},{y0,y1}}
+ * \return erreur ou succès
+*/
+char checkSuicide(Move m);
+
+/**
  * \fn whatMove(Plateau plat,Move m, char current_player)
  * \brief Donne le type de mouvement associé au mouvement m
  * \param plat Plateau de jeu actuel
