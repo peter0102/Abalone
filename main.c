@@ -26,6 +26,7 @@ typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj
 #include "main.h"
 #include "ai.h"
 #include "allMove.h"
+#include "move.h"
 
 void display(Board board){
     for (int i=1; i<MAX_I-1; i++){
@@ -78,9 +79,10 @@ int main(int argc, char *argv[]) {
     char current_player;
     char other_player;
     int turn_count=1;
+    int end=0;
     printf("Début du jeu\n");
     display(b);
-    while (isItWin(b)!=ERROR){
+    while (end=ERROR){
 		if(turn_count%2==1) { //turn_count = 1 --> current_player = 'B'
             current_player = BLACK;
             other_player = WHITE;
