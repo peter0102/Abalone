@@ -219,7 +219,7 @@ char ennemiesLat(Plateau plat,Triple coords_ennemies,char nb_allies){
             return(ERROR);
         }
     }
-    return(SUCCESS);
+    return(0);
 }
 
 char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player, char type_of_move){
