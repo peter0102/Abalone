@@ -3,6 +3,8 @@
 #include <string.h>
 #include "move.h"
 
+int main() {}
+
 char moveChrConvert (char chr, char type) {
     char index = ERROR;
     switch (type) {
@@ -22,8 +24,8 @@ char moveChrConvertReverse (char index, char type) {
     }
 }
 
-Move translateMove(char* input) {
-    Move move = createMove(ERROR, ERROR, ERROR, ERROR);
+void translateMove(Move move, char* input) {
+    move[0][0] = ERROR; move[0][1] = ERROR; move[1][0] = ERROR; move[1][1] = ERROR;
 
     //Si la longueur de l'entree n'est pas 5, il y a erreur
     if (strlen(input) != 5) return move;
@@ -58,17 +60,7 @@ char* translateMoveReverse(Move move) {
     return str;
 }
 
-Move createMove(int x1, int y1, int x2, int y2) {
-    Move move = malloc(2 * sizeof(char*));
-    for(int i = 0; i < 2; i++)
-        move[i] = malloc(2);
-    move[0][0] = (char)x1;
-    move[1][0] = (char)y1;
-    move[0][1] = (char)x2;
-    move[1][1] = (char)y2;
-    return move;
-}
-
+void printMove(Move move) {
 void printMove(Move move) {
     printf("%i, %i\n%i, %i\n\n", move[0][0], move[1][0], move[0][1], move[1][1]);
 }

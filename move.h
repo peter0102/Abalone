@@ -25,12 +25,12 @@ char moveChrConvert(char chr, char type);
 char moveChrConvertReverse (char index, char type);
 
 /**
- * \fn translateMove(char* input)
+ * \fn translateMove(Move move, char* input)
  * \brief Traduit les coordonnées entrées (comme F6:E5) en index comme {{6, 6}, {5, 5}}
+ * \param move Déplacement dont on souhaite actualiser les valeurs
  * \param input Chaîne de caractères des coordonnées (ex: A1:B2)
- * \return Coordonnées numériques des points de départ et d'arrivée ({{-1, -1}, {-1, -1}} en cas d'erreur)
 */
-Move translateMove(char* input);
+void translateMove(Move move, char* input);
 
 /**
  * \fn translateMoveReverse(char* input)
@@ -39,17 +39,6 @@ Move translateMove(char* input);
  * \return Chaîne de caractères correspondant au mouvement entré
 */
 char* translateMoveReverse(Move move);
-
-/**
- * \fn createMove(int x1, int y1, int x2, int y2)
- * \brief Crée un mouvement de type Move à partir des 4 coordonées x1, y1, x2 et y2
- * \param x1 Ligne de la première case
- * \param y1 Colonne de la première case
- * \param x2 Ligne de la deuxième case
- * \param y2 Colonne de la deuxième case
- * \return Mouvement en format Move
-*/
-Move createMove(int x1, int y1, int x2, int y2);
 
 /**
  * \fn printMove(Coords coords)
