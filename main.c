@@ -1,6 +1,35 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
+
+#define MAX_I 10
+#define MAX_J 10
+#define INFTY 147483648
+
+#define EMPTY '0'
+#define BLACK 'B'
+#define WHITE 'W'
+
+//types de mouvement
+#define LINE_HORIZONTAL_RIGHT 'a'
+#define line_horizontal_left 'b'
+#define line_vertical_down 'c'
+#define line_vertical_up 'd'
+#define lateral_two_horizontal 'e'
+#define lateral_two_vertical 'f'
+#define lateral_three_vertical_x0_down 'g'
+#define lateral_three_vertical_x0_up 'h'
+#define lateral_three_horizontal_y0_right 'i'
+#define lateral_three_horizontal_y0_left 'j'
+//gestion d'erreurs
+#define ERROR 'x'
+#define success 'l'
+//définition des types
+typedef char Plateau[10][10]; //caractères ASCII
+typedef char Move[2][2]; //Mouvement {{x0,x1},{y0,y1}} valeurs numériques
+typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj2}} valeurs numériques
+
 #include "main.h"
 #include "deplacement.h"
 #include "allMove.h"
