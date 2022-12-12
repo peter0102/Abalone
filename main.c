@@ -25,6 +25,7 @@ typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj
 
 #include "main.h"
 #include "ai.h"
+#include "allMove.h"
 
 void display(Board board){
     for (int i=1; i<MAX_I-1; i++){
@@ -50,6 +51,15 @@ char isItWin(Board board){
         }
     }
     return SUCCESS;
+}
+
+char playerMove(Plateau p){
+    Move m;
+    char charac[1000]="";
+    printf("Quel mouvement ? de type xx:xx\n");
+    scanf("%s",charac);
+    m=translateMove(charac);
+    char a=allMove(p,m,WHITE,BLACK);
 }
 
 int main(int argc, char *argv[]) {
