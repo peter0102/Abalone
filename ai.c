@@ -5,11 +5,15 @@
 #include "move.h"
 #include "allMove.h"
 
+char* moves[]={"H1:G1","H2:F2","G2:F2","G3:F3","H3:F3","G4:F4","H4:F4","G5:G5","H5:F5","G6:F6","H6:F6","G7:F7","H7:F7","H8:G8"};
+
 int miniMax(Plateau p,int depth,int alpha,int beta,bool isMaximizingPlayer){
 	int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
     alpha=-INFTY;
     beta=INFTY;
     Move m;
+    Move mback;
+    Move bestMove;
 	if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
 		return evaluate(p,BLACK);
 	}
@@ -57,6 +61,7 @@ char aiMove(Plateau p,char current_player, char other_player){
     for(int i=0;i<lengthOfMoves;i++){
         char* charac=moves[i];
         m=translateMove(charac);
+        if (p[m[0][1]][m[1][1]]!=BLACK) {
         allMove(p,m,BLACK,WHITE);
         int newScore=miniMax(p,2,-INFTY,INFTY,false);
         Move mback=createMove(m[0][1],m[1][1],m[0][0],m[1][0]);
@@ -65,6 +70,7 @@ char aiMove(Plateau p,char current_player, char other_player){
             score=newScore;
             bestMove=m;
             }
+    }
     }
     allMove(p,bestMove,current_player,other_player);
 }
