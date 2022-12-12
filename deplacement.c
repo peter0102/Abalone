@@ -3,41 +3,41 @@
 #include <string.h>
 #include "deplacement.h"
 
-int moveChrConvert (char chr, char type) {
-    int index = -1;
+char moveChrConvert (char chr, char type) {
+    char index = ERROR;
     switch (type) {
-        case 'l': index = (int)(chr-'@'); break;
-        case 'n': index = (int)(chr-'0'); break;
+        case 'l': index = (chr-'@'); break;
+        case 'n': index = (chr-'0'); break;
         default: printf("%s", "Erreur de conversion : type de caractère inconnu."); return -1;
     }
-    return (index > 0 && index < 9) ? index : -1;
+    return (index > 0 && index < 9) ? index : ERROR;
 }
 
-char moveChrConvertReverse (int index, char type) {
-    if (index < 1 || index > 8) return 'x';
+char moveChrConvertReverse (char index, char type) {
+    if (index < 1 || index > 8) return ERROR;
     switch (type) {
-        case 'l': return (char)(index + 64); //64 = @
-        case 'n': return (char)(index + 48); //48 = 0
-        default: printf("%s", "Erreur de conversion : type de caractère inconnu."); return 'x';
+        case 'l': return (index + '@');
+        case 'n': return (index + '0');
+        default: printf("%s", "Erreur de conversion : type de caractère inconnu."); return ERROR;
     }
 }
 
-int** translateMove(char* input) {
-    int** move = createMove(-1, -1, -1, -1);
+Move translateMove(char* input) {
+    Move move = createMove(ERROR, ERROR, ERROR, ERROR);
 
     //Si la longueur de l'entree n'est pas 5, il y a erreur
     if (strlen(input) != 5) return move;
     //Si le 3eme caractere n'est pas ':', il y a erreur
     if (input[2] != ':') return move;
 
-    int numbers[] = {
+    char numbers[] = {
         moveChrConvert(input[0], 'l'),
         moveChrConvert(input[1], 'n'),
         moveChrConvert(input[3], 'l'),
         moveChrConvert(input[4], 'n')
     };
     for (int i = 0; i < 4; i++) {
-        if (numbers[i] == -1) return move;
+        if (numbers[i] == ERROR) return move;
     }
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++)
@@ -46,7 +46,7 @@ int** translateMove(char* input) {
     return move;
 }
 
-char* translateMoveReverse(int** move) {
+char* translateMoveReverse(Move move) {
     char* str = malloc(5);
 
     str[0] = moveChrConvertReverse(move[0][0], 'l');
@@ -57,17 +57,17 @@ char* translateMoveReverse(int** move) {
     return str;
 }
 
-int** createMove(int x1, int y1, int x2, int y2) {
-    int** move = malloc(2 * sizeof(int*));
+Move createMove(int x1, int y1, int x2, int y2) {
+    Move move = malloc(2 * sizeof(char*));
     for(int i = 0; i < 2; i++)
-        move[i] = malloc(2 * sizeof(int));
-    move[0][0] = x1;
-    move[0][1] = y1;
-    move[1][0] = x2;
-    move[1][1] = y2;
+        move[i] = malloc(2);
+    move[0][0] = (char)x1;
+    move[1][0] = (char)y1;
+    move[0][1] = (char)x2;
+    move[1][1] = (char)y2;
     return move;
 }
 
-void printMove(int** move) {
-    printf("%i, %i\n%i, %i\n\n", move[0][0], move[0][1], move[1][0], move[1][1]);
+void printMove(Move move) {
+    printf("%i, %i\n%i, %i\n\n", move[0][0], move[1][0], move[0][1], move[1][1]);
 }
