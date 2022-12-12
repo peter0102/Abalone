@@ -1,3 +1,4 @@
+#include "global.h"
 /**
  * \file main.h
  * \brief Fonctions principales du jeu
@@ -21,8 +22,8 @@ void display(Board b);
 char isItWin(Board board);
 
 /**
- * \fn playerMove(Plateau p)
+ * \fn playerMove(Board b)
  * \brief Demande à l'utilisateur d'entrer des coordonnées et effectue le mouvement qui correspond
  * \param p Etat du plateau de jeu
 */
-char playerMove(Plateau p);
+char playerMove(Board b);
