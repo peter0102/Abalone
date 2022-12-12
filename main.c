@@ -24,7 +24,7 @@ typedef char Move[2][2]; //Mouvement {{x0,x1},{y0,y1}} valeurs numériques
 typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj2}} valeurs numériques
 
 #include "main.h"
-#include "deplacement.h"
+#include "move.h"
 #include "allMove.h"
 #include "ListeDeplacement1Bille.h"
 #include "evaluate.h"

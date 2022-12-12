@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "../global.h"
-#include "../deplacement.h"
+#include "../move.h"
 #include "interface.h"
 
 // Déclaration de la fenêtre et de ses éléments
@@ -158,7 +158,7 @@ void onDestroy(GtkWidget *widget, gpointer data) {
 
 void onDraw(GtkWidget *widget, gpointer data) {
 	clearBoard();
-	Plateau board = {
+	Board board = {
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
     {EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY},
     {EMPTY, EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY, EMPTY},
@@ -256,7 +256,7 @@ void drawPawn (char color, int index, int* position) {
 	}
 }
 
-void drawBoard(Plateau board) {
+void drawBoard(Board board) {
 	int counter_blacks = 0, counter_whites = 0;
 	int coords[2];
 	for (int i = 1; i <= MAX_I - 2; i++) {
