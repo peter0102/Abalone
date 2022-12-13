@@ -5,10 +5,13 @@
  * \version 0.1
 */
 
+#include <gtk/gtk.h>
+
 /**
  * \brief Nombre de pions par joueur
 */
 #define PAWN_NB 14
+typedef struct { Board board; char me; char current_player; int nb_turn; } GameData;
 
 /**
  * \fn onDestroy(GtkWidget *widget, gpointer data)
@@ -32,7 +35,7 @@ void onDraw(GtkWidget* widget, gpointer data);
  * \param entry Champ à remplir concerné par ce signal
  * \param data Donnée supplémentaire transmise à la fonction (ici, le contenu du champ)
 */
-void onActivateEntry(GtkEntry* entry, gpointer data);
+void onActivateEntry(GtkEntry* entry, GameData* gd);
 
 /**
  * \fn setPlayerColor(char color)
@@ -83,3 +86,5 @@ void drawBoard(Board board);
  * \brief Efface le plateau (en pratique : rend tous les pions invisibles et les déplace en position (0, 0), soit en haut à gauche)
 */
 void clearBoard();
+
+GameData init(char mode);
