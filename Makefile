@@ -4,7 +4,6 @@ CFLAGS= -std=c99
 LDFLAGS=
 EXEC=abalone
 all: $(EXEC)
-
 abalone: main.o move.o allMove.o evaluate.o ai.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
@@ -21,7 +20,7 @@ ai.o : ai.c ai.h
 .PHONY: clean cleanall
 
 clean:
-	rm -f *.o
+	rm -f *.o *.snm *.toc *.vrb *.aux *.log *.out *.nav
 
 cleanall:
 	rm -f *.o $(EXEC)
