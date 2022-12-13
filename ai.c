@@ -60,7 +60,7 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer){
 }
 
 //fonction de déplacement pour les pions de l'IA, choisissant le "meilleur" mouvement, selon les fonctions heuristiques
-char aiMove(Board board,char current_player, char other_player){
+void aiBestMove(Move move, Board board, char current_player, char other_player){
     int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
     Move m;
     Move mback; // pour "annuler" un mouvement
@@ -86,5 +86,7 @@ char aiMove(Board board,char current_player, char other_player){
             }
         }
     }
-    allMove(board,bestMove,current_player,other_player); 
+    move[0][0] = bestMove[0][0]; move[0][1] = bestMove[0][1];
+    move[1][0] = bestMove[1][0]; move[1][1] = bestMove[1][1];
+    return;
 }
