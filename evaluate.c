@@ -143,7 +143,7 @@ int distanceToCenter(Board board) {
 }
 // compte le nombre d'ennemis proches (à 1,2 et 3 cases) et retourne un score
 int areOpponentsNear(Board board){ 
-    int score;
+    int score=0;
     for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
             if (board[i][j]==BLACK) {
@@ -218,7 +218,7 @@ int countNeighborsYBlack(Board board,int i, int j) {
 }
 //retourne un score positif ou négatif si l'allié peut attaquer ou si l'ennemi peut attaquer
 int canAttack(Board board){ 
-    int score;
+    int score=0;
      for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
             if (board[i][j]==BLACK) {
