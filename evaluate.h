@@ -94,7 +94,7 @@ int countNeighborsYBlack(Board board,int i, int j);
  * \param board Etat du plateau de jeu
  * \return retourne le score du plateau selon le nombre d'attaques possibles
 */
-int canOpponentAttack(Board board);
+int canAttack(Board board);
 
 /**
  * \fn evaluate(Board board,char currentPlayer)
