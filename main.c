@@ -68,7 +68,9 @@ int main(int argc, char *argv[]) {
             other_player = WHITE;
             printf("Tour %i\n",turn_count);
 		    printf("C'est au tour des noirs (IA) de jouer\n");
-		    aiMove(board,current_player,other_player);
+		    Move bestMove;
+            aiBestMove(bestMove, board,current_player,other_player);
+            char a = allMove(board,bestMove,current_player,other_player);
             display(board);
             printf("\n*************************************\n");
 		}

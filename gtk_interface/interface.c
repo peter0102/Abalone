@@ -129,9 +129,9 @@ int main(int argc, char *argv[])
 
 	gtk_box_pack_start(GTK_BOX(main_v_box), move_v_box, FALSE, FALSE, 0);	// Insertion de move_v_box dans main_v_box
 	
-	drawButton = gtk_button_new_with_label("Dessiner");									// Création du bouton "Dessiner"
-	g_signal_connect(G_OBJECT(drawButton), "clicked", G_CALLBACK(onDraw), NULL);// Connexion du signal "clicked"
-	gtk_box_pack_start(GTK_BOX(buttons_v_box), drawButton, FALSE, FALSE, 0);			// Insertion du bouton "Dessiner" dans la boîte ver.
+	//drawButton = gtk_button_new_with_label("Dessiner");									// Création du bouton "Dessiner"
+	//g_signal_connect(G_OBJECT(drawButton), "clicked", G_CALLBACK(onDraw), NULL);// Connexion du signal "clicked"
+	//gtk_box_pack_start(GTK_BOX(buttons_v_box), drawButton, FALSE, FALSE, 0);			// Insertion du bouton "Dessiner" dans la boîte ver.
 	
 	quitButton = gtk_button_new_with_label("Quitter");										// Création du bouton "Quitter"
 	g_signal_connect(G_OBJECT(quitButton), "clicked", G_CALLBACK(gtk_main_quit), NULL);		// Connexion du signal "clicked"

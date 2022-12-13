@@ -17,10 +17,11 @@
 */
 int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer);
 /**
- * \fn aiMove(Board board)
- * \brief L'IA effectue un mouvement
+ * \fn aiBestMove(Move move, Board board,char current_player, char other_player)
+ * \brief Retourne le meilleur déplacement de l'IA à travers move
+ * \param move Déplacement à écrire
  * \param board Etat du plateau de jeu
  * \param current_player Quel couleur effectue le mouvement
  * \param other_player Couleur adverse
 */
-char aiMove(Board board,char current_player, char other_player);
+void aiBestMove(Move move, Board board,char current_player, char other_player);
