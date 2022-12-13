@@ -1,3 +1,10 @@
+/**
+ * \file global.h
+ * \brief Bibliothèque contenant les define
+ * \author Groupe 1
+ * \version 0.1
+*/
+
 #define MAX_I 10
 #define MAX_J 10
 #define INFTY 147483648

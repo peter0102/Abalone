@@ -1,3 +1,9 @@
+/**
+ * \file ai.h
+ * \brief Fonctions relatives à à l'IA
+ * \author Groupe 1
+ * \version 0.1
+*/
 #include "global.h"
 /**
  * \fn minimax(Board b, int depth, int alpha, int beta, bool isMaximizingPlayer)
