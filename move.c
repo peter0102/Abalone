@@ -4,6 +4,10 @@
 #include "global.h"
 #include "move.h"
 
+
+#define ERROR 'x'
+#define SUCCESS 'l'
+
 char moveChrConvert (char chr, char type) {
     char index = ERROR;
     switch (type) {
