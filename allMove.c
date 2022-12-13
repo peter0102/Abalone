@@ -230,7 +230,7 @@ char checkMove(Board board, Move m,char current_player, char other_player) {
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
-    char nb_ennemies = ennemies(board, coords_ennemies, nb_allies, current_player, other_player);
+    char nb_ennemies = ennemies(board, coords_ennemies, nb_allies, current_player, type_of_move);
     if(nb_ennemies == ERROR){
         return(ERROR);
     }
@@ -295,7 +295,7 @@ char allMove(Board board,Move m,char current_player,char other_player){
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
-    char nb_ennemies = ennemies(board,coords_ennemies,nb_allies, current_player, other_player);
+    char nb_ennemies = ennemies(board,coords_ennemies,nb_allies, current_player, type_of_move);
     char good_color = checkColor(coords_allies,current_player,nb_allies,board);
     if(nb_ennemies == ERROR ||nb_ennemies>=nb_allies||good_color == ERROR){
         return(ERROR);
