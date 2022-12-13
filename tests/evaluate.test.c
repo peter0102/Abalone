@@ -17,7 +17,7 @@ int testDistanceToCenterInit(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=0;
-    int actual_score=distanceToCenter(board);
+    int actual_score=distanceToCenter(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: distanceToCenter: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -39,7 +39,7 @@ int testDistanceToCenterMiddleBlack(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=20;
-    int actual_score=distanceToCenter(board);
+    int actual_score=distanceToCenter(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: distanceToCenterMiddleBlack: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -60,7 +60,7 @@ int testDistanceToCenterMiddleWhite(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=-20;
-    int actual_score=distanceToCenter(board);
+    int actual_score=distanceToCenter(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: distanceToCenterMiddleWhite: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -81,7 +81,7 @@ int testDistanceToCenterBorder(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=-12;
-    int actual_score=distanceToCenter(board);
+    int actual_score=distanceToCenter(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: distanceToCenterBorder: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -102,7 +102,7 @@ int testareOpponentsNearInit(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=0;
-    int actual_score=areOpponentsNear(board);
+    int actual_score=areOpponentsNear(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: areOpponentsNearInit: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -123,7 +123,7 @@ int testareOpponentsNearBlackSide3(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=-1;
-    int actual_score=areOpponentsNear(board);
+    int actual_score=areOpponentsNear(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: areOpponentsNearBlackSide3: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -144,7 +144,7 @@ int testareOpponentsNearBlackSide2(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=-4;
-    int actual_score=areOpponentsNear(board);
+    int actual_score=areOpponentsNear(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: areOpponentsNearBlackSide2: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -165,7 +165,7 @@ int testareOpponentsNearBlackSide1(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=-8;
-    int actual_score=areOpponentsNear(board);
+    int actual_score=areOpponentsNear(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: areOpponentsNearBlackSide1: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -186,7 +186,7 @@ int testcanAttackOnWhite3v2(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=10;
-    int actual_score=canAttack(board);
+    int actual_score=canAttack(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: testcanAttackOnWhite3v2: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -207,7 +207,7 @@ int testcanAttackOnWhite3v1(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=10;
-    int actual_score=canAttack(board);
+    int actual_score=canAttack(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: testcanAttackOnWhite3v1: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -228,7 +228,7 @@ int testcanAttackOnWhite2v1(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=10;
-    int actual_score=canAttack(board);
+    int actual_score=canAttack(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: testcanAttackOnWhite2v1: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -249,7 +249,7 @@ int testcanAttackOnBlack3v2(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=-10;
-    int actual_score=canAttack(board);
+    int actual_score=canAttack(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: testcanAttackOnBlack3v2: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -270,7 +270,7 @@ int testcanAttackOnBlack3v1(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=-10;
-    int actual_score=canAttack(board);
+    int actual_score=canAttack(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: testcanAttackOnBlack3v1: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -291,7 +291,7 @@ int testcanAttackOnBlack2v1(){
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
     };
     int expected_score=-10;
-    int actual_score=canAttack(board);
+    int actual_score=canAttack(board,BLACK,WHITE);
         if(expected_score != actual_score){
         fprintf(stderr, "evaluate: testcanAttackOnBlack2v1: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
@@ -329,5 +329,6 @@ void main(){
     test_count++;
     if (!testcanAttackOnBlack2v1()) failures++;
     test_count++;
+
     printf("fails %i\n",failures);
 }

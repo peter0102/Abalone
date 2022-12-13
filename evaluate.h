@@ -98,9 +98,10 @@ int canEnd(Board board,char current_player, char other_player);
  * \fn evaluate(Board board,char currentPlayer)
  * \brief Utilise toutes les fonctions d'évaluation pour calculer un poids final pour le plateau donné
  * \param board Etat du plateau de jeu
- * \param currentPlayer Joueur courant
+ * \param current_player Joueur courant
+ * \param other_player joueud adverse
  * \return retourne le poids final du plateau actuel
 */
-int evaluate(Board board,char currentPlayer,char other_player);
+int evaluate(Board board,char current_player,char other_player);
 
 
