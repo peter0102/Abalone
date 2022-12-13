@@ -3,26 +3,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "global.h"
-
-//types de mouvement
-#define LINE_HORIZONTAL_RIGHT 'a'
-#define LINE_HORIZONTAL_LEFT 'b'
-#define LINE_VERTICAL_DOWN 'c'
-#define LINE_VERTICAL_UP 'd'
-#define LATERAL_TWO_HORIZONTAL 'e'
-#define LATERAL_TWO_VERTICAL 'f'
-#define LATERAL_THREE_VERTICAL_X0_DOWN 'g'
-#define LATERAL_THREE_VERTICAL_X0_UP 'h'
-#define LATERAL_THREE_HORIZONTAL_Y0_RIGHT 'i'
-#define LATERAL_THREE_HORIZONTAL_Y0_LEFT 'j'
-//gestion d'erreurs
-#define ERROR 'x'
-#define success 'l'
-//définition des types
-typedef char Board[10][10]; //caractères ASCII
-typedef char Move[2][2]; //Mouvement {{x0,x1},{y0,y1}} valeurs numériques
-typedef char Triple[2][3]; //coordonnées d'un joueur {{xj0,xj1,xj2},{yj0,yj1,yj2}} valeurs numériques
-
 #include "main.h"
 #include "ai.h"
 #include "allMove.h"
