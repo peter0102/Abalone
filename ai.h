@@ -1,12 +1,12 @@
+#include "global.h"
 /**
  * \file ai.h
  * \brief Fonctions relatives à à l'IA
  * \author Groupe 1
  * \version 0.1
 */
-#include "global.h"
 /**
- * \fn minimax(Board b, int depth, int alpha, int beta, bool isMaximizingPlayer)
+ * \fn miniMax(Board b, int depth, int alpha, int beta, bool isMaximizingPlayer)
  * \brief Algorithme MiniMax, qui retourne le score du meilleur mouvement, l'IA maximise son utilité, le joueur minimise l'utilité de l'IA
  * \param p Etat du plateau de jeu
  * \param depth Profondeur voulue de l'arbre
