@@ -17,7 +17,7 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer){
     Move m;
     Move mback;
 	if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
-		return evaluate(board,BLACK);
+		return evaluate(board,BLACK,WHITE);
 	}
 	    
 	if(isMaximizingPlayer){ 
