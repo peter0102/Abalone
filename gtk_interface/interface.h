@@ -66,6 +66,13 @@ void setTurnNumber(int turn);
 void setLastMove(Move move);
 
 /**
+ * \fn setNotification(char* notification)
+ * \brief Affiche une notification sur l'interface, en-dessous du dernier déplacement"
+ * \param notificaiton Notification à afficher
+*/
+void setNotification(char* notification);
+
+/**
  * \fn drawPawn (char color, int index, int* position)
  * \brief Place un pion sur le plateau de l'interface graphique
  * \param color Couleur du pion à placer (BLACK ou WHITE)

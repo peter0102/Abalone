@@ -48,12 +48,14 @@ void nextTurn(GameData* gd, Move move) {
     //On vérifie que la partie ne soit pas déjà terminée
     if (isItWin(gd->board) == ERROR) {
         printf("Partie terminée : évènement ignoré");
+        setNotification("Partie déjà terminée");
         return;
     }
 
     gd->current_player = otherPlayer(gd->current_player);
     if (gd->current_player == ERROR) {
         printf("Erreur d'affectation des joueurs. Evènement ignoré.");
+        setNotification("Erreur d'affect. des joueurs");
         return;
     }
     setTurnColor(gd->current_player);    
@@ -63,11 +65,19 @@ void nextTurn(GameData* gd, Move move) {
 
     if (gd->me != gd->current_player) {
         char a = allMove(gd->board, move, otherPlayer(gd->current_player), gd->current_player);
-        if (a == ERROR) printf("Mouvement invalide");
+        if (a == ERROR) {
+            printf("Déplacement invalide");
+            setNotification("Déplacement invalide");
+        } else {
+            setLastMove(move);
+            setNotification("");
+        }
         drawBoard(gd->board);
         nextTurn(gd, move);
     } else {
-        char a = aiMove(gd->board, otherPlayer(gd->current_player), gd->current_player);
+        aiBestMove(move, gd->board, otherPlayer(gd->current_player), gd->current_player);
+        char a = allMove(gd->board, move, otherPlayer(gd->current_player), gd->current_player);
+        if (a != ERROR) setLastMove(move);
         drawBoard(gd->board);
     }
 }

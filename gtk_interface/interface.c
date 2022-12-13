@@ -27,6 +27,7 @@ GtkWidget* text_turn_id;
 GtkWidget* text_turn_nb;
 GtkWidget* field_move;
 GtkWidget* text_last_move;
+GtkWidget* text_notif;
 GtkWidget* drawButton;
 GtkWidget* quitButton;
 
@@ -122,10 +123,10 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(move_v_box), field_move, FALSE, FALSE, 0);					// Insertion dans move_v_box	
 	
 	text_last_move = gtk_label_new(NULL);										// Création du 5e label (dernier déplacement)
-	str = g_locale_to_utf8("<span foreground=\"#e7b17f\">Dernier coup :</span>", -1, NULL, NULL, NULL);
-	gtk_label_set_markup(GTK_LABEL(text_last_move), str);
-	g_free(str);
 	gtk_box_pack_start(GTK_BOX(move_v_box), text_last_move, FALSE, FALSE, 0);	// Insertion dans move_h_box
+
+	text_notif = gtk_label_new(NULL);										// Création du 6e label (erreur / notification)
+	gtk_box_pack_start(GTK_BOX(move_v_box), text_notif, FALSE, FALSE, 0);	// Insertion dans move_h_box
 
 	gtk_box_pack_start(GTK_BOX(main_v_box), move_v_box, FALSE, FALSE, 0);	// Insertion de move_v_box dans main_v_box
 	
@@ -154,6 +155,7 @@ void onActivateEntry(GtkEntry* entry, GameData* gd) {
 	char* text = (char*)gtk_entry_get_text(GTK_ENTRY(entry));						// Récupération du texte contenu dans le GtkEntry
 	Move move;
 	translateMove(move, text);
+	gtk_entry_set_text(entry, "");
 	if (move[0][0] == ERROR) return;
 	nextTurn(gd, move);
 }
@@ -162,7 +164,7 @@ void onDestroy(GtkWidget *widget, gpointer data) {
     gtk_main_quit();
 }
 
-void onDraw(GtkWidget *widget, gpointer data) {
+/*void onDraw(GtkWidget *widget, gpointer data) {
 	clearBoard();
 	Board board = {
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
@@ -177,7 +179,7 @@ void onDraw(GtkWidget *widget, gpointer data) {
     {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
 	};
 	drawBoard(board);
-}
+}*/
 
 void setPlayerColor(char color) {
 	char* color_str = malloc(4);
@@ -237,6 +239,16 @@ void setLastMove(Move move) {
 	strcat(final_str, "</b></span>");
 	gchar* str = g_locale_to_utf8((gchar*)final_str, -1, NULL, NULL, NULL);
 	gtk_label_set_markup(GTK_LABEL(text_last_move), str);
+	g_free(str);
+}
+
+void setNotification(char* notification) {
+	char* final_str = malloc(44+sizeof(notification));
+	strcpy(final_str, "<span foreground=\"#d63820\"><b>");
+	strcat(final_str, notification);
+	strcat(final_str, "</b></span>");
+	gchar* str = g_locale_to_utf8((gchar*)final_str, -1, NULL, NULL, NULL);
+	gtk_label_set_markup(GTK_LABEL(text_notif), str);
 	g_free(str);
 }
 
