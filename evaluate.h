@@ -13,96 +13,96 @@ typedef char Board[MAX_I][MAX_J];
 
 
 /**
- * \fn victory(Board b)
+ * \fn victory(Board board)
  * \brief Evalue si un pion adverse est dans la bordure
- * \param b Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * return Retourne 1 si c'est une victoire, rien sinon
 */
-int victory(Board b);
+int victory(Board board);
 
 /**
- * \fn loss(Board b)
+ * \fn loss(Board board)
  * \brief Evalue si un pion allié est dans la bordure
- * \param b Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * return Retourne 1 si c'est une défaite, rien sinon
 */
-int loss(Board b);
+int loss(Board board);
 
 /**
- * \fn density(Board b,char currentPlayer,int alpha)
+ * \fn density(Board board,char currentPlayer,int alpha)
  * \brief Evalue la condensation des pions dans les différents blocs du plateau
- * \param b Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * \param currentPlayer Le joueur actuel
  * \param alpha Coefficient de grandeur
  * return Retourne le score de la densité du joueur actuel 
 */
-int density(Board b,char currentPlayer,int alpha);
+int density(Board board,char currentPlayer,int alpha);
 /**
- * \fn distanceToCenter(Board b)
+ * \fn distanceToCenter(Board board)
  * \brief Evalue le score plateau en fonction de sa distance au centre
- * \param b Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * return Retourne le score plateau
 */
-int distanceToCenter(Board b);
+int distanceToCenter(Board board);
 
 /**
- * \fn areOpponentsNear(Board b)
+ * \fn areOpponentsNear(Board board)
  * \brief Evalue le score du plateau en fonction des adversaires proches
- * \param b Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * \return Retourne le score du plateau
 */
-int areOpponentsNear(Board b);
+int areOpponentsNear(Board board);
 /**
- * \fn countNeighborsXwhite(Board b,int i, int j)
+ * \fn countNeighborsXwhite(Board board,int i, int j)
  * \brief Compte le nombre de voisins blancs selon l'axe X vertical pour les blancs
- * \param b Etatu du plateau de jeu
+ * \param board Etatu du plateau de jeu
  * \param i coordonnée x
  * \param j coordonnée y
  * \return retourne le nombre de voisins selon l'axe X vertical pour les blancs
 */
-int countNeighborsXWhite(Board b,int i, int j);
+int countNeighborsXWhite(Board board,int i, int j);
 /**
- * \fn countNeighborsXBlack(Board b,int i, int j)
+ * \fn countNeighborsXBlack(Board board,int i, int j)
  * \brief Compte le nombre de voisins blancs selon l'axe X vertical pour les noirs
- * \param b Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * \param i coordonnée x
  * \param j coordonnée y
  * \return retourne le nombre de voisins selon l'axe X vertical pour les noirs
 */
-int countNeighborsXBlack(Board b,int i, int j);
+int countNeighborsXBlack(Board board,int i, int j);
 /**
- * \fn countNeighborsYWhite(Board b,int i, int j)
+ * \fn countNeighborsYWhite(Board board,int i, int j)
  * \brief Compte le nombre de voisins blancs selon l'axe Y horizontal pour les blancs
- * \param b Etatu du plateau de jeu
+ * \param board Etatu du plateau de jeu
  * \param i coordonnée x
  * \param j coordonnée y
  * \return retourne le nombre de voisins selon l'axe Y horizontal pour les blancs
 */
-int countNeighborsYWhite(Board b,int i, int j);
+int countNeighborsYWhite(Board board,int i, int j);
 /**
- * \fn countNeighborsYBlack(Board b,int i, int j)
+ * \fn countNeighborsYBlack(Board board,int i, int j)
  * \brief Compte le nombre de voisins blancs selon l'axe Y horizontal pour les noirs
- * \param b Etatu du plateau de jeu
+ * \param board Etatu du plateau de jeu
  * \param i coordonnée x
  * \param j coordonnée y
  * \return retourne le nombre de voisins selon l'axe Y horizontal pour les noirs
 */
-int countNeighborsYBlack(Board b,int i, int j);
+int countNeighborsYBlack(Board board,int i, int j);
 /**
- * \fn canOpponentAttack(Board b)
+ * \fn canOpponentAttack(Board board)
  * \brief Calcule le nombre d'attaques alliées et ennemies possible et attribue un score
- * \param b Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * \return retourne le score du plateau selon le nombre d'attaques possibles
 */
-int canOpponentAttack(Board b);
+int canOpponentAttack(Board board);
 
 /**
- * \fn evaluate(Board b,char currentPlayer)
+ * \fn evaluate(Board board,char currentPlayer)
  * \brief Utilise toutes les fonctions d'évaluation pour calculer un poids final pour le plateau donné
- * \param b Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
  * \param currentPlayer Joueur courant
  * \return retourne le poids final du plateau actuel
 */
-int evaluate(Board b,char currentPlayer);
+int evaluate(Board board,char currentPlayer);
 
 

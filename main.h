@@ -7,14 +7,14 @@
 */
 
 /**
- * \fn display(Board b)
+ * \fn display(Board board)
  * \brief Affiche de manière primitive le tableau
- * \param b Etat actuel du plateau de jeu
+ * \param board Etat actuel du plateau de jeu
 */
-void display(Board b);
+void display(Board board);
 
 /**
- * \fn isItWin(Plateau p)
+ * \fn isItWin(Board board)
  * \brief Vérifie si il y a un gagnant ou non
  * \param board Etat du plateau de jeu
  * \return 1 si il y a un gagnant
@@ -22,8 +22,8 @@ void display(Board b);
 char isItWin(Board board);
 
 /**
- * \fn playerMove(Board b)
+ * \fn playerMove(Board board)
  * \brief Demande à l'utilisateur d'entrer des coordonnées et effectue le mouvement qui correspond
- * \param p Etat du plateau de jeu
+ * \param board Etat du plateau de jeu
 */
-char playerMove(Board b);
+char playerMove(Board board);

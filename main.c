@@ -54,17 +54,17 @@ char isItWin(Board board){
     return SUCCESS;
 }
 
-char playerMove(Plateau p){
+char playerMove(Board board){
     Move m;
     char charac[1000]="";
     printf("Quel mouvement ? de type xx:xx\n");
     scanf("%s",charac);
     translateMove(m,charac);
-    char a=allMove(p,m,WHITE,BLACK);
+    char a=allMove(board,m,WHITE,BLACK);
 }
 
 int main(int argc, char *argv[]) {
-    Board b = {
+    Board board = {
             {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
             {EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY},
             {EMPTY, EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY, EMPTY},
@@ -81,15 +81,15 @@ int main(int argc, char *argv[]) {
     int turn_count=1;
     int end=0;
     printf("Début du jeu\n");
-    display(b);
+    display(board);
     while (end=ERROR){
 		if(turn_count%2==1) { //turn_count = 1 --> current_player = 'B'
             current_player = BLACK;
             other_player = WHITE;
             printf("Tour %i\n",turn_count);
 		    printf("C'est au tour des noirs (IA) de jouer\n");
-		    aiMove(b,current_player,other_player);
-            display(b);
+		    aiMove(board,current_player,other_player);
+            display(board);
             printf("\n*************************************\n");
 		}
 		else { //turn_count = 2 --> current_player = 'W'
@@ -97,8 +97,8 @@ int main(int argc, char *argv[]) {
             other_player = BLACK;
             printf("Tour %i\n",turn_count);
 	    	printf("C'est à votre tour de jouer\n");
-		    playerMove(b);
-            display(b);
+		    playerMove(board);
+            display(board);
             printf("\n*************************************\n");
 		}
 		turn_count++;
