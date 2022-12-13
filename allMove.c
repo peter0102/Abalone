@@ -1,26 +1,4 @@
-//joueurs
-//#define current_player 'W'
-//#define other_player 'B'
-#define EMPTY '0'
-//types de mouvement
-#define LINE_HOR_RIGHT 'a'
-#define LINE_HOR_LEFT 'b'
-#define LINE_VER_DOWN 'c'
-#define LINE_VER_UP 'd'
-#define LAT_2_HOR 'e'
-#define LAT_2_VER 'f'
-#define LAT_3_VER_X0_DOWN 'g'
-#define LAT_3_VER_X0_UP 'h'
-#define LAT_3_HOR_Y0_RIGHT 'i'
-#define LAT_3_HOR_Y0_LEFT 'j'
-//gestion d'erreurs
-#define ERROR 'x'
-#define SUCCESS 'l'
-//définition des types
-typedef char Board[10][10];
-typedef char Move[2][2];
-typedef char Triple[2][3]; //x ou y puis x0 1 ou 2
-//fonctions
+#include "global.h"
 
 char absChar(char v){
     if(v<0){
