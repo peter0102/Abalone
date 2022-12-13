@@ -4,7 +4,6 @@
  * \author Groupe 1
  * \version 0.1
 */
-#include "global.h"
 
 /**
  * \fn moveChrConvert(char chr, char type)

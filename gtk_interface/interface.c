@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "../global.h"
+#include "../init_check.h"
 #include "interface.h"
 #include "../move.h"
 #include "logic_main.h"
@@ -34,8 +35,11 @@ GtkWidget* pawnsWhite[PAWN_NB];
 
 int nb_turn;
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
+	char mode = initialCheck(argc, argv);
+	if (mode == ERROR) return 1;
+
 	GameData game_data;
 	gtk_init(&argc, &argv); // Initialisation de GTK+
 	
@@ -139,8 +143,8 @@ int main(int argc, char **argv)
 	gtk_overlay_add_overlay (GTK_OVERLAY(menu_overlay), main_v_box);		// Insertion du menu dans l'overlay du menu
 	
 	gtk_widget_show_all(window);										// Affichage de la fenêtre et de ses éléments
-	
-	game_data = init('b');
+
+	game_data = init(mode);
 	drawBoard(game_data.board);
 	gtk_main();															// Démarrage de la boucle d'évènements principale
 	return EXIT_SUCCESS;
@@ -289,30 +293,4 @@ void clearBoard() {
 		gtk_widget_set_margin_start(pawnsWhite[i], 0);
 		gtk_widget_set_margin_top(pawnsWhite[i], 0);
 	}
-}
-
-GameData init(char mode) {
-	GameData gd = {.board = {
-        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-        {EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY},
-        {EMPTY, EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY, EMPTY},
-        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
-        {EMPTY, EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY, EMPTY},
-        {EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY},
-        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
-    }};
-    
-	switch(mode) {
-		case 'b': gd.me = BLACK; break;
-		case 'w': gd.me = WHITE; break;
-		default: gd.me = BLACK; break;
-	}
-	gd.current_player = BLACK;
-	setPlayerColor(gd.me);
-	setTurnColor(gd.current_player);
-    gd.nb_turn = 1;
-	return gd;
 }

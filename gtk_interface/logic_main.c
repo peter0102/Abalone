@@ -9,23 +9,6 @@
 #include "../allMove.h"
 #include "../move.h"
 
-void display(Board board){
-    for (int i=1; i<MAX_I-1; i++){
-        for (int j=1; j<MAX_J-1; j++){
-            if (board[i][j]==WHITE){
-                printf("W | ");
-            }
-            if (board[i][j]==BLACK){
-                printf("B | ");
-            }
-            if (board[i][j]==EMPTY){
-                printf(". | ");
-            }
-        }
-        printf("\n");
-    }
-}
-
 char isItWin(Board board){
     for(char i=0; i<=8; i++){
         if(board[0][i] != EMPTY || board[i][9] != EMPTY || board[9][(9-i)] != EMPTY || board[(9-i)][0] != EMPTY){
@@ -35,13 +18,30 @@ char isItWin(Board board){
     return SUCCESS;
 }
 
-char playerMove(Board board){
-    Move m;
-    char charac[1000]="";
-    printf("Quel mouvement ? de type xx:xx\n");
-    scanf("%s",charac);
-    translateMove(m,charac);
-    char a=allMove(board,m,WHITE,BLACK);
+GameData init(char mode) {
+	GameData gd = {.board = {
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY},
+        {EMPTY, EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY, EMPTY},
+        {EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    }};
+    
+	switch(mode) {
+		case 'b': gd.me = BLACK; break;
+		case 'w': gd.me = WHITE; break;
+		default: gd.me = ERROR; break;
+	}
+	gd.current_player = BLACK;
+	setPlayerColor(gd.me);
+	setTurnColor(gd.current_player);
+    gd.nb_turn = 1;
+	return gd;
 }
 
 void nextTurn(GameData* gd, Move move) {
@@ -62,12 +62,12 @@ void nextTurn(GameData* gd, Move move) {
     setTurnNumber(gd->nb_turn);
 
     if (gd->me != gd->current_player) {
-        char a = allMove(gd->board, move, gd->current_player, otherPlayer(gd->current_player));
+        char a = allMove(gd->board, move, otherPlayer(gd->current_player), gd->current_player);
         if (a == ERROR) printf("Mouvement invalide");
         drawBoard(gd->board);
         nextTurn(gd, move);
     } else {
-        //char a = aiMove(gd->board, gd->current_player, otherPlayer(gd->current_player));
+        char a = aiMove(gd->board, otherPlayer(gd->current_player), gd->current_player);
         drawBoard(gd->board);
     }
 }
