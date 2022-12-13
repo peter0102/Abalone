@@ -17,7 +17,7 @@
 #define ERROR 'x'
 #define SUCCESS 'l'
 //définition des types
-typedef char Plateau[10][10];
+typedef char Board[10][10];
 typedef char Move[2][2];
 typedef char Triple[2][3]; //x ou y puis x0 1 ou 2
 //fonctions
@@ -38,7 +38,7 @@ char checkSuicide(Move m){
     return(SUCCESS);
 }
 
-char whatMove(Plateau plat,Move m, char current_player) {
+char whatMove(Board board,Move m, char current_player) {
     //déplacement en ligne horizontal
     if (m[0][0] == m[0][1]) {
         //déplacement vers la droite
@@ -64,11 +64,11 @@ char whatMove(Plateau plat,Move m, char current_player) {
         //déplacement latéral de taille 2
     else if ((absChar(m[0][0] - m[0][1]) + absChar(m[1][0] - m[1][1])) == 2) {
         //déplacement latéral horizontal
-        if (plat[m[0][0]][m[1][1]] == current_player) {
+        if (board[m[0][0]][m[1][1]] == current_player) {
             return (LAT_2_HOR);
         }
             //déplacement latéral vertical
-        else if (plat[m[0][1]][m[1][0]] == current_player) {
+        else if (board[m[0][1]][m[1][0]] == current_player) {
             return (LAT_2_VER);
         }
     }
@@ -197,13 +197,13 @@ void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple 
     }
 }
 
-char ennemiesLine(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player){
+char ennemiesLine(Board board,Triple coords_ennemies,char nb_allies, char current_player){
     char nb_ennemies=0;
     for(char i=0;i<nb_allies;i++) {
-        if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]==current_player){
+        if(board[coords_ennemies[0][i]][coords_ennemies[1][i]]==current_player){
             return(ERROR);
         }
-        else if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]==EMPTY){
+        else if(board[coords_ennemies[0][i]][coords_ennemies[1][i]]==EMPTY){
             return(nb_ennemies);
         }
         else{
@@ -213,59 +213,59 @@ char ennemiesLine(Plateau plat,Triple coords_ennemies,char nb_allies, char curre
     return(ERROR);
 }
 
-char ennemiesLat(Plateau plat,Triple coords_ennemies,char nb_allies){
+char ennemiesLat(Board board,Triple coords_ennemies,char nb_allies){
     for(char i=0;i<nb_allies;i++) {
-        if(plat[coords_ennemies[0][i]][coords_ennemies[1][i]]!=EMPTY){
+        if(board[coords_ennemies[0][i]][coords_ennemies[1][i]]!=EMPTY){
             return(ERROR);
         }
     }
     return(0);
 }
 
-char ennemies(Plateau plat,Triple coords_ennemies,char nb_allies, char current_player, char type_of_move){
+char ennemies(Board board,Triple coords_ennemies,char nb_allies, char current_player, char type_of_move){
     if(type_of_move == LINE_VER_DOWN || type_of_move == LINE_VER_UP ||\
     type_of_move== LINE_HOR_LEFT || type_of_move == LINE_HOR_RIGHT) {
-        return(ennemiesLine(plat,coords_ennemies,nb_allies,current_player));
+        return(ennemiesLine(board,coords_ennemies,nb_allies,current_player));
     }
         //déplacement latéral
     else{
-        return(ennemiesLat(plat,coords_ennemies,nb_allies));
+        return(ennemiesLat(board,coords_ennemies,nb_allies));
     }
 }
 
-char checkColor(Triple coords,char color, char nb_allies, Plateau plat){
+char checkColor(Triple coords,char color, char nb_allies, Board board){
     for(char i=0;i<nb_allies;i++) {
-        if(plat[coords[0][i]][coords[1][i]]!=color){
+        if(board[coords[0][i]][coords[1][i]]!=color){
             return(ERROR);
         }
     }
     return(SUCCESS);
 }
 
-char checkMove(Plateau plat, Move m,char current_player, char other_player) {
+char checkMove(Board board, Move m,char current_player, char other_player) {
     if(checkSuicide(m)==ERROR){
         return(ERROR);
     }
-    char type_of_move = whatMove(plat,m,current_player);
+    char type_of_move = whatMove(board,m,current_player);
     char nb_allies = allies(type_of_move,m);
     //Initialisation des actifs (alliés + ennemis)
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
-    char nb_ennemies = ennemies(plat, coords_ennemies, nb_allies, current_player, other_player);
+    char nb_ennemies = ennemies(board, coords_ennemies, nb_allies, current_player, other_player);
     if(nb_ennemies == ERROR){
         return(ERROR);
     }
     //vérification des couleurs
-    if(checkColor(coords_allies,current_player,nb_allies,plat)==ERROR){
+    if(checkColor(coords_allies,current_player,nb_allies,board)==ERROR){
         return(ERROR);
     }
     return(SUCCESS);
 }
 
-char checkForList(Plateau plat, Move m, char current_player,char other_player){
-    if(checkMove(plat,m,current_player,other_player)==ERROR){
-        if(plat[m[0][1]][m[1][1]]==current_player){
+char checkForList(Board board, Move m, char current_player,char other_player){
+    if(checkMove(board,m,current_player,other_player)==ERROR){
+        if(board[m[0][1]][m[1][1]]==current_player){
             return(current_player);
         }
         else{
@@ -275,41 +275,41 @@ char checkForList(Plateau plat, Move m, char current_player,char other_player){
     return(SUCCESS);
 }
 
-void moveLine(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char current_player,char other_player){
+void moveLine(Board board,Move m,Triple coords_ennemies,char nb_ennemies,char current_player,char other_player){
     //déplacement des alliés
-    plat[m[0][0]][m[1][0]] = EMPTY;
-    plat[coords_ennemies[0][0]][coords_ennemies[1][0]] = current_player;
+    board[m[0][0]][m[1][0]] = EMPTY;
+    board[coords_ennemies[0][0]][coords_ennemies[1][0]] = current_player;
     //déplacement des ennemis
     if (nb_ennemies > 0) {
-        plat[coords_ennemies[0][nb_ennemies]][coords_ennemies[1][nb_ennemies]] = other_player;
+        board[coords_ennemies[0][nb_ennemies]][coords_ennemies[1][nb_ennemies]] = other_player;
     }
 }
 
-void moveLateral(Plateau plat,Triple coords_allies,Triple coords_ennemies, char nb_allies, char current_player){
+void moveLateral(Board board,Triple coords_allies,Triple coords_ennemies, char nb_allies, char current_player){
     for(char i=0;i<nb_allies;i++){
-        plat[coords_allies[0][i]][coords_allies[1][i]]=EMPTY;
-        plat[coords_ennemies[0][i]][coords_ennemies[1][i]]=current_player;
+        board[coords_allies[0][i]][coords_allies[1][i]]=EMPTY;
+        board[coords_ennemies[0][i]][coords_ennemies[1][i]]=current_player;
     }
 }
 
-void move(Plateau plat,Move m,Triple coords_ennemies,char nb_ennemies,char type_of_move,Triple coords_allies,\
+void move(Board board,Move m,Triple coords_ennemies,char nb_ennemies,char type_of_move,Triple coords_allies,\
 char nb_allies,char current_player, char other_player){
     //déplacement en ligne
     if(type_of_move == LINE_VER_DOWN || type_of_move == LINE_VER_UP ||\
     type_of_move== LINE_HOR_LEFT || type_of_move == LINE_HOR_RIGHT) {
-        moveLine(plat,m,coords_ennemies,nb_ennemies,current_player,other_player);
+        moveLine(board,m,coords_ennemies,nb_ennemies,current_player,other_player);
     }
         //déplacement latéral
     else{
-        moveLateral(plat,coords_allies,coords_ennemies,nb_allies, current_player);
+        moveLateral(board,coords_allies,coords_ennemies,nb_allies, current_player);
     }
 }
 
-char allMove(Plateau plat,Move m,char current_player,char other_player){
+char allMove(Board board,Move m,char current_player,char other_player){
     if(checkSuicide(m)==ERROR){
         return(ERROR);
     }
-    char type_of_move = whatMove(plat,m,current_player);
+    char type_of_move = whatMove(board,m,current_player);
     char nb_allies = allies(type_of_move,m);
     if(nb_allies == ERROR){ //si le type de mouvement est ERROR nb_allies renvoie ERROR
         return(ERROR);
@@ -317,11 +317,11 @@ char allMove(Plateau plat,Move m,char current_player,char other_player){
     Triple coords_allies;
     Triple coords_ennemies;
     active(m, type_of_move, nb_allies, coords_allies, coords_ennemies);
-    char nb_ennemies = ennemies(plat,coords_ennemies,nb_allies, current_player, other_player);
-    char good_color = checkColor(coords_allies,current_player,nb_allies,plat);
+    char nb_ennemies = ennemies(board,coords_ennemies,nb_allies, current_player, other_player);
+    char good_color = checkColor(coords_allies,current_player,nb_allies,board);
     if(nb_ennemies == ERROR ||nb_ennemies>=nb_allies||good_color == ERROR){
         return(ERROR);
     }
-    move(plat,m,coords_ennemies,nb_ennemies,type_of_move,coords_allies,nb_allies,current_player,other_player);
+    move(board,m,coords_ennemies,nb_ennemies,type_of_move,coords_allies,nb_allies,current_player,other_player);
     return(SUCCESS);
 }
