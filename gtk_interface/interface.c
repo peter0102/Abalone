@@ -4,8 +4,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "../global.h"
-#include "../move.h"
 #include "interface.h"
+#include "../move.h"
+#include "logic_main.h"
 
 // Déclaration de la fenêtre et de ses éléments
 GtkWidget* window;
@@ -35,6 +36,7 @@ int nb_turn;
 
 int main(int argc, char **argv)
 {
+	GameData game_data;
 	gtk_init(&argc, &argv); // Initialisation de GTK+
 	
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);						// Création de la fenêtre
@@ -112,7 +114,7 @@ int main(int argc, char **argv)
 	gtk_entry_set_alignment(GTK_ENTRY(field_move), 0.5);									// Centre le texte du champ
 	gtk_entry_set_max_width_chars(GTK_ENTRY(field_move), 9);								// Largeur maximale du champ
 	gtk_entry_set_width_chars(GTK_ENTRY(field_move), 9);									// Largeur maximale du champ
-	g_signal_connect(G_OBJECT(field_move), "activate", G_CALLBACK(onActivateEntry), NULL);	// Connexion au signal "activate"
+	g_signal_connect(G_OBJECT(field_move), "activate", G_CALLBACK(onActivateEntry), &game_data);	// Connexion au signal "activate"
 	gtk_box_pack_start(GTK_BOX(move_v_box), field_move, FALSE, FALSE, 0);					// Insertion dans move_v_box	
 	
 	text_last_move = gtk_label_new(NULL);										// Création du 5e label (dernier déplacement)
@@ -138,18 +140,18 @@ int main(int argc, char **argv)
 	
 	gtk_widget_show_all(window);										// Affichage de la fenêtre et de ses éléments
 	
-	nb_turn = 1;
+	game_data = init('b');
+	drawBoard(game_data.board);
 	gtk_main();															// Démarrage de la boucle d'évènements principale
 	return EXIT_SUCCESS;
 }
 
-void onActivateEntry(GtkEntry* entry, gpointer data) {
+void onActivateEntry(GtkEntry* entry, GameData* gd) {
 	char* text = (char*)gtk_entry_get_text(GTK_ENTRY(entry));						// Récupération du texte contenu dans le GtkEntry
-	Move move = translateMove(text);
+	Move move;
+	translateMove(move, text);
 	if (move[0][0] == ERROR) return;
-	setLastMove(move);
-	nb_turn ++;
-	setTurnNumber(nb_turn);
+	nextTurn(gd, move);
 }
 
 void onDestroy(GtkWidget *widget, gpointer data) {
@@ -287,4 +289,30 @@ void clearBoard() {
 		gtk_widget_set_margin_start(pawnsWhite[i], 0);
 		gtk_widget_set_margin_top(pawnsWhite[i], 0);
 	}
+}
+
+GameData init(char mode) {
+	GameData gd = {.board = {
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY},
+        {EMPTY, EMPTY, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY, EMPTY},
+        {EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    }};
+    
+	switch(mode) {
+		case 'b': gd.me = BLACK; break;
+		case 'w': gd.me = WHITE; break;
+		default: gd.me = BLACK; break;
+	}
+	gd.current_player = BLACK;
+	setPlayerColor(gd.me);
+	setTurnColor(gd.current_player);
+    gd.nb_turn = 1;
+	return gd;
 }
