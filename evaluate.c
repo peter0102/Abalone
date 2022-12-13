@@ -108,7 +108,7 @@ int density(Board board,char currentPlayer,int alpha){
 	return most_frequent*alpha;
 }
 // évalue la configuration du plateau en fonction des positions des billes
-int distanceToCenter(Board board) { 
+int distanceToCenter(Board board,char current_player, char other_player) { 
     int totalScore=0;
     Board score={ //tableau du score en fonction de la position
         {0,0,0,0,0,0,0,0,0,0},
@@ -124,10 +124,10 @@ int distanceToCenter(Board board) {
 			};
     for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
-            if (board[i][j]==WHITE) {
+            if (board[i][j]==other_player) {
                 totalScore-=score[i][j];
             }
-            else if(board[i][j]==BLACK) {
+            else if(board[i][j]==current_player) {
                 totalScore+=score[i][j];
             }
         }
@@ -138,7 +138,7 @@ int distanceToCenter(Board board) {
 }
 // compte le nombre d'ennemis proches (à 1,2 et 3 cases) et retourne un score
 int areOpponentsNear(Board board, char current_player, char other_player){
-    int score=0;
+    int score;
     for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
             if (board[i][j]==current_player) {
@@ -213,7 +213,7 @@ int countNeighborsYBlack(Board board,int i, int j, char current_player) {
 }
 //retourne un score positif ou négatif si l'allié peut attaquer ou si l'ennemi peut attaquer
 int canAttack(Board board,char current_player, char other_player){
-    int score=0;
+    int score;
      for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
             if (board[i][j]==current_player) {
@@ -246,6 +246,84 @@ int canAttack(Board board,char current_player, char other_player){
     }
     return score;
 }
+int canEnd(Board board,char current_player,char other_player){
+    int score=0;
+    for(int i=0;i<MAX_I-1;i++){
+        if (board[1][i]==current_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,1,i);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,2,i);
+            if (board[2][i]==other_player) {
+                if (allyNeighborsLine<ennemyNeigborsLine) score+=-10000;
+                else score+=-20;
+            }
+        }
+        if (board[1][i]==other_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,2,i);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,1,i);
+            if (board[2][i]==current_player) {
+                if (allyNeighborsLine>ennemyNeigborsLine) score+=10000;
+                else score+=20;
+            }
+        }
+        if (board[8][i]==current_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,8,i);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,7,i);
+            if (board[7][i]==other_player) {
+                if (allyNeighborsLine<ennemyNeigborsLine) score+=-10000;
+                else score+=-20;
+            }
+        }
+        if (board[8][i]==other_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,7,i);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,8,i);
+            if (board[7][i]==current_player) {
+                if (allyNeighborsLine>ennemyNeigborsLine) score+=10000;
+                else score+=-20;
+            }
+        }
+        if (board[i][1]==current_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,i,1);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,i,2);
+            if (board[i][2]==other_player) {
+                if (allyNeighborsLine<ennemyNeigborsLine) score+=-10000;
+                else score+=-20;
+            }
+        }
+        if (board[i][1]==other_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,i,2);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,i,1);
+            if (board[i][2]==current_player) {
+                if (allyNeighborsLine>ennemyNeigborsLine) score+=10000;
+                else score+=20;
+            }
+        }
+        if (board[i][8]==current_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,i,8);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,i,7);
+            if (board[i][7]==other_player) {
+                if (allyNeighborsLine<ennemyNeigborsLine) score+=-10000;
+                else score+=-20;
+            }
+        }
+        if (board[i][8]==current_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,i,8);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,i,7);
+            if (board[i][7]==other_player) {
+                if (allyNeighborsLine<ennemyNeigborsLine) score+=-10000;
+                else score+=-20;
+            }
+        }
+        if (board[i][8]==other_player) {
+        int allyNeighborsLine=countNeighborsXBlack(board,i,7);
+        int ennemyNeigborsLine=countNeighborsXWhite(board,i,8);
+            if (board[i][7]==current_player) {
+                if (allyNeighborsLine>ennemyNeigborsLine) score+=10000;
+                else score+=20;
+            }
+        }
+    }
+}    
+
 // somme le score d'un plateau en fonction des différents paramètres pris en compte
 int evaluate(Board board,char current_player,char other_player){
 	int utility=0;
@@ -263,7 +341,7 @@ int evaluate(Board board,char current_player,char other_player){
 		utility -= density(board,BLACK,1);
 	}
      */
-	utility+=areOpponentsNear(board,current_player,other_player)+canAttack(board,current_player,other_player)+distanceToCenter(board);
+	utility+=areOpponentsNear(board,current_player,other_player)+canAttack(board,current_player,other_player)+distanceToCenter(board,current_player,other_player)+canEnd(board,current_player,other_player);
 	return utility;
 }
 
