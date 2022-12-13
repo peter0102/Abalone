@@ -112,8 +112,8 @@ int density(Board b,char currentPlayer,int alpha){
 	}
 	return most_frequent*alpha;
 }
-
-int distanceToCenter(Board b) { // évalue une configuration du plateau en fonction des positions des billes
+// évalue la configuration du plateau en fonction des positions des billes
+int distanceToCenter(Board b) { 
     int totalScore=0;
     Board score={ //tableau du score en fonction de la position
         {0,0,0,0,0,0,0,0,0,0},
@@ -141,8 +141,8 @@ int distanceToCenter(Board b) { // évalue une configuration du plateau en fonct
     return totalScore;
 
 }
-
-int areOpponentsNear(Board b){ // compte le nombre d'ennemis proches (à 1,2 et 3 cases) et retourne un score
+// compte le nombre d'ennemis proches (à 1,2 et 3 cases) et retourne un score
+int areOpponentsNear(Board b){ 
     int score;
     for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
@@ -164,7 +164,8 @@ int areOpponentsNear(Board b){ // compte le nombre d'ennemis proches (à 1,2 et 
     }
     return score;
 }
-int countNeighborsXWhite(Board b,int i, int j){ // compte les voisins blancs sur l'axe X vertical
+// compte les voisins blancs sur l'axe X vertical
+int countNeighborsXWhite(Board b,int i, int j){ 
     int neighbors=0;
     if (b[i][j]==WHITE) {
         for (int x=-2;x<0;x++) {
@@ -176,8 +177,8 @@ int countNeighborsXWhite(Board b,int i, int j){ // compte les voisins blancs sur
     }
     return neighbors;
 }
-
-int countNeighborsXBlack(Board b,int i, int j){ // compte les voisins noirs sur l'axe X vertical
+ // compte les voisins noirs sur l'axe X vertical
+int countNeighborsXBlack(Board b,int i, int j){
     int neighbors=0;
     if (b[i][j]==BLACK) {
         for (int x=-2;x<0;x++) {
@@ -189,7 +190,8 @@ int countNeighborsXBlack(Board b,int i, int j){ // compte les voisins noirs sur 
     }
     return neighbors;
 }
-int countNeighborsYWhite(Board b,int i, int j) { // compte les voisins blancs sur l'axe Y horizontal
+// compte les voisins blancs sur l'axe Y horizontal
+int countNeighborsYWhite(Board b,int i, int j) { 
     int neighbors=0;
     if (b[i][j]==WHITE) {
         for (int y=-2;y<0;y++) {
@@ -201,7 +203,8 @@ int countNeighborsYWhite(Board b,int i, int j) { // compte les voisins blancs su
     }
     return neighbors;
 }
-int countNeighborsYBlack(Board b,int i, int j) { // compte les voisins noirs sur l'axe Y horizontal
+// compte les voisins noirs sur l'axe Y horizontal
+int countNeighborsYBlack(Board b,int i, int j) { 
     int neighbors=0;
     if (b[i][j]==BLACK) {
         for (int y=-2;y<0;y++) {
@@ -213,8 +216,8 @@ int countNeighborsYBlack(Board b,int i, int j) { // compte les voisins noirs sur
     }
     return neighbors;
 }
-
-int canAttack(Board b){ //retourne un score positif ou négatif si l'allié peut attaquer ou si l'ennemi peut attaquer
+//retourne un score positif ou négatif si l'allié peut attaquer ou si l'ennemi peut attaquer
+int canAttack(Board b){ 
     int score;
      for(int i=1;i<MAX_I-1;i++) {
         for (int j=1;j<MAX_J-1;j++) {
@@ -248,8 +251,8 @@ int canAttack(Board b){ //retourne un score positif ou négatif si l'allié peut
     }
     return score;
 }
-
-int evaluate(Board b,char currentplayer){ // somme le score d'un plateau en fonction des différents paramètres pris en compte
+// somme le score d'un plateau en fonction des différents paramètres pris en compte
+int evaluate(Board b,char currentplayer){ 
 	int utility=0;
 	if(victory(b)==1){
 		utility+=100;
