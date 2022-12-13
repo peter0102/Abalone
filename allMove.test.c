@@ -358,12 +358,12 @@ void testActive(){
     Move lat_two_hor_up_right_left = {{4,3},{8,7}}; //à gauche commençant en haut finissant en bas
     Move lat_two_hor_down_left_right = {{4,5},{7,8}}; //à droite commençant en bas finissant en haut
     active(lat_two_hor_up_right_left,LAT_2_HOR,2,coords_allies,coords_ennemies);
-    if(coords_allies[0][0] != 4 ||coords_allies[1][0] != 2||coords_allies[0][1] != 3||coords_allies[1][1] != 2||\
-    coords_ennemies[0][0] != 2 ||coords_ennemies[1][0] != 2||coords_ennemies[0][1] != 1 ||coords_ennemies[1][1] != 2){
+    if(coords_allies[0][0] != 4 ||coords_allies[1][0] != 8||coords_allies[0][1] != 4||coords_allies[1][1] != 7||\
+    coords_ennemies[0][0] != 3 ||coords_ennemies[1][0] != 7||coords_ennemies[0][1] != 3 ||coords_ennemies[1][1] != 8){
         fprintf(stderr, "allMove: active: wrong coordinates : LAT_2_HOR size 2\n");
     }
     active(lat_two_hor_down_left_right,LINE_VER_UP,2,coords_allies,coords_ennemies);
-    if(coords_allies[0][0] != 4 ||coords_allies[1][0] != 2||coords_allies[0][1] != 3||coords_allies[1][1] != 2||\
+    if(coords_allies[0][0] != 4 ||coords_allies[1][0] != 8||coords_allies[0][1] != 4||coords_allies[1][1] != 7||\
     coords_ennemies[0][0] != 2 ||coords_ennemies[1][0] != 2||coords_ennemies[0][1] != 1 ||coords_ennemies[1][1] != 2){
         fprintf(stderr, "allMove: active: wrong coordinates : LAT_2_HOR size 2\n");
     }
