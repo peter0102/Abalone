@@ -24,7 +24,7 @@ char checkSuicide(Move m);
 /**
  * \fn whatMove(Board board,Move m, char current_player)
  * \brief Donne le type de mouvement associé au mouvement m
- * \param plat Plateau de jeu actuel
+ * \param board Plateau de jeu actuel
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param current_player couleur du joueur à ce tour
  * \return Type de mouvement ou erreur si le mouvement est interdit
@@ -54,7 +54,7 @@ void active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple 
 /**
  * \fn ennemiesLine(Board board,Triple coords_ennemies,char nb_allies, char current_player)
  * \brief Compte le nombre d'ennemis et vérifie les rapports de force et les cases de destination en ligne
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
  * \param nb_allies nombre de pions alliés
  * \param current_player couleur du joueur à ce tour
@@ -65,7 +65,7 @@ char ennemiesLine(Board board,Triple coords_ennemies,char nb_allies, char curren
 /**
  * \fn ennemies(Board board,Triple coords_ennemies,char nb_allies)
  * \brief Compte le nombre d'ennemis et vérifie les rapports de force et les cases de destination en latéral
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
  * \param nb_allies nombre de pions alliés
  * \return Nombre d'ennemis ou erreur
@@ -75,7 +75,7 @@ char ennemiesLat(Board board,Triple coords_ennemies,char nb_allies);
 /**
  * \fn ennemies(Board board,Triple coords_ennemies,char nb_allies)
  * \brief Compte le nombre d'ennemis et vérifie les rapports de force et les cases de destination
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
  * \param nb_allies nombre de pions alliés
  * \param current_player couleur du joueur à ce tour
@@ -90,7 +90,7 @@ char ennemies(Board board,Triple coords_ennemies,char nb_allies, char current_pl
  * \param coords Coordonnées dont on veut vérifier la couleur {{xc0,xc1,xc2},{yc0,yc1,yc2}}
  * \param color couleur
  * \param nb_allies nombre de pions alliés
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \return Nombre d'ennemis ou erreur
 */
 char checkColor(Triple coords,char color, char nb_allies, Board board);
@@ -98,7 +98,7 @@ char checkColor(Triple coords,char color, char nb_allies, Board board);
 /**
  * \fn checkMove(Board board, Move m,char current_player)
  * \brief Vérifie que le coup est autorisé
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param current_player couleur du joueur à ce tour
  * \return Erreur ou succès
@@ -108,7 +108,7 @@ char checkMove(Board board, Move m,char current_player);
 /**
  * \fn checkForList(Board board, Move m, char current_player,char other_player)
  * \brief Vérifie que le coup est légal sinon renvoie la couleur du pion de même couleur qui gène sinon erreur
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param current_player couleur du joueur à ce tour
  * \return Succès, Couleur du pion qui essaie de bouger ou Erreur
@@ -118,7 +118,7 @@ char checkForList(Board board, Move m, char current_player,char other_player);
 /**
  * \fn moveLine(Board board,Move m,Triple coords_ennemies,char nb_ennemies,char current_player,char other_player)
  * \brief Déplace en place sur le plateau de jeu pour un mouvement en ligne
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
  * \param nb_ennemies nombre d'ennemis à déplacer
@@ -130,7 +130,7 @@ void moveLine(Board board,Move m,Triple coords_ennemies,char nb_ennemies,char cu
 /**
  * \fn moveLateral(Board board,Triple coords_allies,Triple coords_ennemies, char nb_allies)
  * \brief Déplace en place sur le plateau de jeu pour un mouvement latéral
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param coords_allies coordonnées des alliés {{xa0,xa1,xa2},{ya0,ya1,ya2}}
  * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
  * \param nb_allies nombre d'alliés à déplacer
@@ -141,7 +141,7 @@ void moveLateral(Board board,Triple coords_allies,Triple coords_ennemies, char n
  * \fn move(Board board,Move m,Triple coords_ennemies,char nb_ennemies,char type_of_move,Triple coords_allies,\
 char nb_allies,char current_player, char other_player)
  * \brief Déplace en place sur le plateau de jeu pour le mouvement m
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param coords_ennemies coordonnées des ennemis {{xe0,xe1,xe2},{ye0,ye1,ye2}}
  * \param nb_ennemies nombre d'ennemis à déplacer
@@ -157,7 +157,7 @@ char nb_allies,char current_player, char other_player);
 /**
  * \fn allMove(Board board,Move m,char current_player,char other_player)
  * \brief Déplace en place sur le plateau de jeu pour le mouvement m en vérifiant que le coup est autorisé
- * \param plat plateau de jeu
+ * \param board plateau de jeu
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param current_player couleur du joueur à ce tour
  * \param other_player couleur de l'adversaire à ce tour
