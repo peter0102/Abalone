@@ -38,8 +38,8 @@ int nb_turn;
 
 int main(int argc, char *argv[])
 {
-	char mode = initialCheck(argc, argv);
-	if (mode == ERROR) return 1;
+	InitData data = initialCheck(argc, argv);
+	if (data.mode == ERROR) return 1;
 
 	GameData game_data;
 	gtk_init(&argc, &argv); // Initialisation de GTK+
@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
 	
 	gtk_widget_show_all(window);										// Affichage de la fenêtre et de ses éléments
 
-	game_data = init(mode);
+	game_data = init(data);
 	drawBoard(game_data.board);
 	gtk_main();															// Démarrage de la boucle d'évènements principale
 	return EXIT_SUCCESS;
@@ -157,7 +157,8 @@ void onActivateEntry(GtkEntry* entry, GameData* gd) {
 	translateMove(move, text);
 	gtk_entry_set_text(entry, "");
 	if (move[0][0] == ERROR) return;
-	nextTurn(gd, move);
+	if (gd->fdclient == -1) nextTurnLocal(gd, move); // Jeu en local
+	else nextTurnNetwork(gd, move); //Jeu en réseau
 }
 
 void onDestroy(GtkWidget *widget, gpointer data) {
@@ -230,13 +231,22 @@ void setTurnNumber(int turn) {
 	g_free(str);
 }
 
-void setLastMove(Move move) {
+void setLastMove(Move move, char color) {
 	char* move_str = malloc(6);
-	char* final_str = malloc(63);
+	char* color_str = malloc(4);
+	char* final_str = malloc(100);
+	
+	switch(color) {
+		case BLACK: strcpy(color_str, "000"); break;
+		case WHITE: strcpy(color_str, "FFF"); break;
+		default: return;
+	}
 	strcpy(move_str, translateMoveReverse(move));
-	strcpy(final_str, "<span foreground=\"#e7b17f\">Dernier coup : <b>");
+	strcpy(final_str, "<span foreground=\"#e7b17f\">Dernier coup : <b>\0");
 	strcat(final_str, move_str);
-	strcat(final_str, "</b></span>");
+	strcat(final_str, "</b><span foreground=\"#\0>");
+	strcat(final_str, color_str);
+	strcat(final_str, "\"> ●</span></span>\0");
 	gchar* str = g_locale_to_utf8((gchar*)final_str, -1, NULL, NULL, NULL);
 	gtk_label_set_markup(GTK_LABEL(text_last_move), str);
 	g_free(str);

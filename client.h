@@ -21,7 +21,7 @@ typedef struct in_addr IN_ADDR;
 
 
 
-SOCKET TCP_Create_Client(char* severName,short service);
+SOCKET TCPCreateClient(char* severName,short service);
 
 
 

@@ -20,7 +20,7 @@ typedef struct in_addr IN_ADDR;
 #define SOCKET_ERROR -1
 
 
-SOCKET TCP_Create_Server(short service);
+SOCKET TCPCreateServer(short service);
 
 
 

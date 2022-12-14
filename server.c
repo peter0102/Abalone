@@ -19,6 +19,8 @@ SOCKET TCPCreateServer(short service){
     if(bind(s,(struct sockaddr*)&sin,sizeof(sin))==SOCKET_ERROR) exit(1);
 
     if(listen(s,5) == SOCKET_ERROR) exit(1);
-    return s;
-}
+    int c = accept(s, NULL, NULL);
+    if (c == SOCKET_ERROR) exit(1);
 
+    return c;
+}

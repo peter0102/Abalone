@@ -23,7 +23,7 @@ char isItWin(Board board);
  * \n 'c' = réseau (on est le client / les blancs)
  * \return Contexte initial du jeu
 */
-GameData init(char mode);
+GameData init(InitData data);
 
 /**
  * \fn nextTurn(GameData* gd, Move move)
@@ -31,4 +31,7 @@ GameData init(char mode);
  * \param gd Contexte du jeu
  * \param move Mouvement à essayer (uniquement pour un joueur humain ; l'IA n'utilise pas ce coup mais choisit son coup optimal à la place)
 */
-void nextTurn(GameData* gd, Move move);
+void nextTurnLocal(GameData* gd, Move move);
+
+void nextTurnAILocal(GameData* gd);
+void nextTurnNetwork(GameData* gd, Move move);
