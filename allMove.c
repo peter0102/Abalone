@@ -220,7 +220,7 @@ char checkColor(Triple coords,char color, char nb_allies, Board board){
     return(SUCCESS);
 }
 
-char checkMove(Board board, Move m,char current_player, char other_player) {
+char checkMove(Board board, Move m,char current_player) {
     if(checkSuicide(m)==ERROR){
         return(ERROR);
     }
@@ -241,8 +241,8 @@ char checkMove(Board board, Move m,char current_player, char other_player) {
     return(SUCCESS);
 }
 
-char checkForList(Board board, Move m, char current_player,char other_player){
-    if(checkMove(board,m,current_player,other_player)==ERROR){
+char checkForList(Board board, Move m, char current_player){
+    if(checkMove(board,m,current_player)==ERROR){
         if(board[m[0][1]][m[1][1]]==current_player){
             return(current_player);
         }
