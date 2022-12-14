@@ -9,12 +9,8 @@
 #include "allMove.h"
 #include "move.h"
 
-#include "global.c"
-#include "ai.c"
-#include "allMove.c"
-#include "move.c"
-
 void display(Board board){
+    printf("1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n");
     for (int i=1; i<MAX_I-1; i++){
         for (int j=1; j<MAX_J-1; j++){
             if (board[i][j]==WHITE){
