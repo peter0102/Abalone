@@ -329,6 +329,5 @@ void main(){
     test_count++;
     if (!testcanAttackOnBlack2v1()) failures++;
     test_count++;
-
-    printf("fails %i\n",failures);
+    return failures;
 }
