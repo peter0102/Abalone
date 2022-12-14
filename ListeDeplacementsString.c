@@ -4,22 +4,12 @@
 #include <string.h>
 
 #include "global.h"
+#include "ListeDeplacementsString.h"
 
-/*
-#include "global.h"
-#include "global.c"
-#include "move.h"
-#include "move.c"
-#include "allMove.h"
-#include "allMove.c"
-*/
-
-#define tailleListeCoups 100
 
 
 // Le plateau :
 
-char* Traduire(int compteur);
 
 Board plat = {
 {'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
@@ -33,17 +23,18 @@ Board plat = {
 {'0', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', '0'},
 {'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'} };
 
-/// Les typedef :
 
-void FindAllPions(char Player);
+/// Les variables "globales"
+
+// Pions uniques
 
 Triple ListePions[14];
 
 // Deux Pions
 
-Triple ListeDeuxPions[100];
-
 int compteurDeuxPions;
+
+Triple ListeDeuxPions[100];
 
 // Trois pions
 
@@ -51,148 +42,68 @@ int compteurTroisPions;
 
 Triple ListeTroisPions[100];
 
-// Def des types coups
+// Liste des coups
 
 Move ListeCoups[tailleListeCoups];
 
 
+/// Les fonctions d'affichage
 
-/// Les fonctions
-
-// Les affichages
-
-void display();
-
-void AfficherPion(Triple PionAAfficher, int PositionPion);
-
-void AfficherListePions();
-
-void AfficherCoup(Move CoupAAfficher);
-
-void AfficherListeCoups();
-
-void AfficherListeDeuxPions();
-
-void AfficherListeTroisPions();
-
-/// Les fonctions de coup :
-
-// tous les coups :
-
-char* FindAllMoves(char current_player);
-
-
-int UneBilleQuatreCoups(Triple PionATester, int compteurCoups, char current_player);
-
-int UneBilleUnCoupHautGauche(Move CoupATester, int compteurCoups, char current_player);
-
-int UneBilleUnCoupDroiteBas(Move CoupATester, int compteurCoups, char current_player);
-
-
-// Deux billes :
-
-int DeuxBillesQuatreCoupsHorizontal(Triple GroupeATester, int compteurCoups, char current_player);
-
-int DeuxBillesQuatreCoupsVertical(Triple GroupeATester, int compteurCoups, char current_player);
-
-
-int DeuxBillesUnCoup(Move CoupATester, int compteurCoups, char current_player);
-
-int DeuxBillesUnCoupEtPeutEtre3Billes(Move CoupATester, int compteurCoups, char current_player);
-
-
-// Trois billes
-
-int TroisBillesQuatreCoupsVertical(Triple GroupeATester, int compteurCoups, char current_player);
-
-int TroisBillesQuatreCoupsHorizontal(Triple GroupeATester, int compteurCoups, char current_player);
-
-int TroisBillesUnCoup(Move CoupATester, int compteurCoups, char current_player);
-
-
-/// Variables globales
-/*
-Triple coords_allies;
-Triple coords_ennemies;
-*/
-
-
-/// azedgfh
-/// zqfesgfd
-///q qEGSFD
-/// QAZFEGG
-
-
-/// les fonctions Move
-
-
-
-
-
-
-/// Les fonctions d'affichage :
-
-void display2() {
-    printf("\n0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10|\n");
-    for (int i=0; i < 10; i++) {
-        printf("%i |",i);
-        for (int j=0; j < 10; j++) {
-            if (plat[i][j] == BLACK)
-                printf (" B |");
-            else if (plat[i][j] == WHITE)
-                printf (" W |" );
-            else if (plat[i][j] == '0')
-                printf (" . |" );
+void display(Board board){
+    for (int i=1; i<MAX_I-1; i++){
+        for (int j=1; j<MAX_J-1; j++){
+            if (board[i][j]==WHITE){
+                printf("W | ");
+            }
+            if (board[i][j]==BLACK){
+                printf("B | ");
+            }
+            if (board[i][j]==EMPTY){
+                printf(". | ");
+            }
         }
-        printf("\n\n");
-    }
-}
-
-void display() {
-    printf("\nX | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |\n\n");
-    for (int i=1; i < 9; i++) {
-        printf("%i |",i);
-        for (int j=1; j < 9; j++) {
-            if (plat[i][j] == BLACK)
-                printf (" B |");
-            else if (plat[i][j] == WHITE)
-                printf (" W |" );
-            else if (plat[i][j] == '0')
-                printf (" . |" );
-        }
-        printf("\n\n");
+        printf("\n");
     }
 }
 
 
-
-void AfficherPion(Triple PionAAfficher, int PositionPion){
+void DisplayPion(Triple PionAAfficher, int PositionPion){
     printf("[ %i, %i ]", PionAAfficher[0][PositionPion], PionAAfficher[1][PositionPion]);
 }
 
-void AfficherListePions(){
+void DisplayListOfPions(){
     printf("[ ");
     for (int i=0;i<13;i++){
-        AfficherPion(ListePions[i], 0);
+        DisplayPion(ListePions[i], 0);
     printf(" / ");
     if ((i+1)%2==0){ // %x pour afficher sur x colonnes
                 printf("\n\n");
         }
     }
-    AfficherPion(ListePions[13], 0);
+    DisplayPion(ListePions[13], 0);
     printf(" ]\n");
 }
 
-void AfficherCoup(Move CoupAAfficher){
+void DisplayMove(Move CoupAAfficher){
         printf("[%i,", CoupAAfficher[0][0]);
         printf("%i], ", CoupAAfficher[0][1]);
         printf("[%i,", CoupAAfficher[1][0]);
         printf("%i]", CoupAAfficher[1][1]);
 }
 
-void AfficherListeCoupsVersionHumaine(){
+void DisplayListOfMove(){
     for (int i=0;i<tailleListeCoups;i++){
-        AfficherCoup(ListeCoups[i]);
+        DisplayMove(ListeCoups[i]);
+        printf(" / ");
+        if ((i+1)%3==0){ // %x pour afficher sur x colonnes
+                printf("\n\n");
+        }
+    }
+}
+
+void DisplayListOfMoveNormalVersion(){
+    for (int i=0;i<tailleListeCoups;i++){
+        DisplayMove(ListeCoups[i]);
         printf(" x1 : %i / ", ListeCoups[i][0][0]);
         printf("y1 : %i / ", ListeCoups[i][1][0]);
         printf("x2 : %i / ", ListeCoups[i][0][1]);
@@ -202,17 +113,9 @@ void AfficherListeCoupsVersionHumaine(){
     }
 }
 
-void AfficherListeCoups(){
-    for (int i=0;i<tailleListeCoups;i++){
-        AfficherCoup(ListeCoups[i]);
-        printf(" / ");
-        if ((i+1)%3==0){ // %x pour afficher sur x colonnes
-                printf("\n\n");
-        }
-    }
-}
 
-void AfficherListeDeuxPions(){
+
+void DisplayListOfTwoPions(){
     for (int i=0;i<compteurDeuxPions;i++){
             printf("[[ %i, %i],", ListeDeuxPions[i][0][0], ListeDeuxPions[i][0][1]);
             printf("[ %i, %i]] /// ", ListeDeuxPions[i][1][0], ListeDeuxPions[i][1][1]);
@@ -222,19 +125,20 @@ void AfficherListeDeuxPions(){
     }
 }
 
-void AfficherListeTroisPions(){
+void DisplayListOfThreePions(){
     for (int i=0;i<compteurTroisPions;i++){
-            AfficherPion(ListeTroisPions[i],0);
+            DisplayPion(ListeTroisPions[i],0);
             printf(" , ");
-            AfficherPion(ListeTroisPions[i],1);
+            DisplayPion(ListeTroisPions[i],1);
             printf(" , ");
-            AfficherPion(ListeTroisPions[i],2);
+            DisplayPion(ListeTroisPions[i],2);
             printf(" / ");
             if ((i+1)%2==0){ // modulo X pour X colonnes
                     printf("\n\n");
         }
     }
 }
+
 
 
 
@@ -432,13 +336,6 @@ int UneBilleUnCoupDroiteBas(Move CoupATester, int compteurCoups, char current_pl
 
     char resultat;
     resultat =checkForList(plat, CoupATester, current_player, otherPlayer(current_player));
-/*
-    printf("ReCoucou de une bille, cette bille : ");
-    printf("%i %o", CoupATester[0][0], CoupATester[1][0]);
-    printf("\nOn va a cet endroit  : ");
-    printf("%i %i\n", CoupATester[0][1], CoupATester[1][1]);
-    printf("Resultat : %c\n", resultat);
-*/
 
     if (resultat==SUCCESS){ // Coup autoris�
             ListeCoups[compteurCoups][0][0]=CoupATester[0][0];
@@ -780,12 +677,12 @@ int TroisBillesUnCoup(Move CoupATester, int compteurCoups, char current_player) 
 /// La fonction traduction
 
 
-char* Traduire(int compteur){
-    char* mTotal=malloc(compteur*6);
+char* Traduire(int longueurListe){
+    char* mTotal=malloc(longueurListe*6);
     char ChaineVide[]={';'};
     char* m=malloc(6);
 
-    for(int i=0;i<compteur;i++){
+    for(int i=0;i<longueurListe;i++){
         m=translateMoveReverse(ListeCoups[i]);
         mTotal = strncat(mTotal, m, 5);
         mTotal = strncat(mTotal, ChaineVide, 1);
