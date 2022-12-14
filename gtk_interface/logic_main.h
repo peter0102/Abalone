@@ -1,30 +1,34 @@
 /**
- * \file main.h
- * \brief Fonctions principales du jeu
+ * \file logic_main.h
+ * \brief Fonctions principales du jeu avec l'interface graphique
  * \author Groupe 1
  * \version 0.1
 */
 
 /**
- * \fn display(Board board)
- * \brief Affiche de manière primitive le tableau
- * \param board Etat actuel du plateau de jeu
-*/
-void display(Board board);
-
-/**
  * \fn isItWin(Board board)
- * \brief Vérifie si il y a un gagnant ou non
+ * \brief Vérifie s'il y a un gagnant ou non
  * \param board Etat du plateau de jeu
- * \return 1 si il y a un gagnant
+ * \return ERROR s'il y a un gagnant ; SUCCESS sinon
 */
 char isItWin(Board board);
 
 /**
- * \fn playerMove(Board board)
- * \brief Demande à l'utilisateur d'entrer des coordonnées et effectue le mouvement qui correspond
- * \param board Etat du plateau de jeu
+ * \fn init(char mode)
+ * \brief Initialise le jeu en fonction du mode sélectionné (local / réseau, blanc / noir...)
+ * \param mode Mode d'initialisation :
+ * \n 'b' = local (on joue les noirs)
+ * \n 'w' = local (on joue les blancs)
+ * \n 's' = réseau (on est le serveur / les noirs)
+ * \n 'c' = réseau (on est le client / les blancs)
+ * \return Contexte initial du jeu
 */
-char playerMove(Board board);
+GameData init(char mode);
 
+/**
+ * \fn nextTurn(GameData* gd, Move move)
+ * \brief Joue un coup en fonction du joueur (humain ou IA) et actualise le contexte du jeu
+ * \param gd Contexte du jeu
+ * \param move Mouvement à essayer (uniquement pour un joueur humain ; l'IA n'utilise pas ce coup mais choisit son coup optimal à la place)
+*/
 void nextTurn(GameData* gd, Move move);

@@ -5,13 +5,6 @@
  * \version 0.1
 */
 
-
-#define MAX_I 10
-#define MAX_J 10
-
-typedef char Board[MAX_I][MAX_J];
-
-
 /**
  * \fn victory(Board board)
  * \brief Evalue si un pion adverse est dans la bordure
