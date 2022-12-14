@@ -1,6 +1,6 @@
 /**
- * \file move.h
- * \brief Fonctions relatives à la structure de déplacement
+ * \file interface.h
+ * \brief Fonctions relatives à l'interface graphique et aux signaux qu'elle envoie
  * \author Groupe 1
  * \version 0.1
 */
@@ -8,10 +8,19 @@
 #include <gtk/gtk.h>
 
 /**
- * \brief Nombre de pions par joueur
+* \struct GameData interface.h interface.c
+* \brief Contexte de la partie transmis à chaque tour
 */
-#define PAWN_NB 14
-typedef struct { Board board; char me; char current_player; int nb_turn; } GameData;
+typedef struct {
+    /*! Disposition actuelle des pions */
+    Board board;
+    /*! Couleur que je joue */
+    char me;
+    /*! Joueur (couleur) dont c'est le tour */
+    char current_player;
+    /*! Numéro du tour */
+    int nb_turn; }
+    GameData;
 
 /**
  * \fn onDestroy(GtkWidget *widget, gpointer data)
@@ -33,7 +42,7 @@ void onDraw(GtkWidget* widget, gpointer data);
  * \fn onActivateEntry(GtkEntry* entry, gpointer data)
  * \brief Fonction exécutée en appuyant sur la touche "Entrée" après avoir rempli le champ
  * \param entry Champ à remplir concerné par ce signal
- * \param data Donnée supplémentaire transmise à la fonction (ici, le contenu du champ)
+ * \param data Donnée supplémentaire transmise à la fonction (ici, le contexte du signal)
 */
 void onActivateEntry(GtkEntry* entry, GameData* gd);
 
@@ -67,7 +76,7 @@ void setLastMove(Move move);
 
 /**
  * \fn setNotification(char* notification)
- * \brief Affiche une notification sur l'interface, en-dessous du dernier déplacement"
+ * \brief Affiche une notification sur l'interface, en-dessous du dernier déplacement
  * \param notificaiton Notification à afficher
 */
 void setNotification(char* notification);
@@ -83,7 +92,7 @@ void drawPawn (char color, int index, int* position);
 
 /**
  * \fn drawBoard(Board board)
- * \brief Place les pions sur le plateau de l'interface graphique d'après la disposition indiquée
+ * \brief Place et affiche les pions sur le plateau de l'interface graphique d'après la disposition indiquée
  * \param board Plateau à afficher
 */
 void drawBoard(Board board);
@@ -93,5 +102,3 @@ void drawBoard(Board board);
  * \brief Efface le plateau (en pratique : rend tous les pions invisibles et les déplace en position (0, 0), soit en haut à gauche)
 */
 void clearBoard();
-
-GameData init(char mode);

@@ -1,4 +1,3 @@
-#include "global.h"
 /**
  * \file ai.h
  * \brief Fonctions relatives à à l'IA

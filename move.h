@@ -39,7 +39,8 @@ void translateMove(Move move,char* input);
 */
 char* translateMoveReverse(Move move);
 /**
- * \fn createMove(int x1, int y1, int x2, int y2)
- * brief Créer un déplacement
+ * \fn printMove(Move move)
+ * \brief Affiche un déplacement
+ * \param move Mouvement à afficher
 */
 void printMove(Move move);

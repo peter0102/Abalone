@@ -1,4 +1,3 @@
-#include "global.h"
 /**
  * \file main.h
  * \brief Fonctions principales du jeu
@@ -15,9 +14,9 @@ void display(Board board);
 
 /**
  * \fn isItWin(Board board)
- * \brief Vérifie si il y a un gagnant ou non
+ * \brief Vérifie s'il y a un gagnant ou non
  * \param board Etat du plateau de jeu
- * \return 1 si il y a un gagnant
+ * \return ERROR s'il y a un gagnant, SUCCESS sinon
 */
 char isItWin(Board board);
 
