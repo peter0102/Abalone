@@ -13,7 +13,7 @@ char moveChrConvert (char chr, char type) {
     switch (type) {
         case 'l': index = (chr-'@'); break;
         case 'n': index = (chr-'0'); break;
-        default: printf("%s", "Erreur de conversion : type de caractère inconnu."); return -1;
+        default: printf("%s", "Erreur de conversion : type de caractère inconnu."); return ERROR;
     }
     return (index > 0 && index < 9) ? index : ERROR;
 }
