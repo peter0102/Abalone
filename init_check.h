@@ -5,6 +5,8 @@
  * \version 0.1
 */
 
+typedef struct {char mode; int fdclient;} InitData;
+
 /**
  * \fn initialCheck(int argc, char* argv[])
  * \brief Traite la commande entrée dans le terminal
@@ -17,7 +19,7 @@
  * \n 'c' = réseau (on est le client / les blancs)
  * \n ERROR = erreur
 */
-char initialCheck(int argc, char* argv[]);
+InitData initialCheck(int argc, char* argv[]);
 
 /**
  * \fn printError()

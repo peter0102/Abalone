@@ -5,10 +5,10 @@ LDFLAGS=
 EXEC=abalone
 all: $(EXEC)
 
-abalone: interface.o move.o logic_main.o ai.o allMove.o evaluate.o global.o init_check.o
+abalone: interface.o move.o logic_main.o ai.o allMove.o evaluate.o global.o init_check.o client.o server.o
 	$(CC) `pkg-config --cflags gtk+-3.0` -o $@ $^ `pkg-config --libs gtk+-3.0` $(LDFLAGS)
 
-logic_main.o: logic_main.c logic_main.h ../global.h ../ai.h ../allMove.h ../move.h interface.h
+logic_main.o: logic_main.c logic_main.h ../global.h ../ai.h ../allMove.h ../move.h interface.h ../init_check.h
 	$(CC) `pkg-config --cflags gtk+-3.0` -c -o $@ $< `pkg-config --libs gtk+-3.0`
 
 interface.o: interface.c interface.h ../global.h logic_main.h ../move.h ../init_check.h
@@ -20,7 +20,13 @@ global.o: ../global.c ../global.h
 move.o: ../move.c ../move.h
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
 
-init_check.o: ../init_check.c ../init_check.h
+init_check.o: ../init_check.c ../init_check.h ../client.h ../server.h
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
+
+client.o: ../client.c ../client.h
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
+
+server.o: ../server.c ../server.h
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
 
 ai.o: ../ai.c ../ai.h ../global.h ../evaluate.h ../allMove.h ../move.h

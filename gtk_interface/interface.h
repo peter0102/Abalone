@@ -19,8 +19,10 @@ typedef struct {
     /*! Joueur (couleur) dont c'est le tour */
     char current_player;
     /*! Numéro du tour */
-    int nb_turn; }
-    GameData;
+    int nb_turn;
+    /*! Index de la conexion(-1 = jeu en local)*/
+    int fdclient;
+    } GameData;
 
 /**
  * \fn onDestroy(GtkWidget *widget, gpointer data)
@@ -71,8 +73,9 @@ void setTurnNumber(int turn);
  * \fn setLastMove(Move move)
  * \brief Actualise le texte de l'interface concernant le dernier déplacement joué : "Dernier coup : __:__"
  * \param move Dernier déplacement effectué
+ * \param color Couleur du joueur ayant efectué le déplacement
 */
-void setLastMove(Move move);
+void setLastMove(Move move, char color);
 
 /**
  * \fn setNotification(char* notification)

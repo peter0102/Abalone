@@ -1,29 +1,44 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "global.h"
+#include "client.h"
+#include "server.h"
 #include "init_check.h"
 
-char initialCheck(int argc, char *argv[]) {
-    if (argc != 3) { printError();return ERROR; }
-    if (strcmp(argv[0], "./abalone") != 0) { printError(); printf("Noob"); return ERROR; }
+InitData initialCheck(int argc, char *argv[]) {
+    InitData data = {.mode=ERROR, .fdclient=-1};
+    
+    if (argc != 3) { printError();return data; }
+    if (strcmp(argv[0], "./abalone") != 0) { printError(); return data; }
     
     if(strcmp(argv[1], "-l") == 0) {
         //Lancement local
-        if (strcmp(argv[2], "blanc") == 0)
+        if (strcmp(argv[2], "blanc") == 0) {
             //On joue les blancs
-            return 'w';
-        else if(strcmp(argv[2], "noir") == 0)
+            data.mode = 'w';
+            return data;
+        } else if(strcmp(argv[2], "noir") == 0) {
             //On joue les noirs
-            return 'b';
+            data.mode = 'b';
+            return data;
+        }
     }
-    else if(strcmp(argv[1], "-s") == 0)
+    else if(strcmp(argv[1], "-s") == 0) {
         //Lancement réseau : on est le serveur
-        return 's';
-    else if(strcmp(argv[1], "-c") == 0)
+        data.fdclient = TCPCreateServer((short)atoi(argv[2]));
+        data.mode = 's';
+        return data;
+    } else if(strcmp(argv[1], "-c") == 0) {
         //Lancement réseau : on est le client
-        return 'c';
+        char* server_name = strtok(argv[2], ":");
+        short service = (short)atoi(strtok(NULL, ":"));
+        data.fdclient = TCPCreateClient(server_name, service);
+        data.mode = 'c';
+        return data;
+    }
     printError();
-    return ERROR;
+    return data;
 }
 
 void printError(){
