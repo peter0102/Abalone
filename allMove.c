@@ -226,6 +226,9 @@ char checkMove(Board board, Move m,char current_player) {
     }
     char type_of_move = whatMove(board,m,current_player);
     char nb_allies = allies(type_of_move,m);
+    if(nb_allies == ERROR){ //si le type de mouvement est ERROR allies renvoie ERROR
+        return(ERROR);
+    }
     //Initialisation des actifs (alliés + ennemis)
     Triple coords_allies;
     Triple coords_ennemies;
@@ -289,7 +292,7 @@ char allMove(Board board,Move m,char current_player,char other_player){
     }
     char type_of_move = whatMove(board,m,current_player);
     char nb_allies = allies(type_of_move,m);
-    if(nb_allies == ERROR){ //si le type de mouvement est ERROR nb_allies renvoie ERROR
+    if(nb_allies == ERROR){ //si le type de mouvement est ERROR allies renvoie ERROR
         return(ERROR);
     }
     Triple coords_allies;
