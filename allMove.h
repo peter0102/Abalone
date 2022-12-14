@@ -101,10 +101,9 @@ char checkColor(Triple coords,char color, char nb_allies, Board board);
  * \param plat plateau de jeu
  * \param m Mouvement {{x0,x1},{y0,y1}}
  * \param current_player couleur du joueur à ce tour
- * \param other_player couleur de l'adversaire à ce tour
  * \return Erreur ou succès
 */
-char checkMove(Board board, Move m,char current_player, char other_player);
+char checkMove(Board board, Move m,char current_player);
 
 /**
  * \fn checkForList(Board board, Move m, char current_player,char other_player)
