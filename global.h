@@ -18,7 +18,6 @@
 */
 #define INFTY 147483648
 
-
 //Pions
 
 #define PAWN_NB 14
@@ -37,7 +36,6 @@
 
 
 // Types de deplacement
-
 /**
  * \brief deplacement en ligne horizontal a droite
 */
@@ -82,7 +80,6 @@
 #define LAT_3_HOR_Y0_LEFT 'j'
 
 // Gestion d'erreur
-
 /**
  * \brief message d'erreur
 */
@@ -91,8 +88,6 @@
  * \brief message de succès
 */
 #define SUCCESS 'l'
-
-
 
 //Définition des types
 typedef char Board[MAX_I][MAX_J]; //caractères ASCII
