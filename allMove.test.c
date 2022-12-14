@@ -362,7 +362,7 @@ void testActive(){
     coords_ennemies[0][0] != 3 ||coords_ennemies[1][0] != 7||coords_ennemies[0][1] != 3 ||coords_ennemies[1][1] != 8){
         fprintf(stderr, "allMove: active: wrong coordinates : LAT_2_HOR size 2\n");
     }
-    active(lat_two_hor_down_left_right,LINE_VER_UP,2,coords_allies,coords_ennemies);
+    active(lat_two_hor_down_left_right,LAT_2_HOR,2,coords_allies,coords_ennemies);
     if(coords_allies[0][0] != 4 ||coords_allies[1][0] != 8||coords_allies[0][1] != 4||coords_allies[1][1] != 7||\
     coords_ennemies[0][0] != 2 ||coords_ennemies[1][0] != 2||coords_ennemies[0][1] != 1 ||coords_ennemies[1][1] != 2){
         fprintf(stderr, "allMove: active: wrong coordinates : LAT_2_HOR size 2\n");
@@ -370,47 +370,94 @@ void testActive(){
 
     //Latéral taille 2 vertical
     Move lat_two_ver_left_up_down = {{3,4},{4,3}}; //à gauche commençant en haut finissant en bas
-    Move lat_two_ver_left_down_up = {{4,3},{4,3}}; //à gauche commençant en bas finissant en haut
-    Move lat_two_ver_right_up_down = {{3,4},{4,5}}; //à droite commençant en haut finissant en bas
     Move lat_two_ver_right_down_up = {{4,3},{4,5}}; //à droite commençant en bas finissant en haut
-    if(whatMove(b,lat_two_ver_left_up_down,current_player) != LAT_2_VER||\
-    whatMove(b,lat_two_ver_left_down_up,current_player) != LAT_2_VER||\
-    whatMove(b,lat_two_ver_right_up_down,current_player) != LAT_2_VER||\
-    whatMove(b,lat_two_ver_right_down_up,current_player) != LAT_2_VER){
-        fprintf(stderr, "allMove: whatMove: unrecognized movement : LAT_2_VER");
+    active(lat_two_ver_left_up_down,LAT_2_VER,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 3 ||coords_allies[1][0] != 4||coords_allies[0][1] != 4||coords_allies[1][1] != 4||\
+    coords_ennemies[0][0] != 4 ||coords_ennemies[1][0] != 3||coords_ennemies[0][1] != 3 ||coords_ennemies[1][1] != 3){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_2_VER size 2\n");
+    }
+    active(lat_two_ver_right_down_up,LAT_2_VER,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 4 ||coords_allies[1][0] != 3||coords_allies[0][1] != 4||coords_allies[1][1] != 4||\
+    coords_ennemies[0][0] != 3 ||coords_ennemies[1][0] != 4||coords_ennemies[0][1] !=5 ||coords_ennemies[1][1] != 5){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_2_VER size 2\n");
     }
 
     //Latéral taille 3 vertical x0 en bas
     Move lat_three_ver_x0_down_right = {{5,3},{2,1}};
     Move lat_three_ver_x0_down_left = {{5,3},{2,3}};
-    if(whatMove(b,lat_two_ver_left_up_down,current_player) != LAT_3_VER_X0_DOWN||\
-    whatMove(b,lat_two_ver_left_down_up,current_player) != LAT_3_VER_X0_DOWN){
-        fprintf(stderr, "allMove: whatMove: unrecognized movement : LAT_3_VER_X0_DOWN");
+    active(lat_three_ver_x0_down_right,LAT_3_VER_X0_DOWN,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 5||coords_allies[1][0] != 2||coords_allies[0][1] != 4||coords_allies[1][1] != 2||\
+    coords_allies[0][2] != 3||coords_allies[1][2] != 2||\
+    coords_ennemies[0][0] != 3 ||coords_ennemies[1][0] != 1||coords_ennemies[0][1] != 4 ||coords_ennemies[1][1] != 1||\
+    coords_ennemies[0][2] != 5 ||coords_ennemies[1][2] != 1){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_3_VER_X0_DOWN size 2\n");
     }
+    active(lat_three_ver_x0_down_left,LAT_3_VER_X0_DOWN,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 5||coords_allies[1][0] != 2||coords_allies[0][1] != 4||coords_allies[1][1] != 2||\
+    coords_allies[0][2] != 3||coords_allies[1][2] != 2||\
+    coords_ennemies[0][0] != 3 ||coords_ennemies[1][0] != 3||coords_ennemies[0][1] != 4 ||coords_ennemies[1][1] != 3||\
+    coords_ennemies[0][2] != 5 ||coords_ennemies[1][2] != 3){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_3_VER_X0_DOWN size 2\n");
+    }
+
 
     //Latéral taille 3 vertical x0 en haut
     Move lat_three_ver_x0_up_right = {{3,5},{2,1}};
     Move lat_three_ver_x0_up_left = {{3,5},{2,3}};
-    if(whatMove(b,lat_three_ver_x0_up_right,current_player) != LAT_3_VER_X0_DOWN||\
-    whatMove(b,lat_three_ver_x0_up_left,current_player) != LAT_3_VER_X0_DOWN){
-        fprintf(stderr, "allMove: whatMove: unrecognized movement : LAT_3_VER_X0_DOWN");
+    active(lat_three_ver_x0_down_right,LAT_3_VER_X0_UP,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 3||coords_allies[1][0] != 2||coords_allies[0][1] != 4||coords_allies[1][1] != 2||\
+    coords_allies[0][2] != 5||coords_allies[1][2] != 2||\
+    coords_ennemies[0][0] != 5 ||coords_ennemies[1][0] != 1||coords_ennemies[0][1] != 4 ||coords_ennemies[1][1] != 1||\
+    coords_ennemies[0][2] != 3 ||coords_ennemies[1][2] != 1){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_3_VER_X0_UP size 2\n");
+    }
+    active(lat_three_ver_x0_down_left,LAT_3_VER_X0_UP,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 3||coords_allies[1][0] != 2||coords_allies[0][1] != 4||coords_allies[1][1] != 2||\
+    coords_allies[0][2] != 5||coords_allies[1][2] != 2||\
+    coords_ennemies[0][0] != 5 ||coords_ennemies[1][0] != 3||coords_ennemies[0][1] != 4 ||coords_ennemies[1][1] != 3||\
+    coords_ennemies[0][2] != 3 ||coords_ennemies[1][2] != 3){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_3_VER_X0_UP size 2\n");
     }
 
     //Latéral taille 3 horizontal y0 à droite
     Move lat_three_hor_y0_right_up = {{7,6},{7,5}};
     Move lat_three_hor_y0_right_down = {{7,8},{7,5}};
-    if(whatMove(b,lat_three_hor_y0_right_up,current_player) != LAT_3_HOR_Y0_RIGHT||\
-    whatMove(b,lat_three_hor_y0_right_down,current_player) != LAT_3_HOR_Y0_RIGHT){
-        fprintf(stderr, "allMove: whatMove: unrecognized movement : LAT_3_HOR_Y0_RIGHT");
+    active(lat_three_hor_y0_right_up,LAT_3_HOR_Y0_RIGHT,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 7||coords_allies[1][0] != 7||coords_allies[0][1] != 7||coords_allies[1][1] != 6||\
+    coords_allies[0][2] != 7||coords_allies[1][2] != 5||\
+    coords_ennemies[0][0] != 6 ||coords_ennemies[1][0] != 5||coords_ennemies[0][1] != 6 ||coords_ennemies[1][1] != 6||\
+    coords_ennemies[0][2] != 6 ||coords_ennemies[1][2] != 7){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_3_HOR_Y0_RIGHT size 2\n");
+    }
+    active(lat_three_hor_y0_right_down,LAT_3_HOR_Y0_RIGHT,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 7||coords_allies[1][0] != 7||coords_allies[0][1] != 7||coords_allies[1][1] != 6||\
+    coords_allies[0][2] != 7||coords_allies[1][2] != 5||\
+    coords_ennemies[0][0] != 8 ||coords_ennemies[1][0] != 5||coords_ennemies[0][1] != 8 ||coords_ennemies[1][1] != 6||\
+    coords_ennemies[0][2] != 8 ||coords_ennemies[1][2] != 7){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_3_HOR_Y0_RIGHT size 2\n");
     }
 
     //Latéral taille 3 horizontal y0 à gauche
     Move lat_three_hor_y0_left_up = {{7,6},{5,7}};
     Move lat_three_hor_y0_left_down = {{7,8},{5,7}};
-    if(whatMove(b,lat_three_hor_y0_left_up,current_player) != LAT_3_HOR_Y0_LEFT||\
-    whatMove(b,lat_three_hor_y0_left_down,current_player) != LAT_3_HOR_Y0_LEFT){
-        fprintf(stderr, "allMove: whatMove: unrecognized movement : LAT_3_HOR_Y0_RIGHT");
+    active(lat_three_hor_y0_left_up,LAT_3_HOR_Y0_LEFT,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 7||coords_allies[1][0] != 5||coords_allies[0][1] != 7||coords_allies[1][1] != 6||\
+    coords_allies[0][2] != 7||coords_allies[1][2] != 7||\
+    coords_ennemies[0][0] != 6 ||coords_ennemies[1][0] != 7||coords_ennemies[0][1] != 6 ||coords_ennemies[1][1] != 6||\
+    coords_ennemies[0][2] != 6 ||coords_ennemies[1][2] != 5){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_3_HOR_Y0_LEFT size 2\n");
     }
+    active(lat_three_hor_y0_left_down,LAT_3_HOR_Y0_LEFT,2,coords_allies,coords_ennemies);
+    if(coords_allies[0][0] != 7||coords_allies[1][0] != 5||coords_allies[0][1] != 7||coords_allies[1][1] != 6||\
+    coords_allies[0][2] != 7||coords_allies[1][2] != 7||\
+    coords_ennemies[0][0] != 8 ||coords_ennemies[1][0] != 7||coords_ennemies[0][1] != 8 ||coords_ennemies[1][1] != 6||\
+    coords_ennemies[0][2] != 8 ||coords_ennemies[1][2] != 5){
+        fprintf(stderr, "allMove: active: wrong coordinates : LAT_3_HOR_Y0_LEFT size 2\n");
+    }
+}
+
+void testEnnemies(){
+
 }
 
 char testingAllMove(){
@@ -418,4 +465,5 @@ char testingAllMove(){
     testCheckSuicide();
     testWhatMove();
     testAllies();
+    testActive();
 }
