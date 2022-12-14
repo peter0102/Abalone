@@ -8,7 +8,7 @@ void runTest(int (*f)(), int* failures, int* runs) {
 
 int main(int argc, char* argv[]) {
     int test_count = 0, failures = 0;
-    //Insérer les runTest(nom_fonction, &failures, &runs);
+    //Insérer les runTest(nom_fonction, &failures, &test_count);
     printf("%d failures out of %d tests\n", failures, test_count);
     return failures;
 }
