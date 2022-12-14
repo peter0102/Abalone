@@ -11,7 +11,7 @@ abalone: main.o move.o allMove.o evaluate.o ai.o
 	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
 
 #Dépendances
-main.o: main.c main.h move.h allMove.h ListeDeplacement1Bille.h evaluate.h global.h
+main.o: main.c main.h move.h allMove.h evaluate.h global.h
 move.o: move.c move.h
 allMove.o: allMove.c allMove.h
 evaluate.o: evaluate.c evaluate.h
