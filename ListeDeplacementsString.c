@@ -176,6 +176,10 @@ char* FindAllMoves(char current_player){
 
     int compteurCoups=0;
 
+    compteurDeuxPions=0;
+
+    compteurTroisPions=0;
+
     Triple Tampon;
 
     for(int i=0;i<14;i++){
