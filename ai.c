@@ -6,8 +6,6 @@
 #include "allMove.h"
 #include "ai.h"
 
-#include "evaluate.c"
-
 char* moves[]={"H1:G1","H2:F2","G2:F2","G3:F3","H3:F3","G4:F4","H4:F4","G5:G5","H5:F5","G6:F6","H6:F6","G7:F7","H7:F7","H8:G8"};
 
 /*fonction minimax, teste toutes les possibilités de mouvement possible pour une configuration du plateau
