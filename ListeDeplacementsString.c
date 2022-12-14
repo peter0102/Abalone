@@ -339,7 +339,7 @@ int UneBilleUnCoupHautGauche(Move CoupATester, int compteurCoups, char current_p
 int UneBilleUnCoupDroiteBas(Move CoupATester, int compteurCoups, char current_player){
 
     char resultat;
-    resultat =checkForList(plat, CoupATester, current_player, otherPlayer(current_player));
+    resultat =checkForList(plat, CoupATester, current_player);
 
     if (resultat==SUCCESS){ // Coup autoris�
             ListeCoups[compteurCoups][0][0]=CoupATester[0][0];
@@ -484,7 +484,7 @@ int DeuxBillesQuatreCoupsHorizontal(Triple GroupeATester, int compteurCoups, cha
 int DeuxBillesUnCoupEtPeutEtre3Billes(Move CoupATester, int compteurCoups, char current_player) {
 
     char resultat;
-    resultat =checkForList(plat, CoupATester, current_player, otherPlayer(current_player));
+    resultat =checkForList(plat, CoupATester, current_player);
 
     if (resultat==SUCCESS){ // Coup autoris�
             ListeCoups[compteurCoups][0][0]=CoupATester[0][0];
@@ -522,7 +522,7 @@ int DeuxBillesUnCoupEtPeutEtre3Billes(Move CoupATester, int compteurCoups, char 
 int DeuxBillesUnCoup(Move CoupATester, int compteurCoups, char current_player) {
 
     char resultat;
-    resultat =checkForList(plat, CoupATester, current_player, otherPlayer(current_player));
+    resultat =checkForList(plat, CoupATester, current_player);
 
     if (resultat==SUCCESS){
             ListeCoups[compteurCoups][0][0]=CoupATester[0][0];
@@ -662,7 +662,7 @@ int TroisBillesQuatreCoupsHorizontal(Triple GroupeATester, int compteurCoups, ch
 int TroisBillesUnCoup(Move CoupATester, int compteurCoups, char current_player) {
 
     char resultat;
-    resultat =checkForList(plat, CoupATester, current_player, otherPlayer(current_player));
+    resultat =checkForList(plat, CoupATester, current_player);
 /*
     printf("\nLe coup demande est : ");
     AfficherCoup(CoupATester);
