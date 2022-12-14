@@ -10,9 +10,8 @@
 #include "allMove.h"
 #include "allMove.c"
 
-
+#include "ListeDeplacementsString.h"
 #include "ListeDeplacementsString.c"
-
 
 char* TraduireV2(char* liste, int taille){
 
