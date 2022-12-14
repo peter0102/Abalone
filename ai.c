@@ -6,9 +6,11 @@
 #include "allMove.h"
 #include "ai.h"
 
+#include "evaluate.c"
+
 char* moves[]={"H1:G1","H2:F2","G2:F2","G3:F3","H3:F3","G4:F4","H4:F4","G5:G5","H5:F5","G6:F6","H6:F6","G7:F7","H7:F7","H8:G8"};
 
-/*fonction minimax, teste toutes les possibilités de mouvement possible pour une configuration du plateau 
+/*fonction minimax, teste toutes les possibilités de mouvement possible pour une configuration du plateau
 et simule celles de l'adversaire jusqu'à une certaine profondeur*/
 int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer){
 	int lengthOfMoves=sizeof(moves)/sizeof(moves[0]); // taille de la liste de mouvements
@@ -19,8 +21,8 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer){
 	if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
 		return evaluate(board,BLACK,WHITE);
 	}
-	    
-	if(isMaximizingPlayer){ 
+
+	if(isMaximizingPlayer){
         int score=-INFTY;
         for (int i=0;i<lengthOfMoves;i++) {
             char* charac=moves[i];

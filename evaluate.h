@@ -9,17 +9,19 @@
  * \fn victory(Board board)
  * \brief Evalue si un pion adverse est dans la bordure
  * \param board Etat du plateau de jeu
- * return Retourne 1 si c'est une victoire, rien sinon
+ * \param other_player Caractère qui indique la couleur du joueur dont ce n'est pas le tour
+ * \return Retourne 1 si c'est une victoire, rien sinon
 */
-int victory(Board board);
+int victory(Board board, char other_player);
 
 /**
  * \fn loss(Board board)
  * \brief Evalue si un pion allié est dans la bordure
  * \param board Etat du plateau de jeu
- * return Retourne 1 si c'est une défaite, rien sinon
+ * \param current_player Caractère qui indique la couleur du joueur dont c'est le tour
+ * \return Retourne 1 si c'est une défaite, rien sinon
 */
-int loss(Board board);
+int loss(Board board,char current_player);
 
 /**
  * \fn density(Board board,char currentPlayer,int alpha)
@@ -27,7 +29,7 @@ int loss(Board board);
  * \param board Etat du plateau de jeu
  * \param currentPlayer Le joueur actuel
  * \param alpha Coefficient de grandeur
- * return Retourne le score de la densité du joueur actuel 
+ * \return Retourne le score de la densité du joueur actuel
 */
 int density(Board board,char currentPlayer,int alpha);
 /**

@@ -2,11 +2,17 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+
 #include "global.h"
 #include "main.h"
 #include "ai.h"
 #include "allMove.h"
 #include "move.h"
+
+#include "global.c"
+#include "ai.c"
+#include "allMove.c"
+#include "move.c"
 
 void display(Board board){
     for (int i=1; i<MAX_I-1; i++){
