@@ -21,6 +21,20 @@
  * allMove
  */
 
+/*
+ * Liste de mouvements à tester
+ * LINE_HOR_RIGHT
+ * LINE_HOR_LEFT
+ * LINE_VER_DOWN
+ * LINE_VER_UP
+ * LAT_2_HOR
+ * LAT_2_VER
+ * LAT_3_VER_X0_DOWN
+ * LAT_3_VER_X0_UP
+ * LAT_3_HOR_Y0_RIGHT
+ * LAT_3_HOR_Y0_LEFT
+ */
+
 //syntaxe message d'erreur : fprintf(stderr, "test_add_1_2: add: expecting %d while got %d", expected, actual)
 
 void testAbsChar(){
@@ -457,7 +471,160 @@ void testActive(){
 }
 
 void testEnnemies(){
+    //test de ennemies donc ennemiesLine et ennemiesLat
+    Board a = {
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 1.1 & cas 2.1
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, EMPTY, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, WHITE, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 2.2
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, WHITE, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, WHITE, BLACK, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, BLACK, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 2.3
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, BLACK, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    };
 
+    Board b = {
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, BLACK, BLACK, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 1.2 & cas 2.4
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, EMPTY, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, EMPTY, BLACK, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, WHITE, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 2.5
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, WHITE, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, WHITE, BLACK, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, BLACK, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 2.6
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    };
+
+    Board c = {
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, BLACK, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, WHITE, BLACK, BLACK, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 1.3 & cas 2.7
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, EMPTY, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, EMPTY, BLACK, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, WHITE, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 2.8
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, WHITE, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, WHITE, BLACK, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    };
+
+    Board d = {
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 2.9
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, WHITE, EMPTY, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, EMPTY, EMPTY, EMPTY},
+            //fin des triples
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    };
+
+    //Cas en ligne (39 possibilités (1.3 2.9 3.27)
+
+    Move a_one_one = {{1,1},{3,4}};
+    Move b_one_two = {{2,2},{3,4}};
+    Move c_one_three = {{3,3},{3,4}};
+
+    Move a_two_one = {{1,1},{2,4}};
+    Move a_two_two = {{4,4},{2,4}};
+    Move a_two_three = {{7,7},{2,4}};
+    Move b_two_four = {{1,2},{2,4}};
+    Move b_two_five = {{1,5},{2,4}};
+    Move b_two_six = {{1,8},{2,4}};
+    Move c_two_seven = {{1,3},{2,4}};
+    Move c_two_eight = {{1,6},{2,4}};
+    Move d_two_nine = {{1,1},{2,4}};
+
+    Move a_three_one_one = {{1,1},{1,4}};
+    Move a_three_one_two = {{2,1},{2,4}};
+    Move a_three_one_three= {{3,1},{3,4}};
+    Move a_three_one_four = {{4,1},{4,4}};
+    Move a_three_one_five = {{5,1},{5,4}};
+    Move a_three_one_six = {{6,1},{6,4}};
+    Move a_three_one_seven = {{7,1},{7,4}};
+    Move a_three_one_eight = {{8,1},{8,4}};
+    Move b_three_one_nine = {{1,1},{1,4}};
+    Move b_three_two_one = {{2,1},{2,4}};
+    Move b_three_two_two = {{3,1},{3,4}};
+    Move b_three_two_three = {{4,1},{4,4}};
+    Move b_three_two_four = {{5,1},{5,4}};
+    Move b_three_two_five = {{6,1},{6,4}};
+    Move b_three_two_six = {{7,1},{7,4}};
+    Move b_three_two_seven = {{8,1},{8,4}};
+    Move c_three_two_eight = {{1,1},{1,4}};
+    Move c_three_two_nine = {{2,1},{2,4}};
+    Move c_three_three_one = {{3,1},{3,4}};
+    Move c_three_three_two = {{4,1},{4,4}};
+    Move c_three_three_three = {{5,1},{5,4}};
+    Move c_three_three_four = {{6,1},{6,4}};
+    Move c_three_three_five = {{7,1},{7,4}};
+    Move c_three_three_six = {{8,1},{8,4}};
+    Move d_three_three_seven = {{1,1},{1,4}};
+    Move d_three_three_eight = {{2,1},{2,4}};
+    Move d_three_three_nine = {{3,1},{3,4}};
+
+    Move* moves_line[39] = {&a_one_one,&b_one_two,&c_one_three,
+&a_two_one, &a_two_two, &a_two_three, &b_two_four, &b_two_five, &b_two_six, &c_two_seven, &c_two_eight, &d_two_nine,
+&a_three_one_one, &a_three_one_two, &a_three_one_three, &a_three_one_four, &a_three_one_five, &a_three_one_six,
+&a_three_one_seven, &a_three_one_eight, &b_three_one_nine, &b_three_two_one, &b_three_two_two, &b_three_two_three,
+&b_three_two_four, &b_three_two_five, &b_three_two_six, &b_three_two_seven, &c_three_two_eight, &c_three_two_nine,
+&c_three_three_one, &c_three_three_two, &c_three_three_three, &c_three_three_four, &c_three_three_five,
+&c_three_three_six, &d_three_three_seven, &d_three_three_eight, &d_three_three_nine};
+
+    char nb_ennemies_line[39] = {0,ERROR,ERROR,
+ 0,0,0,1,ERROR,ERROR,ERROR,ERROR,ERROR,
+ 0,0,0,0,0,0,0,0,0,
+ 1,1,1,2,ERROR,ERROR,ERROR,ERROR,ERROR,
+ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR};
+
+    Board* ennemies_board[4] = {&a,&b,&c,&d};
+
+    //on suppose que les fonctions précédentes fonctionnent (elles sont testées avant)
+    char errors = 0; //max 39
+    Triple coords_allies;
+    Triple coords_ennemies;
+    char current_player = BLACK;
+    char nb_allies;
+    char type_of_move = LINE_HOR_RIGHT;
+    // active(Move m,char type_of_move,char nb_allies,Triple coords_allies,Triple coords_ennemies)
+    // allies(char type_of_move,Move m)
+    // ennemies(Board board,Triple coords_ennemies,char nb_allies, char current_player, char type_of_move)
+    for(int i=0;i<39;i++){
+        nb_allies = allies(type_of_move,*moves_line[i]);
+        active(*moves_line[i],type_of_move,nb_allies,coords_allies,coords_ennemies);
+        if(i<3){ //cas 1
+            if(ennemies(*ennemies_board[i],coords_ennemies,nb_allies,current_player,type_of_move != nb_ennemies_line[i])!=nb_ennemies_line[i]){
+                errors++;
+            }
+        }
+        else if(i<12){ //cas 2
+            if(i==11){
+                if(ennemies(d,coords_ennemies,nb_allies,current_player,type_of_move) != nb_ennemies_line[i]){
+                    errors++;
+                }
+            }
+            else{
+                if(ennemies(*ennemies_board[(i-3)/3],coords_ennemies,nb_allies,current_player,type_of_move != nb_ennemies_line[i])){
+                    errors++;
+                }
+            }
+        }
+        else{ //cas 3
+            if(ennemies(*ennemies_board[(i-12)/8],coords_ennemies,nb_allies,current_player,type_of_move != nb_ennemies_line[i])){
+                errors++;
+            }
+        }
+    }
+
+    if(errors!=0){
+        fprintf(stderr, "allMove: ennemies: %d errors while processing ennemies in all states of LINE_HOR_RIGHT move\n",errors);
+    }
 }
 
 char testingAllMove(){
