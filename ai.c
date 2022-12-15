@@ -16,44 +16,52 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, ch
     Move m;
     Move mback;
     Move list[56];
-	if(depth==0 || isItWin(board)==SUCCESS){ //S'arrête lorsque la profondeur souhaitée est atteinte ou si un mouvement fait gagner la partie
-		return evaluate(board,current_player,other_player);
-	}
-	    if(isMaximizingPlayer){
+    if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
+        return evaluate(board,current_player,other_player);
+    }
+    if(isMaximizingPlayer){
         int score=-INFTY;
-        int nb_of_moves=lmove(board,current_player,list);
-        for (int i=0;i<nb_of_moves;i++) {
+        int a=lmove(board,current_player,list);
+        for (int i=0;i<a;i++) {
             allMove(board,list[i],current_player,other_player); // effectue un mouvement
-			int newScore=miniMax(board,depth-1,alpha,beta,false, current_player, other_player); // simule le tour de l'adversaire
+            int newScore=miniMax(board,depth-1,alpha,beta,false, current_player, other_player); // simule le tour de l'adversaire
             mback[0][0]=list[i][0][1];
             mback[1][0]=list[i][1][1];
             mback[0][1]=list[i][0][0];
             mback[1][1]=list[i][1][0];
             allMove(board,mback,current_player,other_player); // on annule le mouvement joué
-			if (newScore>score) score=newScore; // on choisit le mouvement donnant le plateau au meilleur score
-			if (alpha>newScore) alpha=newScore;
+            if (newScore>score) score=newScore; // on choisit le mouvement donnant le meilleur score
+            if (alpha>newScore) alpha=newScore;
             if (alpha>=beta) break; // elagage
         }
-		return score;
+        return score;
 
-	}
-	else {
+    }
+    else {
         int score=INFTY;
-        int nb_of_moves=lmove(board,other_player,list);
-        for (int i=0;i< nb_of_moves;i++) {
+        int a=lmove(board,other_player,list);
+        for (int i=0;i<a;i++) {
             allMove(board,list[i],other_player,current_player);
-			int newScore=miniMax(board,depth-1,alpha,beta,true, current_player, other_player); // simule le tour de l'adversaire
+            int newScore=miniMax(board,depth-1,alpha,beta,true, current_player, other_player); // simule le tour de l'adversaire
             mback[0][0]=list[i][0][1];
             mback[1][0]=list[i][1][1];
             mback[0][1]=list[i][0][0];
             mback[1][1]=list[i][1][0];
             allMove(board,mback,other_player, current_player);
-			if (newScore<score) score=newScore; // on prend le moins bon score
-			if (beta<newScore) alpha=newScore;
+            if (newScore<score) score=newScore; // on prend le moins bon score
+            if (beta<newScore) alpha=newScore;
             if (beta<=alpha) break; // elagage
         }
-		return score;
-	}
+        return score;
+    }
+}
+
+void cpBoard(Board* to,Board from){
+    for(char i=0;i<10;i++){
+        for(char j=0;j<10;j++){
+            (*to)[i][j] = from[i][j];
+        }
+    }
 }
 
 //fonction de déplacement pour les pions de l'IA, choisissant le "meilleur" mouvement, selon les fonctions heuristiques
@@ -63,16 +71,13 @@ void aiBestMove(Move move, Board board, char current_player, char other_player){
     Move bestMove; // prend le meilleur mouvement
     int score=-INFTY;
     Move list[56];
-    int nb_of_moves=lmove(board,current_player,list);
-    for(int i=0;i<nb_of_moves;i++){
-        allMove(board,list[i],current_player,other_player);
-        //display(board);
-        int newScore=miniMax(board,1,-INFTY,INFTY,false, current_player, other_player);
-        mback[0][0]=list[i][0][1];
-        mback[1][0]=list[i][1][1];
-        mback[0][1]=list[i][0][0];
-        mback[1][1]=list[i][1][0];
-        allMove(board,mback,current_player,other_player);
+    int a=lmove(board,current_player,list);
+    Board dummy_board;
+    for(int i=0;i<a;i++){
+        cpBoard(&dummy_board,board);
+        allMove(dummy_board,list[i],current_player,other_player);
+        // test display(board);
+        int newScore=miniMax(dummy_board,3,-INFTY,INFTY,false, current_player, other_player);
         if (newScore>score) {
             score=newScore;
             bestMove[0][0]=list[i][0][0];
@@ -83,5 +88,4 @@ void aiBestMove(Move move, Board board, char current_player, char other_player){
     }
     move[0][0] = bestMove[0][0]; move[0][1] = bestMove[0][1];
     move[1][0] = bestMove[1][0]; move[1][1] = bestMove[1][1];
-    return;
 }
