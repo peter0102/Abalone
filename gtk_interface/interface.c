@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <pthread.h>
 #include "../global.h"
 #include "../init_check.h"
 #include "interface.h"
@@ -135,9 +137,9 @@ int main(int argc, char *argv[])
 	//gtk_box_pack_start(GTK_BOX(buttons_v_box), drawButton, FALSE, FALSE, 0);			// Insertion du bouton "Dessiner" dans la boîte ver.
 	
 	quitButton = gtk_button_new_with_label("Quitter");										// Création du bouton "Quitter"
-	g_signal_connect(G_OBJECT(quitButton), "clicked", G_CALLBACK(gtk_main_quit), NULL);		// Connexion du signal "clicked"
+	g_signal_connect(G_OBJECT(quitButton), "clicked", G_CALLBACK(onDestroy), &game_data);		// Connexion du signal "clicked"
 	gtk_box_pack_start(GTK_BOX(buttons_v_box), quitButton, FALSE, FALSE, 0);				// Insertion du bouton "Quitter" dans la boîte ver.
-	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(onDestroy), NULL);				// Connexion du signal "destroy"
+	g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(onDestroy), &game_data);				// Connexion du signal "destroy"
 	
 	gtk_box_pack_end(GTK_BOX(main_v_box), buttons_v_box, FALSE, FALSE, 0);	// Insertion de buttons_v_box dans main_v_box
 	
@@ -147,6 +149,14 @@ int main(int argc, char *argv[])
 
 	game_data = init(data);
 	drawBoard(game_data.board);
+	if (game_data.me == WHITE) {
+		//Si on ne commence pas, on fait commencer l'adversaire
+		if (game_data.fdclient == -1) nextTurnAILocal(&game_data);
+		else /*{
+			pthread_t thread;
+			pthread_create(&thread, NULL, nextTurnOpponentNetwork, (void*)&game_data);
+		}*/nextTurnOpponentNetwork(&game_data);
+	}
 	gtk_main();															// Démarrage de la boucle d'évènements principale
 	return EXIT_SUCCESS;
 }
@@ -158,11 +168,21 @@ void onActivateEntry(GtkEntry* entry, GameData* gd) {
 	gtk_entry_set_text(entry, "");
 	if (move[0][0] == ERROR) return;
 	if (gd->fdclient == -1) nextTurnLocal(gd, move); // Jeu en local
-	else nextTurnNetwork(gd, move); //Jeu en réseau
+	else {
+		//Jeu en réseau
+		//pthread_t thread;
+		ThreadArg args;
+		args.gd = gd;
+		translateMove(args.move, translateMoveReverse(move));
+		//pthread_create(&thread, NULL, nextTurnPlayerNetwork, (void*)&args);
+		//pthread_join(thread, NULL);
+		nextTurnPlayerNetwork(gd, move);
+	}
 }
 
-void onDestroy(GtkWidget *widget, gpointer data) {
-    gtk_main_quit();
+void onDestroy(GtkWidget *widget, GameData* gd) {
+    close(gd->fdclient);
+	gtk_main_quit();
 }
 
 /*void onDraw(GtkWidget *widget, gpointer data) {

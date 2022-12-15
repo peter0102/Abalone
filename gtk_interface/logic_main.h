@@ -34,4 +34,5 @@ GameData init(InitData data);
 void nextTurnLocal(GameData* gd, Move move);
 
 void nextTurnAILocal(GameData* gd);
-void nextTurnNetwork(GameData* gd, Move move);
+void nextTurnPlayerNetwork(GameData* gd, Move move);
+void nextTurnOpponentNetwork(GameData* gd);
