@@ -10,7 +10,7 @@ void movecopy(Move* to, Move from){
     (*to)[1][1] = from[1][1];
 }
 
-char lmove(Board board, char current_player, Move list_possible_moves[56]){
+char lmove(Board board, char current_player, Move list_possible_moves[100]){
     int nb_possible_moves = 0;
     //Move list_possible_moves[56]; //coups max = 4 directions * 14 pions
     Triple line;

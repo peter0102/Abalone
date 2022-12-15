@@ -15,7 +15,7 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, ch
     beta=INFTY;
     Move m;
     Move mback;
-    Move list[56];
+    Move list[100];
     if(depth==0 || isItWin(board)==SUCCESS){ //S'arrête lorsque la profondeur souhaitée est atteinte
         return evaluate(board,current_player,other_player);
     }
@@ -70,7 +70,7 @@ void aiBestMove(Move move, Board board, char current_player, char other_player){
     Move mback; // pour "annuler" un mouvement
     Move bestMove; // prend le meilleur mouvement
     int score=-INFTY;
-    Move list[56];
+    Move list[100];
     int a=lmove(board,current_player,list);
     Board dummy_board;
     for(int i=0;i<a;i++){
