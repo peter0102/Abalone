@@ -5,7 +5,7 @@
 #include "move.h"
 #include "allMove.h"
 #include "ai.h"
-#include "lmove.h"
+#include "listMove.h"
 #include "main.h"
 
 /*fonction minimax, teste toutes les possibilités de mouvement possible pour une configuration du plateau pour un joueur,

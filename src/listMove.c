@@ -1,7 +1,7 @@
 //fichier de test à ignorer
 #include "global.h"
 #include "allMove.h"
-#include "lmove.h"
+#include "listMove.h"
 
 void movecopy(Move* to, Move from){
     (*to)[0][0] = from[0][0];

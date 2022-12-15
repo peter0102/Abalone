@@ -1,5 +1,5 @@
 /**
- * \file init_check.h
+ * \file initCheck.h
  * \brief Fonction traitant la commande entrée dans le terminal
  * \author Groupe 1
  * \version 0.1
