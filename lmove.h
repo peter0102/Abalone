@@ -21,4 +21,4 @@ void movecopy(Move* to, Move from);
  * \param nb_alist_possible_moves liste des moves possibles (les valeurs seront écrasées)
  * \return Nombre de coups possibles
 */
-char lmove(Board board, char current_player, Move list_possible_moves[56]);
+char lmove(Board board, char current_player, Move list_possible_moves[100]);
