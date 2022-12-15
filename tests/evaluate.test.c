@@ -298,6 +298,28 @@ int testcanAttackOnBlack2v1(){
         }
     return 1;
 }
+int testcanEndWhite3v2(){
+    Board board= {
+    {EMPTY, EMPTY, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, WHITE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, WHITE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, WHITE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+    {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    };
+    int expected_score=10000;
+    int actual_score=canEnd(board,WHITE,BLACK);
+        if(expected_score != actual_score){
+        fprintf(stderr, "evaluate: testcanEndWgite3v2: expecting %i while got %i\n", expected_score, actual_score);
+        return 0;
+        }
+    return 1;
+}
+
 void main(){
     int failures=0;
     int test_count=1;
@@ -329,5 +351,8 @@ void main(){
     test_count++;
     if (!testcanAttackOnBlack2v1()) failures++;
     test_count++;
+    if (!testcanEndWhite3v2()) failures++;
+    test_count++;
+    printf("%d failures out of %d tests\n", failures, test_count);
     return failures;
 }

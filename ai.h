@@ -14,7 +14,7 @@
  * \param isMaximizingPlayer booléen true si on cherche à maximiser l'utilité, false sinon
  * \return Retourne le score le plus haut correspondant au "meilleur" mouvemement
 */
-int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer);
+int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer,char current_player, char other_player);
 /**
  * \fn aiBestMove(Move move, Board board,char current_player, char other_player)
  * \brief Retourne le meilleur déplacement de l'IA à travers move
