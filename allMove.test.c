@@ -472,6 +472,7 @@ void testActive(){
 
 void testEnnemies(){
     //test de ennemies donc ennemiesLine et ennemiesLat
+    //tous les mouvements possibles en ligne
     Board a = {
             {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
             {EMPTY, BLACK, BLACK, BLACK, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}, //cas 1.1 & cas 2.1
@@ -625,6 +626,65 @@ ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR,ERROR};
     if(errors!=0){
         fprintf(stderr, "allMove: ennemies: %d errors while processing ennemies in all states of LINE_HOR_RIGHT move\n",errors);
     }
+
+    //tous les mouvements possibles en latéral
+    //taille 1 : considéré comme en ligne
+    Board e = {
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+
+            {EMPTY, EMPTY, BLACK, BLACK, WHITE, BLACK, BLACK, BLACK, EMPTY, EMPTY},
+            {EMPTY, EMPTY, BLACK, BLACK, WHITE, BLACK, BLACK, BLACK, EMPTY, EMPTY},
+
+            {EMPTY, WHITE, BLACK, BLACK, BLACK, EMPTY, BLACK, BLACK, BLACK, EMPTY},
+            {EMPTY, EMPTY, BLACK, BLACK, WHITE, EMPTY, BLACK, BLACK, EMPTY, EMPTY},
+            {EMPTY, BLACK, BLACK, BLACK, EMPTY, EMPTY, BLACK, BLACK, EMPTY, EMPTY},
+
+            {EMPTY, EMPTY, BLACK, BLACK, BLACK, WHITE, BLACK, BLACK, EMPTY, EMPTY},
+            {EMPTY, EMPTY, BLACK, BLACK, WHITE, EMPTY, BLACK, BLACK, WHITE, EMPTY},
+            {EMPTY, WHITE, BLACK, BLACK, BLACK, EMPTY, BLACK, BLACK, EMPTY, EMPTY},
+
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    };
+
+
+
+    Move e_two_one = {{1,2},{2,1}};
+    Move e_two_two = {{4,4},{2,4}};
+    Move e_two_three = {{3,4},{2,1}};
+    Move e_two_four = {{5,6},{2,1}};
+    Move e_two_five = {{7,8},{2,1}};
+    Move e_two_six = {{1,2},{3,4}};
+    Move e_two_seven = {{3,4},{3,4}};
+    Move e_two_eight = {{5,6},{3,4}};
+    Move e_two_nine = {{7,8},{3,4}};
+
+    Move e_three_one_one = {{3,5},{6,5}};
+    Move e_three_one_two = {{6,8},{6,5}};
+    Move e_three_one_three = {{3,5},{7,8}};
+    Move e_three_one_four = {{6,8},{7,8}};
+
+    Board f = {
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY},
+
+            {EMPTY, WHITE, BLACK, BLACK, BLACK, EMPTY, BLACK, BLACK, BLACK, EMPTY},
+            {EMPTY, WHITE, BLACK, BLACK, WHITE, EMPTY, BLACK, BLACK, EMPTY, EMPTY},
+            {EMPTY, EMPTY, BLACK, BLACK, EMPTY, EMPTY, BLACK, BLACK, EMPTY, EMPTY},
+
+            {EMPTY, BLACK, BLACK, BLACK, BLACK, WHITE, BLACK, BLACK, EMPTY, EMPTY},
+            {EMPTY, WHITE, BLACK, BLACK, WHITE, EMPTY, BLACK, BLACK, WHITE, EMPTY},
+            {EMPTY, WHITE, BLACK, BLACK, BLACK, EMPTY, BLACK, BLACK, EMPTY, EMPTY},
+
+            {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY}
+    };
+
+    Move f_three_one_five = {{3,5},{2,1}};
+    Move f_three_one_six = {{6,8},{2,1}};
+
+    Move f_three_one_seven = {{6,8},{2,1}};
+
+
 }
 
 char testingAllMove(){
