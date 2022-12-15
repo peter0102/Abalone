@@ -16,7 +16,7 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, ch
     Move m;
     Move mback;
     Move list[100];
-    if(depth==0 || isItWin(board)==SUCCESS){ //S'arrête lorsque la profondeur souhaitée est atteinte
+    if(depth==0 || isItWin(board)==SUCCESS){ //S'arrête lorsque la profondeur souhaitée est atteinte ou si un déplacement met un terme à la partie
         return evaluate(board,current_player,other_player);
     }
     if(isMaximizingPlayer){
@@ -24,13 +24,13 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, ch
         int a=lmove(board,current_player,list);
         for (int i=0;i<a;i++) {
             allMove(board,list[i],current_player,other_player); // effectue un mouvement
-            int newScore=miniMax(board,depth-1,alpha,beta,false, current_player, other_player); // simule le tour de l'adversaire
+            int newScore=miniMax(board,depth-1,alpha,beta,false, current_player, other_player);
             mback[0][0]=list[i][0][1];
             mback[1][0]=list[i][1][1];
             mback[0][1]=list[i][0][0];
             mback[1][1]=list[i][1][0];
             allMove(board,mback,current_player,other_player); // on annule le mouvement joué
-            if (newScore>score) score=newScore; // on choisit le mouvement donnant le meilleur score
+            if (newScore>score) score=newScore; // on choisit le mouvement amenant au plateau donnant le meilleur score
             if (alpha>newScore) alpha=newScore;
             if (alpha>=beta) break; // elagage
         }
@@ -42,7 +42,7 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, ch
         int a=lmove(board,other_player,list);
         for (int i=0;i<a;i++) {
             allMove(board,list[i],other_player,current_player);
-            int newScore=miniMax(board,depth-1,alpha,beta,true, current_player, other_player); // simule le tour de l'adversaire
+            int newScore=miniMax(board,depth-1,alpha,beta,true, current_player, other_player);
             mback[0][0]=list[i][0][1];
             mback[1][0]=list[i][1][1];
             mback[0][1]=list[i][0][0];
