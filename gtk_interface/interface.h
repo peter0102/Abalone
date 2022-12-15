@@ -4,7 +4,6 @@
  * \author Groupe 1
  * \version 0.1
 */
-
 #include <gtk/gtk.h>
 
 /**
@@ -22,15 +21,22 @@ typedef struct {
     int nb_turn;
     /*! Index de la conexion(-1 = jeu en local)*/
     int fdclient;
+    /*! Sémaphore utilisé pour le blocage du jeu entre joueurs*/
+    
     } GameData;
+
+typedef struct {
+    GameData* gd;
+    Move move;
+} ThreadArg;
 
 /**
  * \fn onDestroy(GtkWidget *widget, gpointer data)
  * \brief Fonction exécutée lors de l'appui sur le bouton "Quitter"
  * \param widget Widget auquel le signal contenant cette fonction est associé
- * \param data Donnée supplémentaire transmise lors de l'appui sur le bouton (inutilisé)
+ * \param data Donnée supplémentaire transmise lors de l'appui sur le bouton (ici, le contexte du signal)
 */
-void onDestroy(GtkWidget* widget, gpointer data);
+void onDestroy(GtkWidget* widget, GameData* data);
 
 /**
  * \fn onDraw(GtkWidget *widget, gpointer data)

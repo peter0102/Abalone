@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <pthread.h>
 #include "../global.h"
 #include "interface.h"
 #include "../init_check.h"
@@ -45,6 +46,7 @@ GameData init(InitData data) {
 	setPlayerColor(gd.me);
 	setTurnColor(gd.current_player);
     gd.nb_turn = 1;
+    
 	return gd;
 }
 
@@ -109,49 +111,78 @@ void nextTurnAILocal(GameData* gd) {
     drawBoard(gd->board);
 }
 
-void nextTurnNetwork(GameData* gd, Move move) {
+void nextTurnPlayerNetwork(GameData* gd, Move move) {
+    //ThreadArg args= *(ThreadArg*)arg;
+    //GameData* gd = malloc(sizeof(GameData));
+    //gd = args.gd;
+    //Move move;
+    //translateMove(move, translateMoveReverse(args.move));
     //On vérifie que la partie ne soit pas déjà terminée
     if (isItWin(gd->board) == ERROR) {
         setNotification("Partie déjà terminée");
         return;
     }
+    if (gd->me == gd->current_player) {
+        char* moveStr = translateMoveReverse(move);
+        int w = write(gd->fdclient, moveStr, 6);
+        fprintf(stderr, "%i", w);
+        char a = allMove(gd->board, move, gd->current_player, otherPlayer(gd->current_player));
+        if (a == ERROR) setNotification("Déplacement invalide");
+        else {
+            setLastMove(move, gd->current_player);
+            setNotification("");
+        }
+    }
+    else setNotification("Ce n'est pas votre tour !");
 
     gd->current_player = otherPlayer(gd->current_player);
     if (gd->current_player == ERROR) {
         setNotification("Erreur d'affectation des joueurs");
         return;
     }
-
     setTurnColor(gd->current_player);    
     gd->nb_turn ++;
     setTurnNumber(gd->nb_turn);
-    char* moveStr;
+    drawBoard(gd->board);
+    
+    nextTurnOpponentNetwork(gd);
+}
+
+void nextTurnOpponentNetwork(GameData* gd) {
+    //GameData* gd = (GameData*) arg;
+    //On vérifie que la partie ne soit pas déjà terminée
+    if (isItWin(gd->board) == ERROR) {
+        setNotification("Partie déjà terminée");
+        return;
+    }
     if (gd->me != gd->current_player) {
-        moveStr = translateMoveReverse(move);
-        write(gd->fdclient, moveStr, sizeof(moveStr));
-        char a = allMove(gd->board, move, otherPlayer(gd->current_player), gd->current_player);
-        if (a == ERROR) setNotification("Déplacement invalide");
-        else {
-            setLastMove(move, otherPlayer(gd->current_player));
-            setNotification("");
-        }
-        drawBoard(gd->board);
-        nextTurnNetwork(gd, move);
-    } else {
-        moveStr = malloc(6);
+        sleep(1);
+        char* moveStr = malloc(6);
         int r = read(gd->fdclient, moveStr, 6);
         if (r != 6) {
-            setNotification("Déplacement invalide");
+            char* notifText = malloc(50);
+            sprintf(notifText, "Adv : Move mal récept:%i", r);
+            setNotification(notifText);
             //On gagne!
             return;
         }
+        Move move;
         translateMove(move, moveStr);
-        char a = allMove(gd->board, move, otherPlayer(gd->current_player), gd->current_player);
-        if (a == ERROR) setNotification("Déplacement invalide"); //On gagne!
+        char a = allMove(gd->board, move, gd->current_player, otherPlayer(gd->current_player));
+        if (a == ERROR) setNotification("Adv : Déplacement invalide"); //On gagne!
         else {
-            setLastMove(move, otherPlayer(gd->current_player));
+            setLastMove(move, gd->current_player);
             setNotification("");
         }
-        drawBoard(gd->board);
+        
+    } else setNotification("Adv: Ce n'est pas son tour !");
+    gd->current_player = otherPlayer(gd->current_player);
+    if (gd->current_player == ERROR) {
+        setNotification("Erreur d'affectation des joueurs");
+        return;
     }
+    setTurnColor(gd->current_player);    
+    gd->nb_turn ++;
+    setTurnNumber(gd->nb_turn);
+    drawBoard(gd->board);
 }
