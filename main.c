@@ -36,13 +36,14 @@ char isItWin(Board board){
     return SUCCESS;
 }
 
-char playerMove(Board board){
+void playerMove(Board board,char current_player,char other_player){
     Move m;
     char charac[1000]="";
     printf("Quel mouvement ? de type xx:xx\n");
     scanf("%s",charac);
     translateMove(m,charac);
-    char a=allMove(board,m,WHITE,BLACK);
+    char a=allMove(board,m,current_player,other_player);
+    display(board);
 }
 
 int main(int argc, char *argv[]) {
@@ -61,10 +62,9 @@ int main(int argc, char *argv[]) {
     char current_player;
     char other_player;
     int turn_count=1;
-    int end=0;
     printf("Début du jeu\n");
     display(board);
-    while (end=ERROR){
+    while (isItWin(board)!=SUCCESS){
 		if(turn_count%2==1) { //turn_count = 1 --> current_player = 'B'
             current_player = BLACK;
             other_player = WHITE;
@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
             other_player = BLACK;
             printf("Tour %i\n",turn_count);
 	    	printf("C'est à votre tour (blancs) de jouer\n");
-		    playerMove(board);
+		    playerMove(board,current_player,other_player);
             display(board);
             printf("\n*************************************\n");
 		}

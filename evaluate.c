@@ -1,4 +1,5 @@
 #include "global.h"
+#include "evaluate.h"
 
 //La fonction victory prends un plateau en paramètre et vérifie l'existence d'un pion adverse dans la bordure: Fin de partie
 //Le score de cette fonction d'évaluation est attribué lors de la fonction evaluate
