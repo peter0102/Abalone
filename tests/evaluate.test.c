@@ -1,5 +1,8 @@
 #include "../global.h"
+#include "../global.c"
 #include "../evaluate.h"
+#include "../evaluate.c"
+
 #include <stdio.h>
 
 /*distanceToCenter, canAttack, areOpponentsNear à tester*/
@@ -314,23 +317,28 @@ int testcanEndWhite3v2(){
     int expected_score=10000;
     int actual_score=canEnd(board,WHITE,BLACK);
         if(expected_score != actual_score){
-        fprintf(stderr, "evaluate: testcanEndWgite3v2: expecting %i while got %i\n", expected_score, actual_score);
+        fprintf(stderr, "evaluate: testcanEndWhite3v2: expecting %i while got %i\n", expected_score, actual_score);
         return 0;
         }
     return 1;
 }
 
-void main(){
+int main(){
     int failures=0;
     int test_count=1;
+
     if (!testDistanceToCenterInit()) failures++;
     test_count++;
+
     if (!testDistanceToCenterMiddleBlack()) failures++;
     test_count++;
+
     if (!testDistanceToCenterMiddleWhite()) failures++;
     test_count++;
+
     if (!testDistanceToCenterBorder()) failures++;
     test_count++;
+
     if (!testareOpponentsNearInit) failures++;
     test_count++;
     if (!testareOpponentsNearBlackSide3()) failures++;
