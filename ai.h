@@ -23,7 +23,7 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer,cha
  * \param to plateau cible
  * \param from plateau qu'on copie dans le plateau cible
 */
-void cpBoard(Board* to,Board from)
+void cpBoard(Board* to,Board from);
 /**
  * \fn aiBestMove(Move move, Board board,char current_player, char other_player)
  * \brief Retourne le meilleur déplacement de l'IA à travers move
