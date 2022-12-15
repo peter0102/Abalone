@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
             current_player = WHITE;
             other_player = BLACK;
             printf("Tour %i\n",turn_count);
-	    	printf("C'est à votre tour de jouer\n");
+	    	printf("C'est à votre tour (blancs) de jouer\n");
 		    playerMove(board);
             display(board);
             printf("\n*************************************\n");
