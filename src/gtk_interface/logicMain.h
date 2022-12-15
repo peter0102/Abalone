@@ -14,7 +14,7 @@
 char isItWin(Board board);
 
 /**
- * \fn init(char mode)
+ * \fn init(InitData mode)
  * \brief Initialise le jeu en fonction du mode sélectionné (local / réseau, blanc / noir...)
  * \param mode Mode d'initialisation :
  * \n 'b' = local (on joue les noirs)
@@ -26,13 +26,31 @@ char isItWin(Board board);
 GameData init(InitData data);
 
 /**
- * \fn nextTurn(GameData* gd, Move move)
- * \brief Joue un coup en fonction du joueur (humain ou IA) et actualise le contexte du jeu
+ * \fn nextTurnLocal(GameData* gd, Move move)
+ * \brief Joue un coup humain (à l'aide du texte entré dans le champ) et actualise le contexte du jeu
  * \param gd Contexte du jeu
- * \param move Mouvement à essayer (uniquement pour un joueur humain ; l'IA n'utilise pas ce coup mais choisit son coup optimal à la place)
+ * \param move Mouvement à essayer
 */
 void nextTurnLocal(GameData* gd, Move move);
 
+/**
+ * \fn nextTurnAILocal(GameData* gd)
+ * \brief Joue un coup de l'IA et actualise le contexte du jeu
+ * \param gd Contexte du jeu
+*/
 void nextTurnAILocal(GameData* gd);
+
+/**
+ * \fn nextTurnPlayerNetwork(GameData* gd, Move move)
+ * \brief Joue un coup humain en réseau (à l'aide du texte du champ) et actualise le contexte du jeu
+ * \param gd Contexte du jeu
+ * \param move Mouvement à essayer
+*/
 void nextTurnPlayerNetwork(GameData* gd, Move move);
+
+/**
+ * \fn nextTurnOpponentNetwork(GameData* gd)
+ * \brief En réseau, laisse l'adversaire effectuer son coup  et actualise le contexte du jeu
+ * \param gd Contexte du jeu
+*/
 void nextTurnOpponentNetwork(GameData* gd);

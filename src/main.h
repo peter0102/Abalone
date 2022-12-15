@@ -21,7 +21,7 @@ void display(Board board);
 char isItWin(Board board);
 
 /**
- * \fn playerMove(Board board)
+ * \fn playerMove(Board board,char current_player, char other_player)
  * \brief Demande à l'utilisateur d'entrer des coordonnées et effectue le mouvement qui correspond
  * \param board Etat du plateau de jeu
  * \param current_player couleur du joueur

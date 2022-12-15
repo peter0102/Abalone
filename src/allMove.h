@@ -113,7 +113,7 @@ char checkMove(Board board, Move m,char current_player);
  * \param current_player couleur du joueur à ce tour
  * \return Succès, Couleur du pion qui essaie de bouger ou Erreur
 */
-char checkForList(Board board, Move m, char current_player,char other_player);
+char checkForList(Board board, Move m, char current_player);
 
 /**
  * \fn moveLine(Board board,Move m,Triple coords_ennemies,char nb_ennemies,char current_player,char other_player)

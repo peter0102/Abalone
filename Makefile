@@ -48,3 +48,7 @@ clean:
 
 cleanall:
 	rm -f *.o $(EXEC)
+
+docs:
+	doxygen doxygen/Doxyfile
+	ln -s doxygen/html/index.html Documentation

@@ -1,7 +1,7 @@
-#include "../global.h"
-#include "../global.c"
-#include "../evaluate.h"
-#include "../evaluate.c"
+#include "../src/global.h"
+#include "../src/global.c"
+#include "../src/evaluate.h"
+#include "../src/evaluate.c"
 
 #include <stdio.h>
 

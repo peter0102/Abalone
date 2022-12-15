@@ -1,6 +1,8 @@
 #include <stdio.h>
-#include "global.h"
-#include "allMove.h"
+#include "../src/global.h"
+#include "../src/global.c"
+#include "../src/allMove.h"
+#include "../src/allMove.c"
 
 /*
  * Liste de fonctions à tester
@@ -693,4 +695,8 @@ char testingAllMove(){
     testWhatMove();
     testAllies();
     testActive();
+}
+
+int main() {
+    testingAllMove();
 }
