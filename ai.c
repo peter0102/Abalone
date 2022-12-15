@@ -68,7 +68,7 @@ void aiBestMove(Move move, Board board, char current_player, char other_player){
     lmove(board,current_player,list);
     for(int i=0;i<56;i++){
         allMove(board,list[i],current_player,other_player);
-        display(board);
+        //display(board);
         int newScore=miniMax(board,1,-INFTY,INFTY,false, current_player, other_player);
         mback[0][0]=list[i][0][1];
         mback[1][0]=list[i][1][1];
