@@ -1,5 +1,5 @@
 /**
- * \file logic_main.h
+ * \file logicMain.h
  * \brief Fonctions principales du jeu avec l'interface graphique
  * \author Groupe 1
  * \version 0.1

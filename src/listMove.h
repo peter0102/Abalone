@@ -1,5 +1,5 @@
 /**
- * \file lmove.h
+ * \file listMove.h
  * \brief Fonctions relatives à la vérification et au déplacement effectif
  * \author Groupe 1
  * \version 0.1

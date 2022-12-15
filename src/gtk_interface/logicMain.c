@@ -6,8 +6,8 @@
 #include <pthread.h>
 #include "../global.h"
 #include "interface.h"
-#include "../init_check.h"
-#include "logic_main.h"
+#include "../initCheck.h"
+#include "logicMain.h"
 #include "../ai.h"
 #include "../allMove.h"
 #include "../move.h"
@@ -15,10 +15,10 @@
 char isItWin(Board board){
     for(char i=0; i<=8; i++){
         if(board[0][i] != EMPTY || board[i][9] != EMPTY || board[9][(9-i)] != EMPTY || board[(9-i)][0] != EMPTY){
-            return(ERROR);
+            return(SUCCESS);
         }
     }
-    return SUCCESS;
+    return ERROR;
 }
 
 GameData init(InitData data) {
@@ -52,7 +52,7 @@ GameData init(InitData data) {
 
 void nextTurnLocal(GameData* gd, Move move) {
     //On vérifie que la partie ne soit pas déjà terminée
-    if (isItWin(gd->board) == ERROR) {
+    if (isItWin(gd->board) == SUCCESS) {
         setNotification("Partie déjà terminée");
         return;
     }
@@ -81,7 +81,7 @@ void nextTurnLocal(GameData* gd, Move move) {
 
 void nextTurnAILocal(GameData* gd) {
     //On vérifie que la partie ne soit pas déjà terminée
-    if (isItWin(gd->board) == ERROR) {
+    if (isItWin(gd->board) == SUCCESS) {
         setNotification("Partie déjà terminée");
         return;
     }
@@ -118,7 +118,7 @@ void nextTurnPlayerNetwork(GameData* gd, Move move) {
     //Move move;
     //translateMove(move, translateMoveReverse(args.move));
     //On vérifie que la partie ne soit pas déjà terminée
-    if (isItWin(gd->board) == ERROR) {
+    if (isItWin(gd->board) == SUCCESS) {
         setNotification("Partie déjà terminée");
         return;
     }
@@ -151,7 +151,7 @@ void nextTurnPlayerNetwork(GameData* gd, Move move) {
 void nextTurnOpponentNetwork(GameData* gd) {
     //GameData* gd = (GameData*) arg;
     //On vérifie que la partie ne soit pas déjà terminée
-    if (isItWin(gd->board) == ERROR) {
+    if (isItWin(gd->board) == SUCCESS) {
         setNotification("Partie déjà terminée");
         return;
     }

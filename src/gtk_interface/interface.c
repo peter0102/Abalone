@@ -6,10 +6,10 @@
 #include <unistd.h>
 #include <pthread.h>
 #include "../global.h"
-#include "../init_check.h"
+#include "../initCheck.h"
 #include "interface.h"
 #include "../move.h"
-#include "logic_main.h"
+#include "logicMain.h"
 
 // Déclaration de la fenêtre et de ses éléments
 GtkWidget* window;
@@ -68,12 +68,12 @@ int main(int argc, char *argv[])
 	overlay = gtk_overlay_new();										// Création d'une boîte overlay
 	gtk_box_pack_start(GTK_BOX(main_h_box), overlay, FALSE, FALSE, 0);	// Insertion de l'overlay dans la boîte hor.
 		
-    bgImage = gtk_image_new_from_file("background.png");				// Affectation de l'image d'arrière-plan
+    bgImage = gtk_image_new_from_file("resources/background.png");				// Affectation de l'image d'arrière-plan
     gtk_container_add(GTK_CONTAINER(overlay), bgImage);					// Insertion de l'arrière-plan dans la boîte
 	
 	for (int i = 0; i < PAWN_NB; i++) {
-		pawnsBlack[i] = gtk_image_new_from_file("pawn_black.png");
-		pawnsWhite[i] = gtk_image_new_from_file("pawn_white.png");
+		pawnsBlack[i] = gtk_image_new_from_file("resources/pawn_black.png");
+		pawnsWhite[i] = gtk_image_new_from_file("resources/pawn_white.png");
 		gtk_overlay_add_overlay (GTK_OVERLAY(overlay), pawnsBlack[i]);
 		gtk_overlay_add_overlay (GTK_OVERLAY(overlay), pawnsWhite[i]);
 		
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 	menu_overlay = gtk_overlay_new();										// Création de l'overlay du menu
 	gtk_box_pack_start(GTK_BOX(main_h_box), menu_overlay, FALSE, FALSE, 0);	// Insertion de l'overlay dans la boîte hor.
 	
-	menu_bg_image = gtk_image_new_from_file("background_menu.png");		// Affectation de l'image d'arrière-plan du menu
+	menu_bg_image = gtk_image_new_from_file("resources/background_menu.png");		// Affectation de l'image d'arrière-plan du menu
     gtk_container_add(GTK_CONTAINER(menu_overlay), menu_bg_image);		// Insertion de l'arrière-plan dans la boîte
 	
 	text_title = gtk_label_new(NULL);									// Création du 1er label (titre)
@@ -291,12 +291,12 @@ void drawPawn (char color, int index, int* position) {
 	// -22 = 36 (bordure) + 8 (padding) - 66 (taille d'une case)
 	switch(color) {
 		case BLACK:
-			gtk_image_set_from_file (GTK_IMAGE(pawnsBlack[index]), "pawn_black.png");
+			gtk_image_set_from_file (GTK_IMAGE(pawnsBlack[index]), "resources/pawn_black.png");
 			gtk_widget_set_margin_start(pawnsBlack[index], -22 + (position[0] * 66));
 			gtk_widget_set_margin_top(pawnsBlack[index], -22 + (position[1] * 66));
 			break;
 		case WHITE:
-			gtk_image_set_from_file (GTK_IMAGE(pawnsWhite[index]), "pawn_white.png");
+			gtk_image_set_from_file (GTK_IMAGE(pawnsWhite[index]), "resources/pawn_white.png");
 			gtk_widget_set_margin_start(pawnsWhite[index], -22 + (position[0] * 66));
 			gtk_widget_set_margin_top(pawnsWhite[index], -22 + (position[1] * 66));
 			break;
@@ -328,8 +328,8 @@ void drawBoard(Board board) {
 
 void clearBoard() {
 	for(int i = 0; i < PAWN_NB; i++) {
-		gtk_image_set_from_file (GTK_IMAGE(pawnsBlack[i]), "pawn_empty.png");
-		gtk_image_set_from_file (GTK_IMAGE(pawnsWhite[i]), "pawn_empty.png");
+		gtk_image_set_from_file (GTK_IMAGE(pawnsBlack[i]), "resources/pawn_empty.png");
+		gtk_image_set_from_file (GTK_IMAGE(pawnsWhite[i]), "resources/pawn_empty.png");
 		gtk_widget_set_margin_start(pawnsBlack[i], 0);
 		gtk_widget_set_margin_top(pawnsBlack[i], 0);
 		gtk_widget_set_margin_start(pawnsWhite[i], 0);

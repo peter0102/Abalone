@@ -4,7 +4,7 @@
 #include "global.h"
 #include "client.h"
 #include "server.h"
-#include "init_check.h"
+#include "initCheck.h"
 
 InitData initialCheck(int argc, char *argv[]) {
     InitData data = {.mode=ERROR, .fdclient=-1};
