@@ -223,7 +223,7 @@ int canAttack(Board board,char current_player, char other_player){
 }
 int canEnd(Board board,char current_player,char other_player){
     int score=0;
-    for(int i=0;i<MAX_I-1;i++){
+    for(int i=1;i<MAX_I-1;i++){
         if (board[1][i]==current_player) {
         int allyNeighborsLine=countNeighborsX(board,1,i,current_player);
         int ennemyNeigborsLine=countNeighborsX(board,2,i,other_player);

@@ -16,7 +16,7 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, ch
     Move m;
     Move mback;
     Move list[56];
-    if(depth==0){ //S'arrête lorsque la profondeur souhaitée est atteinte
+    if(depth==0 || isItWin(board)==SUCCESS){ //S'arrête lorsque la profondeur souhaitée est atteinte
         return evaluate(board,current_player,other_player);
     }
     if(isMaximizingPlayer){
