@@ -8,8 +8,6 @@
 #include "lmove.h"
 #include "main.h"
 
-char* moves[]={"H1:G1","H2:F2","G2:F2","G3:F3","H3:F3","G4:F4","H4:F4","G5:G5","H5:F5","G6:F6","H6:F6","G7:F7","H7:F7","H8:G8"};
-
 /*fonction minimax, teste toutes les possibilités de mouvement possible pour une configuration du plateau pour un joueur,
 et simule celles de l'adversaire jusqu'à une certaine profondeur, 1 pour l'instant*/
 int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, char current_player, char other_player){
@@ -23,8 +21,8 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, ch
 	}
 	    if(isMaximizingPlayer){
         int score=-INFTY;
-        lmove(board,current_player,list);
-        for (int i=0;i<56;i++) {
+        int nb_of_moves=lmove(board,current_player,list);
+        for (int i=0;i<nb_of_moves;i++) {
             allMove(board,list[i],current_player,other_player); // effectue un mouvement
 			int newScore=miniMax(board,depth-1,alpha,beta,false, current_player, other_player); // simule le tour de l'adversaire
             mback[0][0]=list[i][0][1];
@@ -41,8 +39,8 @@ int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer, ch
 	}
 	else {
         int score=INFTY;
-        lmove(board,other_player,list);
-        for (int i=0;i<56;i++) {
+        int nb_of_moves=lmove(board,other_player,list);
+        for (int i=0;i< nb_of_moves;i++) {
             allMove(board,list[i],other_player,current_player);
 			int newScore=miniMax(board,depth-1,alpha,beta,true, current_player, other_player); // simule le tour de l'adversaire
             mback[0][0]=list[i][0][1];
@@ -65,8 +63,8 @@ void aiBestMove(Move move, Board board, char current_player, char other_player){
     Move bestMove; // prend le meilleur mouvement
     int score=-INFTY;
     Move list[56];
-    lmove(board,current_player,list);
-    for(int i=0;i<56;i++){
+    int nb_of_moves=lmove(board,current_player,list);
+    for(int i=0;i<nb_of_moves;i++){
         allMove(board,list[i],current_player,other_player);
         //display(board);
         int newScore=miniMax(board,1,-INFTY,INFTY,false, current_player, other_player);
