@@ -43,7 +43,6 @@ void playerMove(Board board,char current_player,char other_player){
     scanf("%s",charac);
     translateMove(m,charac);
     char a=allMove(board,m,current_player,other_player);
-    display(board);
 }
 
 int main(int argc, char *argv[]) {
