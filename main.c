@@ -28,12 +28,12 @@ void display(Board board){
 }
 
 char isItWin(Board board){
-    for(char i=0; i<=8; i++){
-        if(board[0][i]!=0 || board[i][9]!=0 || board[9][(9-i)]!=0 || board[(9-i)][0]!=0){
-            return(ERROR);
+    for(char i=0; i<10; i++){
+        if(board[0][i]!=EMPTY || board[9][i]!=EMPTY || board[i][0]!=EMPTY || board[i][9]!=EMPTY){
+            return(SUCCESS);
         }
     }
-    return SUCCESS;
+    return ERROR;
 }
 
 void playerMove(Board board,char current_player,char other_player){
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     int turn_count=1;
     printf("Début du jeu\n");
     display(board);
-    while (isItWin(board)!=SUCCESS){
+    while(isItWin(board)==ERROR){
 		if(turn_count%2==1) { //turn_count = 1 --> current_player = 'B'
             current_player = BLACK;
             other_player = WHITE;
@@ -79,11 +79,18 @@ int main(int argc, char *argv[]) {
             current_player = WHITE;
             other_player = BLACK;
             printf("Tour %i\n",turn_count);
-	    	printf("C'est à votre tour (blancs) de jouer\n");
+	    	printf("A votre tour (blancs) de jouer\n");
 		    playerMove(board,current_player,other_player);
             display(board);
             printf("\n*************************************\n");
 		}
 		turn_count++;
 	}
+    if(current_player == BLACK){
+        printf("\nBRAVO ! LES NOIRS REMPORTENT LA PARTIE\n");
+    }
+    if(current_player == WHITE){
+        printf("\nBRAVO ! LES BLANCS REMPORTENT LA PARTIE\n");
+    }
+    return(0);
 }
