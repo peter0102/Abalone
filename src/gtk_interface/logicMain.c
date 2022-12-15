@@ -125,7 +125,7 @@ void nextTurnPlayerNetwork(GameData* gd, Move move) {
     if (gd->me == gd->current_player) {
         char* moveStr = translateMoveReverse(move);
         int w = write(gd->fdclient, moveStr, 6);
-        fprintf(stderr, "%i", w);
+        //fprintf(stderr, "%i", w);
         char a = allMove(gd->board, move, gd->current_player, otherPlayer(gd->current_player));
         if (a == ERROR) setNotification("Déplacement invalide");
         else {

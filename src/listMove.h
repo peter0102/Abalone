@@ -14,11 +14,11 @@
 void movecopy(Move* to, Move from);
 
 /**
- * \fn checkColor(Triple coords,char color, char nb_allies, Board board)
- * \brief Vérifie que les coordonnées soient toutes de la même couleur
+ * \fn lmove(Board board, char current_player, Move list_possible_moves[100])
+ * \brief Donne la liste des mouvements possibles
  * \param board plateau de jeu
  * \param current_player couleur du joueur à ce tour
- * \param nb_alist_possible_moves liste des moves possibles (les valeurs seront écrasées)
+ * \param list_possible_moves liste des moves possibles (les valeurs seront écrasées)
  * \return Nombre de coups possibles
 */
 char lmove(Board board, char current_player, Move list_possible_moves[100]);

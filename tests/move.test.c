@@ -1,5 +1,8 @@
-#include "../global.h"
-#include "../move.h"
+#include "../src/global.h"
+#include "../src/global.c"
+#include "../src/move.h"
+#include "../src/move.c"
+
 #include <stdio.h>
 
 int test_moveChrConvert_incorrect_type() {
@@ -196,7 +199,7 @@ int test_translateMoveReverse_incorrect_character() {
 
 int test_translateMoveReverse() {
     Move move = {{1, 2}, {2, 3}};
-    const char* expected = "A2:B3";
+    char* expected = "A2:B3";
     char* actual = translateMoveReverse(move);
     if (actual != expected) {
         printf("test_translateMoveReverse: ");

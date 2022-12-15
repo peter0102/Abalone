@@ -5,7 +5,21 @@
  * \version 0.1
 */
 
-typedef struct {char mode; int fdclient;} InitData;
+/**
+* \struct InitData initCheck.h initCheck.c
+* \brief Données transmises à l'initialisation de l'interface après le traitement de la commande
+*/
+typedef struct {
+    /*! Mode d'initialisation :
+    * \n 'b' = local (on joue les noirs)
+    * \n 'w' = local (on joue les blancs)
+    * \n 's' = réseau (on est le serveur / les noirs)
+    * \n 'c' = réseau (on est le client / les blancs)
+    * \n ERROR = erreur*/
+    char mode;
+    /*! Numéro associé à la connexion réseau (-1 = jeu en local)*/
+    int fdclient;
+} InitData;
 
 /**
  * \fn initialCheck(int argc, char* argv[])

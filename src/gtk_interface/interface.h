@@ -25,13 +25,19 @@ typedef struct {
     
     } GameData;
 
+/**
+* \struct ThreadArg interface.h interface.c
+* \brief Contexte transmis lors de la création d'un thread
+*/
 typedef struct {
+    /*! Contexte du jeu*/
     GameData* gd;
+    /*! Mouvement à effectuer*/
     Move move;
 } ThreadArg;
 
 /**
- * \fn onDestroy(GtkWidget *widget, gpointer data)
+ * \fn onDestroy(GtkWidget* widget, GameData* data)
  * \brief Fonction exécutée lors de l'appui sur le bouton "Quitter"
  * \param widget Widget auquel le signal contenant cette fonction est associé
  * \param data Donnée supplémentaire transmise lors de l'appui sur le bouton (ici, le contexte du signal)
@@ -47,7 +53,7 @@ void onDestroy(GtkWidget* widget, GameData* data);
 void onDraw(GtkWidget* widget, gpointer data);
 
 /**
- * \fn onActivateEntry(GtkEntry* entry, gpointer data)
+ * \fn onActivateEntry(GtkEntry* entry, GameData* data)
  * \brief Fonction exécutée en appuyant sur la touche "Entrée" après avoir rempli le champ
  * \param entry Champ à remplir concerné par ce signal
  * \param data Donnée supplémentaire transmise à la fonction (ici, le contexte du signal)
@@ -76,7 +82,7 @@ void setTurnColor(char color);
 void setTurnNumber(int turn);
 
 /**
- * \fn setLastMove(Move move)
+ * \fn setLastMove(Move move, char color)
  * \brief Actualise le texte de l'interface concernant le dernier déplacement joué : "Dernier coup : __:__"
  * \param move Dernier déplacement effectué
  * \param color Couleur du joueur ayant efectué le déplacement
