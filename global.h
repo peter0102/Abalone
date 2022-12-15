@@ -18,8 +18,11 @@
 */
 #define INFTY 147483648
 
-//Pions
 
+//Pions
+/**
+ * \brief Nombre de pions par joueurs
+*/
 #define PAWN_NB 14
 /**
  * \brief case vide
@@ -35,49 +38,51 @@
 #define BLACK 'B'
 
 
-// Types de deplacement
+// Types de déplacement
+
 /**
- * \brief deplacement en ligne horizontal a droite
+ * \brief déplacement en ligne vers la droite
 */
 #define LINE_HOR_RIGHT 'a'
 /**
- * \brief deplacement en ligne horizontal a gauche
+ * \brief déplacement en ligne vers la gauche
 */
 #define LINE_HOR_LEFT 'b'
 /**
- * \brief deplacement en ligne vertical en bas
+ * \brief déplacement ligne vers le bas
 */
 #define LINE_VER_DOWN 'c'
 /**
- * \brief  deplacement en ligne vertical en haut
+ * \brief  déplacement en ligne vers le haut
 */
 #define LINE_VER_UP 'd'
 
 /**
- * \brief deplacement lateral horizontal d'un doublet
+ * \brief déplacement latéral d'un doublet positioné horizontalement
 */
 #define LAT_2_HOR 'e'
 /**
- * \brief deplacement lateral vertical d'un doublet
+ * \brief déplacement latéral d'un doublet positioné verticalement
 */
 #define LAT_2_VER 'f'
 
 /**
- * \brief deplacement vertical en bas d'un triplet a partir de X0
+ * \brief déplacement latéral vers le bas d'un triplet
 */
 #define LAT_3_VER_X0_DOWN 'g'
 /**
- * \brief deplacement vertical en haut d'un triplet a partir de X0
+ * \brief déplacement latéral vers le haut d'un triplet
 */
 #define LAT_3_VER_X0_UP 'h'
 /**
- * \brief  deplacement horizontal a droite  d'un triplet a partir de Y0
+ * \brief  déplacement latéral vers la droite  d'un triplet
 */
 #define LAT_3_HOR_Y0_RIGHT 'i'
 /**
- * \brief deplacement horizontal en a gauche d'un triplet a partir de Y0
+ * \brief déplacement latéral vers la gauche d'un triplet
 */
 #define LAT_3_HOR_Y0_LEFT 'j'
+
 
 // Gestion d'erreur
 /**
