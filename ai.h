@@ -12,6 +12,8 @@
  * \param alpha plus grande valeur pour MAX parmi les successeurs
  * \param beta plus petite valeur pour MIN parmi les successeurs
  * \param isMaximizingPlayer booléen true si on cherche à maximiser l'utilité, false sinon
+ * \param current_player couleur du joueur
+ * \param other_player joueur adverse
  * \return Retourne le score le plus haut correspondant au "meilleur" mouvemement
 */
 int miniMax(Board board,int depth,int alpha,int beta,bool isMaximizingPlayer,char current_player, char other_player);
