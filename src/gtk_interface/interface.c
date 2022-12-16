@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include <pthread.h>
 #include "../global.h"
 #include "../initCheck.h"
 #include "interface.h"
@@ -42,8 +41,8 @@ int main(int argc, char *argv[])
 {
 	InitData data = initialCheck(argc, argv);
 	if (data.mode == ERROR) return 1;
-
 	GameData game_data;
+
 	gtk_init(&argc, &argv); // Initialisation de GTK+
 	
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);						// Création de la fenêtre
@@ -115,6 +114,7 @@ int main(int argc, char *argv[])
 	
 	gtk_box_pack_start(GTK_BOX(main_v_box), turn_v_box, FALSE, TRUE, 0);	// Insertion de turn_v_box dans main_v_box
 	
+	//Si on joue en local, on crée le champ pour entrer le mouvement
 	field_move = gtk_entry_new();															// Création de la zone de texte (pour écrire les coups)
 	gtk_entry_set_max_length(GTK_ENTRY(field_move), 5);										// Nombre maximum de caractères dans le champ
 	gtk_entry_set_placeholder_text(GTK_ENTRY(field_move), "Entrez un coup (X0:Y0)");		// Placeholder du champ
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 	gtk_entry_set_max_width_chars(GTK_ENTRY(field_move), 9);								// Largeur maximale du champ
 	gtk_entry_set_width_chars(GTK_ENTRY(field_move), 9);									// Largeur maximale du champ
 	g_signal_connect(G_OBJECT(field_move), "activate", G_CALLBACK(onActivateEntry), &game_data);	// Connexion au signal "activate"
-	gtk_box_pack_start(GTK_BOX(move_v_box), field_move, FALSE, FALSE, 0);					// Insertion dans move_v_box	
+	gtk_box_pack_start(GTK_BOX(move_v_box), field_move, FALSE, FALSE, 0);					// Insertion dans move_v_box
 	
 	text_last_move = gtk_label_new(NULL);										// Création du 5e label (dernier déplacement)
 	gtk_box_pack_start(GTK_BOX(move_v_box), text_last_move, FALSE, FALSE, 0);	// Insertion dans move_h_box
@@ -131,10 +131,6 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(move_v_box), text_notif, FALSE, FALSE, 0);	// Insertion dans move_h_box
 
 	gtk_box_pack_start(GTK_BOX(main_v_box), move_v_box, FALSE, FALSE, 0);	// Insertion de move_v_box dans main_v_box
-	
-	//drawButton = gtk_button_new_with_label("Dessiner");									// Création du bouton "Dessiner"
-	//g_signal_connect(G_OBJECT(drawButton), "clicked", G_CALLBACK(onDraw), NULL);// Connexion du signal "clicked"
-	//gtk_box_pack_start(GTK_BOX(buttons_v_box), drawButton, FALSE, FALSE, 0);			// Insertion du bouton "Dessiner" dans la boîte ver.
 	
 	quitButton = gtk_button_new_with_label("Quitter");										// Création du bouton "Quitter"
 	g_signal_connect(G_OBJECT(quitButton), "clicked", G_CALLBACK(onDestroy), &game_data);		// Connexion du signal "clicked"
@@ -152,31 +148,24 @@ int main(int argc, char *argv[])
 	if (game_data.me == WHITE) {
 		//Si on ne commence pas, on fait commencer l'adversaire
 		if (game_data.fdclient == -1) nextTurnAILocal(&game_data);
-		else /*{
-			pthread_t thread;
-			pthread_create(&thread, NULL, nextTurnOpponentNetwork, (void*)&game_data);
-		}*/nextTurnOpponentNetwork(&game_data);
+		else nextTurnOpponentNetwork(&game_data);
 	}
 	gtk_main();															// Démarrage de la boucle d'évènements principale
 	return EXIT_SUCCESS;
 }
 
 void onActivateEntry(GtkEntry* entry, GameData* gd) {
-	char* text = (char*)gtk_entry_get_text(GTK_ENTRY(entry));						// Récupération du texte contenu dans le GtkEntry
-	Move move;
-	translateMove(move, text);
-	gtk_entry_set_text(entry, "");
-	if (move[0][0] == ERROR) return;
-	if (gd->fdclient == -1) nextTurnLocal(gd, move); // Jeu en local
-	else {
+	char* text = (char*)gtk_entry_get_text(GTK_ENTRY(entry));			// Récupération du texte contenu dans le GtkEntry
+	if (gd->fdclient == -1) {
+		Move move;
+		translateMove(move, text);
+		if (move[0][0] == ERROR) return;
+		gtk_entry_set_text(entry, "");
+		nextTurnLocal(gd, move); // Jeu en local
+	} else {
 		//Jeu en réseau
-		//pthread_t thread;
-		ThreadArg args;
-		args.gd = gd;
-		translateMove(args.move, translateMoveReverse(move));
-		//pthread_create(&thread, NULL, nextTurnPlayerNetwork, (void*)&args);
-		//pthread_join(thread, NULL);
-		nextTurnPlayerNetwork(gd, move);
+		gtk_entry_set_text(entry, "");
+		nextTurnPlayerNetwork(gd);
 	}
 }
 
@@ -212,7 +201,6 @@ void setPlayerColor(char color) {
 		default: return;
 	}
 	strcpy(final_str, "<span foreground=\"#e7b17f\" font=\"13\"><b>Vous êtes les <span foreground=\"#");
-	
 	strcat(final_str, color_str);
 	strcat(final_str, "\">●</span></b></span>");
 	gchar* str = g_locale_to_utf8((gchar*)final_str, -1, NULL, NULL, NULL);
