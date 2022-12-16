@@ -26,17 +26,6 @@ typedef struct {
     } GameData;
 
 /**
-* \struct ThreadArg interface.h interface.c
-* \brief Contexte transmis lors de la création d'un thread
-*/
-typedef struct {
-    /*! Contexte du jeu*/
-    GameData* gd;
-    /*! Mouvement à effectuer*/
-    Move move;
-} ThreadArg;
-
-/**
  * \fn onDestroy(GtkWidget* widget, GameData* data)
  * \brief Fonction exécutée lors de l'appui sur le bouton "Quitter"
  * \param widget Widget auquel le signal contenant cette fonction est associé

@@ -44,9 +44,8 @@ void nextTurnAILocal(GameData* gd);
  * \fn nextTurnPlayerNetwork(GameData* gd, Move move)
  * \brief Joue un coup humain en réseau (à l'aide du texte du champ) et actualise le contexte du jeu
  * \param gd Contexte du jeu
- * \param move Mouvement à essayer
 */
-void nextTurnPlayerNetwork(GameData* gd, Move move);
+void nextTurnPlayerNetwork(GameData* gd);
 
 /**
  * \fn nextTurnOpponentNetwork(GameData* gd)
